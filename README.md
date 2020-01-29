@@ -3,6 +3,8 @@ web page for creating custom missions for descent board game.
 
 Due to the end of the official descent quest vault i decided to create this project hoping fantasy flight games will restore the official site one day.
 
+![Alt text](/demo.jpg?raw=true "UI_DEMO")
+
 The javascript is a little tricky because all the movement/resizing/reshaping and "snapping to square" functions of the images are implemented from scratch, the canvas are produced just for ignore the click on trasparent position of the images.
 
 The images are in supplied in 4 versions: original orientation, 90 degrees, 180, degrees, 270degreees with name scheme: "TILE_NAME.png", "TILE_NAME90.png", "TILE_NAME180", "TILE_NAME270.png".
