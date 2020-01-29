@@ -1,0 +1,42 @@
+body {
+    background-image: url('../assets/background.jpg');
+    height: 100%;
+    width: 100%;
+}
+
+.sidenav {
+    height: 100%; /* Full-height: remove this if you want "auto" height */
+    width: 286px; /* Set the width of the sidebar */
+    overflow-y : auto;
+    overflow-x : visible;
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    background-color: #111; /* Black */
+}
+
+.control_bar{
+    width: 100%;
+    height: 86px;
+    position: fixed;
+    z-index: 1;
+    bottom: 0;
+    left: 286px;
+    background-color: #111;
+}
+
+#go_to_text_edit_button{
+    height: 100%;
+    position: fixed;
+    right: 0px;
+    background-color: red;
+}
+
+#output{
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    z-index: -999;
+    background-color: transparent;
+}

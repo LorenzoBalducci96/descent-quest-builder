@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Descent quest builder</title>
+</head>
+
+<div class="modal" id="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<body>
+
+    <link rel="stylesheet" type="text/css" href="css/general.css">
+    <link rel="stylesheet" type="text/css" href="css/scrollbar.css">
+	
+	<!--
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <script src="jquery-3.4.1.min.js"></script>
+    <script src="jquery-ui.js"></script>
+	<script src="js/bootstrap.js"></script>
+	-->
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.debug.js"></script>
+
+    <script type="text/javascript" src="js/draggable.js"></script>
+    <script type="text/javascript" src="js/logic.js"></script>
+
+
+    <div class="sidenav funny_scrollbar_blue" id="sidenav">
+        <image src="assets/tiles/base/01A.png" oncontextmenu="return false;" id="01A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+
+        <image src="assets/tiles/base/02A.png" oncontextmenu="return false;" id="02A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+
+        <image src="assets/tiles/base/03A.png" oncontextmenu="return false;" id="03A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+
+        <image src="assets/tiles/base/04A.png" oncontextmenu="return false;" id="04A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+
+        <image src="assets/tiles/base/05A.png" orientation="0" oncontextmenu="return false;" id="05A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+
+        <image src="assets/tiles/base/06A.png" orientation="0" oncontextmenu="return false;" id="06A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+
+        <image src="assets/tiles/base/07A.png" oncontextmenu="return false;" id="07A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+
+        <image src="assets/tiles/base/08A.png" oncontextmenu="return false;" id="08A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+
+        <image src="assets/tiles/base/09A.png" orientation="0" oncontextmenu="return false;" id="09A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+
+        <image src="assets/tiles/base/10A.png" orientation="0" oncontextmenu="return false;" id="10A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+
+        <image src="assets/tiles/base/15A.png" orientation="0" oncontextmenu="return false;" id="15A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+
+        <image src="assets/tiles/base/17A.png" orientation="0" oncontextmenu="return false;" id="17A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+
+        <image src="assets/tiles/base/18A.png" orientation="0" oncontextmenu="return false;" id="18A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+
+        <image src="assets/tiles/base/DEI.png" orientation="0" oncontextmenu="return false;" id="DEI"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+
+        <image src="assets/tiles/base/DEO.png" orientation="0" oncontextmenu="return false;" id="DEO"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+
+        <image src="assets/tiles/base/EI.png" orientation="0" oncontextmenu="return false;" id="EI"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+
+        <image src="assets/tiles/base/ENI.png" orientation="0" oncontextmenu="return false;" id="ENI"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+
+        <image src="assets/tiles/base/ENO.png" orientation="0" oncontextmenu="return false;" id="ENO"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+
+        <image src="assets/tiles/base/EO.png" orientation="0" oncontextmenu="return false;" id="EO"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+
+        <image src="assets/tiles/base/EXI.png" orientation="0" oncontextmenu="return false;" id="EXI"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+
+        <image src="assets/tiles/base/EXO.png" orientation="0" oncontextmenu="return false;" id="EXO"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+
+        <image src="assets/tiles/base/TI.png" orientation="0" oncontextmenu="return false;" id="TI"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+
+        <image src="assets/tiles/base/TO.png" orientation="0" oncontextmenu="return false;" id="TO"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+
+
+        <label style="position: absolute; top: 6000px;">.</label>
+
+    </div>
+
+    <div id="map">
+
+    </div>
+    <div class="control_bar" id="control_bar" style="z-index: 0;">
+        <button id="go_to_text_edit_button" onclick="goToTextEdit()">go to text edit</button>
+
+    </div>
+
+    <div id="output" style="display: none"></div>
+    
+</body>
+
+</html>
