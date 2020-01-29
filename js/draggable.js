@@ -107,7 +107,7 @@ function dragElement(elmnt) {
                 canvas.style.transform = 'rotate(90deg)';
             }
             */
-            var point = canvas.getContext('2d').getImageData(e.clientX - elmnt.offsetLeft, e.clientY - elmnt.offsetTop, 1, 1).data
+            var point = canvas.getContext('2d').getImageData(e.clientX - elmnt.offsetLeft, e.clientY + (document.getElementById("map").scrollTop) - elmnt.offsetTop, 1, 1).data
             if(point[3] == 0){
                 toDrag = false;
                 elmnt.style.zIndex = "-99"
@@ -122,7 +122,6 @@ function dragElement(elmnt) {
             document.onmouseup = closeDragElement;
             document.onmousemove = elementDrag;
         }
-        
     }
 
     function elementDrag(e) {
@@ -141,7 +140,7 @@ function dragElement(elmnt) {
         if (e.clientX < document.getElementById("sidenav").offsetWidth) {
             var oldLeft = elmnt.offsetLeft;
             var oldWidth = elmnt.offsetWidth;
-            var oldTop = elmnt.offsetTop;
+            var oldTop = elmnt.offsetTop - document.getElementById("map").scrollTop;
             var oldHeigth = elmnt.offsetHeight;
 
             document.getElementById("sidenav").appendChild(elmnt);
@@ -162,7 +161,7 @@ function dragElement(elmnt) {
             elmnt.style.width = 'auto';
             if (elmnt.getAttribute("onMap") == "no") {
                 elmnt.style.left = (e.clientX - (((e.clientX - oldLeft) * elmnt.offsetWidth) / oldWidth)) + "px";
-                elmnt.style.top = (e.clientY - (((e.clientY - oldTop) * elmnt.offsetHeight) / oldHeigth)) + "px";
+                elmnt.style.top = (e.clientY - (((e.clientY - oldTop) * elmnt.offsetHeight) / oldHeigth) + document.getElementById("map").scrollTop) + "px";
 
                 elmnt.setAttribute("onMap", "yes")
             }

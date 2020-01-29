@@ -1,7 +1,6 @@
 body {
-    background-image: url('../assets/background.jpg');
     height: 100%;
-    width: 95%;
+    width: 100%;
 }
 
 .sidenav {
@@ -16,9 +15,20 @@ body {
     background-color: #111; /* Black */
 }
 
+.map {
+    height: 95%; /* Full-height: remove this if you want "auto" height */
+    width: 100%; /* Set the width of the sidebar */
+    overflow-y : auto;
+    overflow-x : visible;
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    top: 0; /* Stay at the top */
+    left: 286;
+    background-image: url('../assets/background.jpg');
+}
+
 .control_bar{
     width: 100%;
-    height: 86px;
+    height: 5%;
     position: fixed;
     z-index: 1;
     bottom: 0;
@@ -35,8 +45,33 @@ body {
 
 #output{
     position: fixed;
-    height: 100%;
-    width: 100%;
-    z-index: -999;
-    background-color: transparent;
+    left: 1200px;
+    background-color: black;
+}
+
+.html2canvas-container { width: 4000px !important; height: 4000px !important; }
+
+.modal-full {
+    min-width: 80%;
+    margin-left: 80;
+}
+
+.modal-full .modal-content {
+    min-height: 90vh;
+}
+
+.labelBig{
+    font-size: 32px;
+}
+
+.checkmark {
+    height: 32px;
+    width: 32px;
+}
+
+.exportPDFButton{
+    background-color: black;
+    font-size: 32px;
+    font-weight: bold;
+    color: white;
 }

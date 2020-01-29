@@ -5,82 +5,46 @@
     <meta charset="utf-8">
     <title>Descent quest builder</title>
 </head>
-
-<script src="js/jquery/jquery-3.4.1.min.js"></script>
-<script src="js/jquery/jquery-ui.js"></script>
-<script type="text/javascript" src="js/bootstrap/bootstrap.js"></script>
-<link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css">
-<link rel="stylesheet" type="text/css" href="css/general.css">
-<link rel="stylesheet" type="text/css" href="css/scrollbar.css">
-
-<!-- BS JavaScript -->
-
-
 <!--
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-    
-    <script src="jquery-ui.js"></script>
-	<script src="js/bootstrap.js"></script>
-	-->
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.debug.js"></script>
-
-<script type="text/javascript" src="js/draggable.js"></script>
-<script type="text/javascript" src="js/logic.js"></script>
-
-<body>
-    <div class="modal fade" id="outputModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-full" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 class="modal-title">review output on a4 before exporting on pdf</h2>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <h1 aria-hidden="true">×</h1>
-                    </button>
-                </div>
-                <div class="modal-body p-4" id="result">
-                    <div class="row">
-                        <div class="col-7">
-                            <h2>settings</h2>
-                            <h3>background color</h3>
-                            <input id="black_checkbox" onclick="setBlackBackground()" class="checkmark"
-                                checked="checked" type="radio" name="background_color" value="male"> <label
-                                class="labelBig">black (as default)</label><br>
-                            <input id="white_checkbox" onclick="setWhiteBackground()" class="checkmark" type="radio"
-                                name="background_color" value="female"><label class="labelBig">white (save ink when
-                                printing)</label><br>
-                            <input id="smoky_checkbox" onclick="setSmokyBackground()" class="checkmark" type="radio"
-                                name="background_color" value="other"> <label class="labelBig">smoky (as original
-                                questbook)</label><br>
-                            <button class="exportPDFButton" onclick="exportPDF()">export to PDF</button>
-                            <br>
-                            <br>
-                            <div class="form-group">
-                                <h3 class="labelBig">ZOOM (adapt the dungeon to fit A4 printable page)</h3> 
-                                <br>
-                                <input style="width: 80%"
-                                    class="rounded_range" type="range" max="2.0" min="0.5" step="0.5" value="1.5"
-                                    id="zoomScaling"
-                                    
-                                    onchange="scaleRes()"></input>
-                                <label class="labelBig" style="width: 10%; margin-left: 2px;" id="new_object_rangeVal">1.0</label>
-                            </div>
-                        </div>
-                        <div class="col-5">
-                            <image id="mapRendered" width="100%"></image>
-                        </div>
-                    </div>
-                </div>
-                <!--
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
-                        </div>
-                        -->
+<div class="modal" id="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
-    <div id="output" style="display: none"></div>
+</div>
+-->
+
+<body>
+
+    <link rel="stylesheet" type="text/css" href="css/general.css">
+    <link rel="stylesheet" type="text/css" href="css/scrollbar.css">
+	
+	<!--
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <script src="jquery-3.4.1.min.js"></script>
+    <script src="jquery-ui.js"></script>
+	<script src="js/bootstrap.js"></script>
+	-->
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.debug.js"></script>
+
+    <script type="text/javascript" src="js/draggable.js"></script>
+    <script type="text/javascript" src="js/logic.js"></script>
+
 
     <div class="sidenav funny_scrollbar_blue" id="sidenav">
         <image src="assets/tiles/base/01A.png" oncontextmenu="return false;" id="01A"
@@ -158,12 +122,14 @@
     </div>
 
     <div id="map" class="map funny_scrollbar_blue">
-        <label style="position: absolute; top: 3024px;" id="placeholder">.</label>
+        <label style="position: absolute; top: 3024px;">.</label>
     </div>
     <div class="control_bar" id="control_bar" style="z-index: 0;">
         <button id="go_to_text_edit_button" onclick="goToTextEdit()">go to text edit</button>
     </div>
 
+    <div id="output" style="display: none"></div>
+    
 </body>
 
 </html>
