@@ -30,6 +30,8 @@ window.onload = function () {
     dragElement(document.getElementById("EXO"));
     dragElement(document.getElementById("TI"));
     dragElement(document.getElementById("TO"));
+    dragElement(document.getElementById("text_config1"));
+    dragElement(document.getElementById("text_config2"));
     this.arrangeTiles()
 };
 
@@ -44,10 +46,10 @@ function arrangeTiles() {
     }
 }
 
-function triggerMouseEvent (node, e) {
-    var clickEvent = document.createEvent ('MouseEvents');
+function triggerMouseEvent(node, e) {
+    var clickEvent = document.createEvent('MouseEvents');
     clickEvent.initMouseEvent("mousedown", true, true, window, 0, 0, 0, e.clientX, e.clientY, false, false, false, false, 0, null);
-    node.dispatchEvent (clickEvent);
+    node.dispatchEvent(clickEvent);
 }
 
 function dragElement(elmnt) {
@@ -56,34 +58,45 @@ function dragElement(elmnt) {
     count++;
 
     elmnt.addEventListener('contextmenu', function (ev) {
-        if (elmnt.getAttribute("orientation") == 0) {
-            elmnt.src = elmnt.src.substr(0, elmnt.src.indexOf('.')) + "90.png";
-            elmnt.setAttribute("orientation", "90")
-        } else if (elmnt.getAttribute("orientation") == 90) {
-            elmnt.src = elmnt.src.substr(0, elmnt.src.indexOf('.') - 2) + "180.png";
-            
-            elmnt.setAttribute("orientation", "180")
-        } else if (elmnt.getAttribute("orientation") == 180) {
-            elmnt.src = elmnt.src.substr(0, elmnt.src.indexOf('.') - 3) + "270.png";
-            
-            elmnt.setAttribute("orientation", "270")
-        } else if (elmnt.getAttribute("orientation") == 270) {
-            elmnt.src = elmnt.src.substr(0, elmnt.src.indexOf('.') - 3) + ".png";
-            
-            elmnt.setAttribute("orientation", "0")
+        if (elmnt.getAttribute("pieceType") == "tile") {
+            if (elmnt.getAttribute("orientation") == 0) {
+                elmnt.src = elmnt.src.substr(0, elmnt.src.indexOf('.')) + "90.png";
+                elmnt.setAttribute("orientation", "90")
+            } else if (elmnt.getAttribute("orientation") == 90) {
+                elmnt.src = elmnt.src.substr(0, elmnt.src.indexOf('.') - 2) + "180.png";
+
+                elmnt.setAttribute("orientation", "180")
+            } else if (elmnt.getAttribute("orientation") == 180) {
+                elmnt.src = elmnt.src.substr(0, elmnt.src.indexOf('.') - 3) + "270.png";
+
+                elmnt.setAttribute("orientation", "270")
+            } else if (elmnt.getAttribute("orientation") == 270) {
+                elmnt.src = elmnt.src.substr(0, elmnt.src.indexOf('.') - 3) + ".png";
+
+                elmnt.setAttribute("orientation", "0")
+            }
         }
     }, false);
 
+    
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    elmnt.onmousedown = dragMouseDown;
+    /*
     if (document.getElementById(elmnt.id + "header")) {
-        /* if present, the header is where you move the DIV from:*/
+        //if present, the header is where you move the DIV from:
         document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
     } else {
-        /* otherwise, move the DIV from anywhere inside the DIV:*/
+        // otherwise, move the DIV from anywhere inside the DIV:
         elmnt.onmousedown = dragMouseDown;
     }
-
+    */
+    
     function dragMouseDown(e) {
+        if(document.elementFromPoint(e.clientX, e.clientY).getAttribute("pieceType") == "text"){
+            if(document.elementFromPoint(e.clientX, e.clientY).getAttribute("draggable_trigger") == "false"){
+                return;
+            }
+        }
         elmnt.style.zIndex = "1";
         e = e || window.event;
         e.preventDefault();
@@ -92,7 +105,7 @@ function dragElement(elmnt) {
         pos4 = e.clientY;
 
         var toDrag = true;
-        if(elmnt.getAttribute("onMap") == "yes"){
+        if (elmnt.getAttribute("onMap") == "yes" && elmnt.getAttribute("pieceType") == "tile") {
             //var canvas = document.getElementById("canvas");
             var canvas = document.createElement("canvas");
             canvas.width = elmnt.offsetWidth;
@@ -108,7 +121,7 @@ function dragElement(elmnt) {
             }
             */
             var point = canvas.getContext('2d').getImageData(e.clientX - elmnt.offsetLeft, e.clientY + (document.getElementById("map").scrollTop) - elmnt.offsetTop, 1, 1).data
-            if(point[3] == 0){
+            if (point[3] == 0) {
                 toDrag = false;
                 elmnt.style.zIndex = "-99"
                 var elementBehind = document.elementFromPoint(e.clientX, e.clientY);
@@ -118,7 +131,7 @@ function dragElement(elmnt) {
             }
         }
 
-        if(toDrag){
+        if (toDrag) {
             document.onmouseup = closeDragElement;
             document.onmousemove = elementDrag;
         }
@@ -172,13 +185,17 @@ function dragElement(elmnt) {
         /* stop moving when mouse button is released:*/
         document.onmouseup = null;
         document.onmousemove = null;
+        var end_top = elmnt.style.offsetTop;
+        var end_left = elmnt.style.offsetLeft;
         if (elmnt.getAttribute("onMap") == "yes") {
-            var end_top = parseInt(elmnt.style.top, 10)
-            var end_left = parseInt(elmnt.style.left, 10)
-            end_top = (Math.round(end_top / 72) * 72) - 21;
-            end_left = (Math.round(end_left / 72) * 72) - 21;
-        } else {
-            var end_top = parseInt(elmnt.style.top, 10)
+            if (elmnt.getAttribute("pieceType") == "tile") { //if it's a tile it must "snap"
+                var end_top = parseInt(elmnt.style.top, 10)
+                var end_left = parseInt(elmnt.style.left, 10)
+                end_top = (Math.round(end_top / 72) * 72) - 21;
+                end_left = (Math.round(end_left / 72) * 72) - 21;
+            }//otherwise no snap
+        } else {//everything on the sidebar must "snap" to centered position
+            end_top = parseInt(elmnt.style.top, 10)
             end_top = (Math.round(end_top / 32) * 32);
             end_left = 0;
         }

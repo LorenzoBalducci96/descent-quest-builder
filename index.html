@@ -22,12 +22,13 @@
     <script src="jquery-ui.js"></script>
 	<script src="js/bootstrap.js"></script>
 	-->
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.debug.js"></script>
+<script src="js/html2canvas/html2canvas.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>-->
+<script src="js/html2canvas/jspdf.debug.js"></script>
 
 <script type="text/javascript" src="js/draggable.js"></script>
 <script type="text/javascript" src="js/logic.js"></script>
+<script type="text/javascript" src="js/text_script.js"></script>
 
 <body>
     <div class="modal fade" id="outputModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -39,36 +40,35 @@
                         <h1 aria-hidden="true">×</h1>
                     </button>
                 </div>
-                <div class="modal-body p-4" id="result">
+                <div class="modal-body p-4 funny_scrollbar_blue" id="result">
                     <div class="row">
-                        <div class="col-7">
+                        <div class="col-6">
                             <h2>settings</h2>
                             <h3>background color</h3>
                             <input id="black_checkbox" onclick="setBlackBackground()" class="checkmark"
-                                checked="checked" type="radio" name="background_color" value="male"> <label
-                                class="labelBig">black (as default)</label><br>
+                                type="radio" name="background_color"> <label
+                                class="labelBig">black (improve readability)</label><br>
                             <input id="white_checkbox" onclick="setWhiteBackground()" class="checkmark" type="radio"
-                                name="background_color" value="female"><label class="labelBig">white (save ink when
+                                name="background_color"><label class="labelBig">white (save ink when
                                 printing)</label><br>
                             <input id="smoky_checkbox" onclick="setSmokyBackground()" class="checkmark" type="radio"
-                                name="background_color" value="other"> <label class="labelBig">smoky (as original
+                            checked="checked" name="background_color"> <label class="labelBig">smoky (as original
                                 questbook)</label><br>
                             <button class="exportPDFButton" onclick="exportPDF()">export to PDF</button>
+
                             <br>
                             <br>
                             <div class="form-group">
-                                <h3 class="labelBig">ZOOM (adapt the dungeon to fit A4 printable page)</h3> 
+                                <h3 class="labelBig">ZOOM (adapt the dungeon to fit A4 printable page)</h3>
                                 <br>
-                                <input style="width: 80%"
-                                    class="rounded_range" type="range" max="2.0" min="0.5" step="0.5" value="1.5"
-                                    id="zoomScaling"
-                                    
-                                    onchange="scaleRes()"></input>
-                                <label class="labelBig" style="width: 10%; margin-left: 2px;" id="new_object_rangeVal">1.0</label>
+                                <input style="width: 80%" class="rounded_range" type="range" max="2.0" min="0.5"
+                                    step="0.5" value="1.5" id="zoomScaling" onchange="scaleRes()"></input>
+                                <label class="labelBig" style="width: 10%; margin-left: 2px;"
+                                    id="new_object_rangeVal">1.0</label>
                             </div>
                         </div>
-                        <div class="col-5">
-                            <image id="mapRendered" width="100%"></image>
+                        <div class="col-6">
+                            <image id="mapRendered"></image>
                         </div>
                     </div>
                 </div>
@@ -80,87 +80,145 @@
             </div>
         </div>
     </div>
-    <div id="output" style="display: none"></div>
+    <div id="output" style="display: none;"></div>
 
     <div class="sidenav funny_scrollbar_blue" id="sidenav">
-        <image src="assets/tiles/base/01A.png" oncontextmenu="return false;" id="01A"
+        <image src="assets/tiles/base/01A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="01A"
             style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
 
-        <image src="assets/tiles/base/02A.png" oncontextmenu="return false;" id="02A"
+        <image src="assets/tiles/base/02A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="02A"
             style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
 
-        <image src="assets/tiles/base/03A.png" oncontextmenu="return false;" id="03A"
+        <image src="assets/tiles/base/03A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="03A"
             style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
 
-        <image src="assets/tiles/base/04A.png" oncontextmenu="return false;" id="04A"
+        <image src="assets/tiles/base/04A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="04A"
             style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
 
-        <image src="assets/tiles/base/05A.png" orientation="0" oncontextmenu="return false;" id="05A"
+        <image src="assets/tiles/base/05A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="05A"
             style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
 
-        <image src="assets/tiles/base/06A.png" orientation="0" oncontextmenu="return false;" id="06A"
+        <image src="assets/tiles/base/06A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="06A"
             style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
 
-        <image src="assets/tiles/base/07A.png" oncontextmenu="return false;" id="07A"
+        <image src="assets/tiles/base/07A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="07A"
             style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
 
-        <image src="assets/tiles/base/08A.png" oncontextmenu="return false;" id="08A"
+        <image src="assets/tiles/base/08A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="08A"
             style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
 
-        <image src="assets/tiles/base/09A.png" orientation="0" oncontextmenu="return false;" id="09A"
+        <image src="assets/tiles/base/09A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="09A"
             style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
 
-        <image src="assets/tiles/base/10A.png" orientation="0" oncontextmenu="return false;" id="10A"
+        <image src="assets/tiles/base/10A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="10A"
             style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
 
-        <image src="assets/tiles/base/15A.png" orientation="0" oncontextmenu="return false;" id="15A"
+        <image src="assets/tiles/base/15A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="15A"
             style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
 
-        <image src="assets/tiles/base/17A.png" orientation="0" oncontextmenu="return false;" id="17A"
+        <image src="assets/tiles/base/17A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="17A"
             style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
 
-        <image src="assets/tiles/base/18A.png" orientation="0" oncontextmenu="return false;" id="18A"
+        <image src="assets/tiles/base/18A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="18A"
             style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
 
-        <image src="assets/tiles/base/DEI.png" orientation="0" oncontextmenu="return false;" id="DEI"
+        <image src="assets/tiles/base/DEI.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="DEI"
             style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
 
-        <image src="assets/tiles/base/DEO.png" orientation="0" oncontextmenu="return false;" id="DEO"
+        <image src="assets/tiles/base/DEO.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="DEO"
             style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
 
-        <image src="assets/tiles/base/EI.png" orientation="0" oncontextmenu="return false;" id="EI"
+        <image src="assets/tiles/base/EI.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="EI"
             style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
 
-        <image src="assets/tiles/base/ENI.png" orientation="0" oncontextmenu="return false;" id="ENI"
+        <image src="assets/tiles/base/ENI.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="ENI"
             style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
 
-        <image src="assets/tiles/base/ENO.png" orientation="0" oncontextmenu="return false;" id="ENO"
+        <image src="assets/tiles/base/ENO.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="ENO"
             style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
 
-        <image src="assets/tiles/base/EO.png" orientation="0" oncontextmenu="return false;" id="EO"
+        <image src="assets/tiles/base/EO.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="EO"
             style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
 
-        <image src="assets/tiles/base/EXI.png" orientation="0" oncontextmenu="return false;" id="EXI"
+        <image src="assets/tiles/base/EXI.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="EXI"
             style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
 
-        <image src="assets/tiles/base/EXO.png" orientation="0" oncontextmenu="return false;" id="EXO"
+        <image src="assets/tiles/base/EXO.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="EXO"
             style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
 
-        <image src="assets/tiles/base/TI.png" orientation="0" oncontextmenu="return false;" id="TI"
+        <image src="assets/tiles/base/TI.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="TI"
             style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
 
-        <image src="assets/tiles/base/TO.png" orientation="0" oncontextmenu="return false;" id="TO"
+        <image src="assets/tiles/base/TO.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="TO"
             style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
 
+        <!--
+        <div orientation="0" onMap="no" class="text_config" id="text_config1"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1;">
+            <textarea>questa text area rimarrà trasparent</textarea>
+        </div>
+        -->
+        
+        
+        <div class="card" orientation="0" oncontextmenu="return false;" pieceType="text" onMap="no" id="text_config1"
+            style="position: absolute; cursor: move; z-index: -1;">
+            <div class="card-header" pieceType="text" draggable_trigger="true">
+                <h5 class="card-title" pieceType="text" draggable_trigger="true"></h5>
+                <button pieceType="text" draggable_trigger="false" onclick="incFont('text1')">+</button>
+                <button pieceType="text" draggable_trigger="false" onclick="decFont('text1')">-</button>
+                <button pieceType="text" draggable_trigger="false" onclick="boldFont('text1')">b</button>
+            </div>
+            <div class="card-body" pieceType="text" draggable_trigger="false">
+                <textarea id="text1" style="resize: both; width:100%; font-size: 32px; font-weight: bold;" pieceType="text" draggable_trigger="false">spider's cave</textarea>
+            </div>
+        </div>
 
-        <label style="position: absolute; top: 6000px;">.</label>
+        <div class="card" orientation="0" oncontextmenu="return false;" pieceType="text" onMap="no" id="text_config2"
+            style="position: absolute; cursor: move; z-index: -1;">
+            <div class="card-header" pieceType="text" draggable_trigger="true">
+                <h5 class="card-title" pieceType="text" draggable_trigger="true"></h5>
+                <button pieceType="text" draggable_trigger="false" onclick="incFont('text2')">+</button>
+                <button pieceType="text" draggable_trigger="false" onclick="decFont('text2')">-</button>
+                <button pieceType="text" draggable_trigger="false" onclick="boldFont('text2')">b</button>
+            </div>
+            <div class="card-body" pieceType="text" draggable_trigger="false">
+                <textarea id="text2" style="resize: both; width:100%; font-size: 32px; font-weight: bold;" pieceType="text" draggable_trigger="false">golblin's mountaign</textarea>
+            </div>
+        </div>
+        
+        <!--
+        <textarea orientation="0" onMap="no" pieceType="text" id="text_config1" oncontextmenu="return false;" 
+            style="position: absolute;  cursor: move; width: 100%; z-index: -1;" >testo bello</textarea>
+            -->
+        <!--
+                        <div class="card" id="text_config1" orientation="0" onMap="no"
+             style="position: absolute; width: 100%; z-index: -1;">
+             <div id="draggable-handle" class="card">qui dovrebbe essere draggable</div>
+            <div class="card-header" style="background-color: blue; cursor: move; ">
+                <h5 class="card-title">Card title</h5>
+            </div> 
+                <div class="card-body">
+                  
+                  <textarea oncontextmenu="return false;" 
+            style="position: absolute; width: 100%;" >testo bello</textarea>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+              </div>
+            -->
+
+
+
+
+        <label style="position: absolute; top: 7000px;">.</label>
 
     </div>
 
     <div id="map" class="map funny_scrollbar_blue">
-        <label style="position: absolute; top: 3024px;" id="placeholder">.</label>
+        <label style="position: absolute; top: 3024px;" pieceType="placeholder" id="placeholder">.</label>
     </div>
     <div class="control_bar" id="control_bar" style="z-index: 0;">
+        <!--<button class="craeteTextBoxButton" onclick="createTextBox()">insert text</button>-->
         <button id="go_to_text_edit_button" onclick="goToTextEdit()">go to text edit</button>
     </div>
 
