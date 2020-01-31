@@ -16,10 +16,6 @@ body {
     background-color: #111; /* Black */
 }
 
-.sidenav image{
-    width: "40px"
-}
-
 .map {
     height: 95%;/* Full-height: remove this if you want "auto" height */
     width: 100%; /* Set the width of the sidebar */
@@ -29,6 +25,7 @@ body {
     top: 0; /* Stay at the top */
     left: 286;
     background-image: url('../assets/background.jpg');
+    background-attachment:local;
 }
 
 .control_bar{
