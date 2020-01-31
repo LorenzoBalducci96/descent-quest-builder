@@ -3,37 +3,25 @@ var offsetTopTiles = [];
 var count = 0;
 
 window.onload = function () {
-    //dragElement(document.getElementById("20A"));
-    dragElement(document.getElementById("01A"));
-    dragElement(document.getElementById("02A"));
-    dragElement(document.getElementById("03A"));
-    dragElement(document.getElementById("04A"));
-    dragElement(document.getElementById("05A"));
-    dragElement(document.getElementById("06A"));
-    dragElement(document.getElementById("07A"));
-    dragElement(document.getElementById("08A"));
-    dragElement(document.getElementById("09A"));
-    dragElement(document.getElementById("10A"));
-
-
-    dragElement(document.getElementById("15A"));
-    dragElement(document.getElementById("17A"));
-    dragElement(document.getElementById("18A"));
-
-    dragElement(document.getElementById("DEI"));
-    dragElement(document.getElementById("DEO"));
-    dragElement(document.getElementById("EI"));
-    dragElement(document.getElementById("ENI"));
-    dragElement(document.getElementById("ENO"));
-    dragElement(document.getElementById("EO"));
-    dragElement(document.getElementById("EXI"));
-    dragElement(document.getElementById("EXO"));
-    dragElement(document.getElementById("TI"));
-    dragElement(document.getElementById("TO"));
-    dragElement(document.getElementById("text_config1"));
-    dragElement(document.getElementById("text_config2"));
-    this.arrangeTiles()
+    this.loadAndArrangeTiles();
 };
+
+function loadAndArrangeTiles(){
+    resetTiles();
+    var pieces = [].slice.call(document.getElementById("sidenav").children);//get all the elements on the map
+    pieces.forEach(element => {
+        if (element.getAttribute("pieceType") != "placeholder") {
+            dragElement(element);
+        }
+    });
+    arrangeTiles();
+}
+
+function resetTiles(){
+    tiles = [];
+    offsetTopTiles = [];
+    count = 0;
+}
 
 function arrangeTiles() {
     offsetTopTiles[0] = 20;

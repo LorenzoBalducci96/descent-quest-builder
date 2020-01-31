@@ -29,6 +29,7 @@
 <script type="text/javascript" src="js/draggable.js"></script>
 <script type="text/javascript" src="js/logic.js"></script>
 <script type="text/javascript" src="js/text_script.js"></script>
+<script type="text/javascript" src="js/loadTiles.js"></script>
 
 <body>
     <div class="modal fade" id="outputModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -45,14 +46,13 @@
                         <div class="col-6">
                             <h2>settings</h2>
                             <h3>background color</h3>
-                            <input id="black_checkbox" onclick="setBlackBackground()" class="checkmark"
-                                type="radio" name="background_color"> <label
-                                class="labelBig">black (improve readability)</label><br>
+                            <input id="black_checkbox" onclick="setBlackBackground()" class="checkmark" type="radio"
+                                name="background_color"> <label class="labelBig">black (improve readability)</label><br>
                             <input id="white_checkbox" onclick="setWhiteBackground()" class="checkmark" type="radio"
                                 name="background_color"><label class="labelBig">white (save ink when
                                 printing)</label><br>
                             <input id="smoky_checkbox" onclick="setSmokyBackground()" class="checkmark" type="radio"
-                            checked="checked" name="background_color"> <label class="labelBig">smoky (as original
+                                checked="checked" name="background_color"> <label class="labelBig">smoky (as original
                                 questbook)</label><br>
                             <button class="exportPDFButton" onclick="exportPDF()">export to PDF</button>
 
@@ -83,6 +83,7 @@
     <div id="output" style="display: none;"></div>
 
     <div class="sidenav funny_scrollbar_blue" id="sidenav">
+        <!--
         <image src="assets/tiles/base/01A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="01A"
             style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
 
@@ -121,6 +122,128 @@
 
         <image src="assets/tiles/base/18A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="18A"
             style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+        -->
+
+        <image src="assets/tiles/base/01A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="01A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/01B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="01B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/02A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="02A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/02B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="02B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/03A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="03A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/03B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="03B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/04A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="04A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/04B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="04B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/05A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="05A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/05B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="05B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/06A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="06A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/06B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="06B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/07A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="07A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/07B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="07B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/08A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="08A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/08B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="08B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/09A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="09A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/09B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="09B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/10A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="10A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/10B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="10B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/11A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="11A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/11B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="11B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/12A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="12A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/12B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="12B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/13A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="13A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/13B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="13B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/14A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="14A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/14B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="14B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/15A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="15A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/15B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="15B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/16A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="16A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/16B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="16B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/17A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="17A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/17B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="17B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/18A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="18A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/18B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="18B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/19A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="19A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/19B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="19B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/20A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="20A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/20B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="20B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/21A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="21A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/21B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="21B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/22A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="22A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/22B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="22B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/23A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="23A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/23B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="23B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/24A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="24A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/24B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="24B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/25A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="25A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/25B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="25B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/26A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="26A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/26B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="26B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/27A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="27A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/27B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="27B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/28A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="28A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/28B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="28B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/29A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="29A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/29B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="29B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/30A.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="30A"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <image src="assets/tiles/base/30B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="30B"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
 
         <image src="assets/tiles/base/DEI.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="DEI"
             style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
@@ -152,14 +275,6 @@
         <image src="assets/tiles/base/TO.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="TO"
             style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
 
-        <!--
-        <div orientation="0" onMap="no" class="text_config" id="text_config1"
-            style="position: absolute; cursor: move; width: 100%; z-index: -1;">
-            <textarea>questa text area rimarrà trasparent</textarea>
-        </div>
-        -->
-        
-        
         <div class="card" orientation="0" oncontextmenu="return false;" pieceType="text" onMap="no" id="text_config1"
             style="position: absolute; cursor: move; z-index: -1;">
             <div class="card-header" pieceType="text" draggable_trigger="true">
@@ -169,7 +284,8 @@
                 <button pieceType="text" draggable_trigger="false" onclick="boldFont('text1')">b</button>
             </div>
             <div class="card-body" pieceType="text" draggable_trigger="false">
-                <textarea id="text1" style="resize: both; width:100%; font-size: 32px; font-weight: bold;" pieceType="text" draggable_trigger="false">spider's cave</textarea>
+                <textarea id="text1" style="resize: both; width:100%; font-size: 32px; font-weight: bold;"
+                    pieceType="text" draggable_trigger="false">spider's cave</textarea>
             </div>
         </div>
 
@@ -182,44 +298,33 @@
                 <button pieceType="text" draggable_trigger="false" onclick="boldFont('text2')">b</button>
             </div>
             <div class="card-body" pieceType="text" draggable_trigger="false">
-                <textarea id="text2" style="resize: both; width:100%; font-size: 32px; font-weight: bold;" pieceType="text" draggable_trigger="false">golblin's mountaign</textarea>
+                <textarea id="text2" style="resize: both; width:100%; font-size: 32px; font-weight: bold;"
+                    pieceType="text" draggable_trigger="false">golblin's mountaign</textarea>
             </div>
         </div>
-        
-        <!--
-        <textarea orientation="0" onMap="no" pieceType="text" id="text_config1" oncontextmenu="return false;" 
-            style="position: absolute;  cursor: move; width: 100%; z-index: -1;" >testo bello</textarea>
-            -->
-        <!--
-                        <div class="card" id="text_config1" orientation="0" onMap="no"
-             style="position: absolute; width: 100%; z-index: -1;">
-             <div id="draggable-handle" class="card">qui dovrebbe essere draggable</div>
-            <div class="card-header" style="background-color: blue; cursor: move; ">
-                <h5 class="card-title">Card title</h5>
-            </div> 
-                <div class="card-body">
-                  
-                  <textarea oncontextmenu="return false;" 
-            style="position: absolute; width: 100%;" >testo bello</textarea>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-              </div>
-            -->
-
-
-
-
-        <label style="position: absolute; top: 7000px;">.</label>
-
+        <label pieceType="placeholder" style="position: absolute; top: 7000px;">.</label>
     </div>
+
+    <div id="shadowOfNerekhallElements" style="display: none;">
+        <image src="assets/tiles/base/TI.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="NEW"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+
+        <image src="assets/tiles/base/TO.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="NEW2"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+    </div>
+
+    <div id="baseSet" style="display: none;"></div>
 
     <div id="map" class="map funny_scrollbar_blue">
         <label style="position: absolute; top: 3024px;" pieceType="placeholder" id="placeholder">.</label>
     </div>
     <div class="control_bar" id="control_bar" style="z-index: 0;">
         <!--<button class="craeteTextBoxButton" onclick="createTextBox()">insert text</button>-->
-        <button id="go_to_text_edit_button" onclick="goToTextEdit()">go to text edit</button>
+        <button class="blueButton" id="go_to_text_edit_button" onclick="goToTextEdit()">go to text edit</button>
+        <button class="blueButton" id="load_base_set_tiles" onclick="loadBaseSet()">load base set</button>
+        <button class="blueButton" id="load_shadow_of_nerekhall_tiles" onclick="LoadShadowOfNerekhall()">load shadow of
+            nerekhall</button>
+
     </div>
 
 </body>
