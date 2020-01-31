@@ -84,9 +84,8 @@
 
     <div class="sidebar-container">
         <div id="tilesSelectorBar">
-            <button class="blueButton" onclick="loadMiscellaneous()">extra</button>
-            <button class="blueButton" onclick="loadBaseSetInside()">inside</button>
-            <button class="blueButton" onclick="loadBaseSetOutside()">outside</button>
+            <button class="blueButton" id="miscellaneousButton" onclick="loadBaseSetMiscellaneous()">extra</button>
+            <button class="blueButton" id="insideButton" onclick="loadBaseSetInside()">inside/outside</button>
         </div>
         <div class="sidenav funny_scrollbar_blue" id="sidenav">
             <image src="assets/tiles/base/01A.png" orientation="0" pieceType="tile" oncontextmenu="return false;"
@@ -271,67 +270,90 @@
             style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
         <image src="assets/tiles/base/30B.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="30B"
             style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        <label pieceType="placeholder" style="position: absolute; top: 7000px;">.</label>
     </div>
 
     <!--div with other elements loaded by javascript-->
-    <div id="shadowOfNerekhallElements" style="display: none;">
+    <div id="shadowOfNerekhallOutside" style="display: none;">
         <image src="assets/tiles/base/TI.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="NEW"
             style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
 
         <image src="assets/tiles/base/TO.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="NEW2"
             style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+        <label pieceType="placeholder" style="position: absolute; top: 7000px;">.</label>
     </div>
 
-    <div id="labyrinthOfRuinElements" style="display: none;">
+    <div id="shadowOfNerekhallInside" style="display: none;">
+        <image src="assets/tiles/base/TO.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="NEW3"
+            style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+        <label pieceType="placeholder" style="position: absolute; top: 7000px;">.</label>
+    </div>
+
+    <div id="labyrinthOfRuinOutside" style="display: none;">
         <image src="assets/tiles/labyrinth_of_ruin/36A.png" orientation="0" pieceType="tile"
             oncontextmenu="return false;" id="36A" style="position: absolute; cursor: move; width: 100%; z-index: -1"
-            onMap="no"></image>
-        <image src="assets/tiles/labyrinth_of_ruin/36B.png" orientation="0" pieceType="tile"
-            oncontextmenu="return false;" id="36B" style="position: absolute; cursor: move; width: 100%; z-index: -1"
             onMap="no"></image>
         <image src="assets/tiles/labyrinth_of_ruin/37A.png" orientation="0" pieceType="tile"
             oncontextmenu="return false;" id="37A" style="position: absolute; cursor: move; width: 100%; z-index: -1"
             onMap="no"></image>
-        <image src="assets/tiles/labyrinth_of_ruin/37B.png" orientation="0" pieceType="tile"
-            oncontextmenu="return false;" id="37B" style="position: absolute; cursor: move; width: 100%; z-index: -1"
-            onMap="no"></image>
         <image src="assets/tiles/labyrinth_of_ruin/38A.png" orientation="0" pieceType="tile"
             oncontextmenu="return false;" id="38A" style="position: absolute; cursor: move; width: 100%; z-index: -1"
-            onMap="no"></image>
-        <image src="assets/tiles/labyrinth_of_ruin/38B.png" orientation="0" pieceType="tile"
-            oncontextmenu="return false;" id="38B" style="position: absolute; cursor: move; width: 100%; z-index: -1"
             onMap="no"></image>
         <image src="assets/tiles/labyrinth_of_ruin/39A.png" orientation="0" pieceType="tile"
             oncontextmenu="return false;" id="39A" style="position: absolute; cursor: move; width: 100%; z-index: -1"
             onMap="no"></image>
-        <image src="assets/tiles/labyrinth_of_ruin/39B.png" orientation="0" pieceType="tile"
-            oncontextmenu="return false;" id="39B" style="position: absolute; cursor: move; width: 100%; z-index: -1"
-            onMap="no"></image>
         <image src="assets/tiles/labyrinth_of_ruin/40A.png" orientation="0" pieceType="tile"
             oncontextmenu="return false;" id="40A" style="position: absolute; cursor: move; width: 100%; z-index: -1"
-            onMap="no"></image>
-        <image src="assets/tiles/labyrinth_of_ruin/40B.png" orientation="0" pieceType="tile"
-            oncontextmenu="return false;" id="40B" style="position: absolute; cursor: move; width: 100%; z-index: -1"
             onMap="no"></image>
         <image src="assets/tiles/labyrinth_of_ruin/41A.png" orientation="0" pieceType="tile"
             oncontextmenu="return false;" id="41A" style="position: absolute; cursor: move; width: 100%; z-index: -1"
             onMap="no"></image>
-        <image src="assets/tiles/labyrinth_of_ruin/41B.png" orientation="0" pieceType="tile"
-            oncontextmenu="return false;" id="41B" style="position: absolute; cursor: move; width: 100%; z-index: -1"
-            onMap="no"></image>
         <image src="assets/tiles/labyrinth_of_ruin/42A.png" orientation="0" pieceType="tile"
             oncontextmenu="return false;" id="42A" style="position: absolute; cursor: move; width: 100%; z-index: -1"
             onMap="no"></image>
-        <image src="assets/tiles/labyrinth_of_ruin/42B.png" orientation="0" pieceType="tile"
-            oncontextmenu="return false;" id="42B" style="position: absolute; cursor: move; width: 100%; z-index: -1"
-            onMap="no"></image>
+
         <image src="assets/tiles/labyrinth_of_ruin/43A.png" orientation="0" pieceType="tile"
             oncontextmenu="return false;" id="43A" style="position: absolute; cursor: move; width: 100%; z-index: -1"
             onMap="no"></image>
+        <label pieceType="placeholder" style="position: absolute; top: 5000px;">.</label>
+    </div>
+
+    <div id="labyrinthOfRuinInside" style="display: none;">
+
+        <image src="assets/tiles/labyrinth_of_ruin/36B.png" orientation="0" pieceType="tile"
+            oncontextmenu="return false;" id="36B" style="position: absolute; cursor: move; width: 100%; z-index: -1"
+            onMap="no"></image>
+
+        <image src="assets/tiles/labyrinth_of_ruin/37B.png" orientation="0" pieceType="tile"
+            oncontextmenu="return false;" id="37B" style="position: absolute; cursor: move; width: 100%; z-index: -1"
+            onMap="no"></image>
+
+        <image src="assets/tiles/labyrinth_of_ruin/38B.png" orientation="0" pieceType="tile"
+            oncontextmenu="return false;" id="38B" style="position: absolute; cursor: move; width: 100%; z-index: -1"
+            onMap="no"></image>
+
+        <image src="assets/tiles/labyrinth_of_ruin/39B.png" orientation="0" pieceType="tile"
+            oncontextmenu="return false;" id="39B" style="position: absolute; cursor: move; width: 100%; z-index: -1"
+            onMap="no"></image>
+
+        <image src="assets/tiles/labyrinth_of_ruin/40B.png" orientation="0" pieceType="tile"
+            oncontextmenu="return false;" id="40B" style="position: absolute; cursor: move; width: 100%; z-index: -1"
+            onMap="no"></image>
+
+        <image src="assets/tiles/labyrinth_of_ruin/41B.png" orientation="0" pieceType="tile"
+            oncontextmenu="return false;" id="41B" style="position: absolute; cursor: move; width: 100%; z-index: -1"
+            onMap="no"></image>
+
+        <image src="assets/tiles/labyrinth_of_ruin/42B.png" orientation="0" pieceType="tile"
+            oncontextmenu="return false;" id="42B" style="position: absolute; cursor: move; width: 100%; z-index: -1"
+            onMap="no"></image>
+
         <image src="assets/tiles/labyrinth_of_ruin/43B.png" orientation="0" pieceType="tile"
             oncontextmenu="return false;" id="43B" style="position: absolute; cursor: move; width: 100%; z-index: -1"
             onMap="no"></image>
+        <label pieceType="placeholder" style="position: absolute; top: 5000px;">.</label>
     </div>
+
 
     <div id="baseSetOutside" style="display: none;"></div>
     <div id="baseSetMiscellaneous" style="display: none;">
@@ -407,6 +429,7 @@
             style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
         <image src="assets/tiles/base/TO.png" orientation="0" pieceType="tile" oncontextmenu="return false;" id="TO_2"
             style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+        <label pieceType="placeholder" style="position: absolute; top: 8000px;">.</label>
     </div>
     <!--end of div with other elements loaded by javascript-->
 
@@ -418,9 +441,9 @@
         <!--<button class="craeteTextBoxButton" onclick="createTextBox()">insert text</button>-->
         <button class="blueButton" id="go_to_text_edit_button" onclick="goToTextEdit()">go to text edit</button>
         <button class="blueButton" id="load_base_set_tiles" onclick="loadBaseSetOutside()">load base set</button>
-        <button class="blueButton" id="load_shadow_of_nerekhall_tiles" onclick="LoadLabyrinthOfRuin()">load labyrinth of
+        <button class="blueButton" onclick="LoadLabyrinthOfRuinOutside()">load labyrinth of
             ruin</button>
-        <button class="blueButton" id="load_shadow_of_nerekhall_tiles" onclick="LoadShadowOfNerekhall()">load shadow of
+        <button class="blueButton" onclick="LoadShadowOfNerekhallOutside()">load shadow of
             nerekhall</button>
     </div>
 
