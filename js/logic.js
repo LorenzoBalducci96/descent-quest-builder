@@ -15,7 +15,6 @@ function exportPDF() {
 }
 
 function createImg() {
-
     html2canvas(document.getElementById("output"), {
         onrendered: function (canvas) {
             imageToPrintOnPdf = canvas.toDataURL('image/png');//cera

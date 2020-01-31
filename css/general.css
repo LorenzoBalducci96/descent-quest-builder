@@ -4,8 +4,14 @@ body {
 }
 
 /*global*/
-.sidenav {
+.sidebar-container{
     height: 100%; /* Full-height: remove this if you want "auto" height */
+    width: 286px; /* Set the width of the sidebar */
+}
+
+.sidenav {
+    margin-top : 8vh;
+    height: 92%;
     width: 286px; /* Set the width of the sidebar */
     overflow-y : auto;
     overflow-x : visible;
@@ -14,6 +20,17 @@ body {
     top: 0; /* Stay at the top */
     left: 0;
     background-color: #111; /* Black */
+}
+
+
+#tilesSelectorBar{
+    height: 8%; /* Full-height: remove this if you want "auto" height */
+    width: 286px; /* Set the width of the sidebar */
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 5; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    background-color: #000; /* Black */
 }
 
 .map {

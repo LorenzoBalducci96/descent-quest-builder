@@ -161,14 +161,14 @@ function dragElement(elmnt) {
             elmnt.style.width = "100%";
             if (elmnt.getAttribute("onMap") == "yes") {
                 elmnt.style.left = (e.clientX - (((e.clientX - oldLeft) * elmnt.offsetWidth) / oldWidth)) + "px";
-                elmnt.style.top = (e.clientY - (((e.clientY - oldTop) * elmnt.offsetHeight) / oldHeigth) + (document.getElementById("sidenav").scrollTop)) + "px";
+                elmnt.style.top = (e.clientY - (((e.clientY - oldTop) * elmnt.offsetHeight) / oldHeigth) + (document.getElementById("sidenav").scrollTop) - document.getElementById("sidenav").offsetTop) + "px";
                 elmnt.setAttribute("onMap", "no")
             }
 
         } else if (e.clientX > document.getElementById("sidenav").offsetWidth) {
             var oldLeft = elmnt.offsetLeft;
             var oldWidth = elmnt.offsetWidth;
-            var oldTop = elmnt.offsetTop - document.getElementById("sidenav").scrollTop;
+            var oldTop = elmnt.offsetTop - document.getElementById("sidenav").scrollTop + document.getElementById("sidenav").offsetTop;
             var oldHeigth = elmnt.offsetHeight;
 
             document.getElementById("map").appendChild(elmnt);
