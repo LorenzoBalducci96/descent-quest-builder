@@ -24,9 +24,19 @@ function resetTiles(){
 }
 
 function arrangeTiles() {
+    //resize
+    /*
+    for(c = 0; c < count; c++){
+        document.getElementById(tiles[c]).style.width = (document.getElementById(tiles[c]).offsetWidth / 2) + "px"
+    }
+    */
+
+    //arrange position
     offsetTopTiles[0] = 20;
+    
     var c = 1;
     for (c = 1; c < count; c++) {
+
         offsetTopTiles[c] = offsetTopTiles[c - 1] + document.getElementById(tiles[c - 1]).offsetHeight + 20;
     }
     for (c = 0; c < count; c++) {
@@ -145,7 +155,10 @@ function dragElement(elmnt) {
             var oldHeigth = elmnt.offsetHeight;
 
             document.getElementById("sidenav").appendChild(elmnt);
-            elmnt.style.width = '100%';
+            //TODO
+            //elmnt.style.width = 'auto';
+            //elmnt.style.width = (elmnt.offsetWidth/2) + "px"
+            elmnt.style.width = "100%";
             if (elmnt.getAttribute("onMap") == "yes") {
                 elmnt.style.left = (e.clientX - (((e.clientX - oldLeft) * elmnt.offsetWidth) / oldWidth)) + "px";
                 elmnt.style.top = (e.clientY - (((e.clientY - oldTop) * elmnt.offsetHeight) / oldHeigth) + (document.getElementById("sidenav").scrollTop)) + "px";
