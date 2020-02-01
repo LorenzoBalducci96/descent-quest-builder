@@ -3,36 +3,25 @@ var offsetTopTiles = [];
 var count = 0;
 
 window.onload = function () {
-    this.loadAndArrangeTiles();
+    //loadAndArrange decide the position of each tile in his bar
+    //we must put that bar in the rendered sidebar beause otherwise we don't have the width of the tiles
+    //we have to reboud the dragElement for each bar changed because otherwise we lost the 
+    this.loadAndArrangeTiles("baseSetOutside");
+    this.loadAndArrangeTiles("baseSetInside");
+    this.loadAndArrangeTiles("baseSetMiscellaneous");
+
+    this.loadAndArrangeTiles("shadowOfNerekhallOutside");
+    this.loadAndArrangeTiles("shadowOfNerekhallInside");
+    this.loadAndArrangeTiles("shadowOfNerekhallMiscellaneous");
+
+    this.loadAndArrangeTiles("labyrinthOfRuinOutside");
+    this.loadAndArrangeTiles("labyrinthOfRuinInside");
+    
+    this.loadAndArrangeTiles("textAreas");
+    
+
 };
 
-function compareFunction(tileA, tileB){
-    if(tileA.getAttribute("pieceType") == "placeholder"){
-        return 1;
-    }
-    if(tileB.getAttribute("pieceType") == "placeholder"){
-        return -1;
-    }
-    console.log(tileA, tileB)
-    var tileAsrc = tileA.src;
-    var tileBsrc = tileB.src;
-    var valA = parseInt(tileAsrc.substring(tileAsrc.lastIndexOf("/") + 1,  tileAsrc.lastIndexOf("/") + 4), 10);
-    var valB = parseInt(tileBsrc.substring(tileBsrc.lastIndexOf("/") + 1,  tileBsrc.lastIndexOf("/") + 4), 10);
-    return valA - valB;
-}
-
-function loadAndArrangeTiles(){
-    resetTiles();
-    var pieces = [].slice.call(document.getElementById("sidenav").children);//get all the elements on the map
-    pieces.sort(compareFunction)
-    pieces.forEach(element => {
-        if (element.getAttribute("pieceType") != "placeholder") {
-            dragElement(element);
-        }
-    });
-    
-    arrangeTiles();
-}
 
 function resetTiles(){
     tiles = [];
@@ -40,14 +29,18 @@ function resetTiles(){
     count = 0;
 }
 
-function arrangeTiles() {
-    //resize
-    /*
-    for(c = 0; c < count; c++){
-        document.getElementById(tiles[c]).style.width = (document.getElementById(tiles[c]).offsetWidth / 2) + "px"
-    }
-    */
+function loadAndArrangeTiles(blockId){
+    resetTiles();
+    var pieces = [].slice.call(document.getElementById(blockId).children);//get all the elements on the map
+    pieces.forEach(element => {
+        if (element.getAttribute("pieceType") == "tile" || element.getAttribute("pieceType") == "text") {
+            dragElement(element);
+        }
+    });
+    arrangeTiles(blockId);
+}
 
+function arrangeTiles(blockId) {
     //arrange position
     offsetTopTiles[0] = 20;
     
@@ -57,7 +50,24 @@ function arrangeTiles() {
         offsetTopTiles[c] = offsetTopTiles[c - 1] + document.getElementById(tiles[c - 1]).offsetHeight + 20;
     }
     for (c = 0; c < count; c++) {
+        //put the tile
         document.getElementById(tiles[c]).style.top = (offsetTopTiles[c]) + "px"
+        document.getElementById(tiles[c]).style.left = "0px"
+
+        //now put the background placeholder
+        var placeholderImage = document.createElement("img");
+        placeholderImage.style.position = "absolute";
+        placeholderImage.style.top = (offsetTopTiles[c]) + "px";
+        placeholderImage.style.left = "0px";
+        placeholderImage.src = document.getElementById(tiles[c]).src
+
+        placeholderImage.id = "placeholder_" + document.getElementById(tiles[c]).getAttribute("id");
+
+        placeholderImage.style.zIndex = "-2"
+        placeholderImage.style.opacity = "0.4"
+        placeholderImage.style.width = document.getElementById(tiles[c]).offsetWidth + "px"
+        placeholderImage.style.height = document.getElementById(tiles[c]).offsetHeight + "px"
+        document.getElementById(blockId).appendChild(placeholderImage);
     }
 }
 
@@ -73,7 +83,7 @@ function dragElement(elmnt) {
     count++;
 
     elmnt.addEventListener('contextmenu', function (ev) {
-        if (elmnt.getAttribute("pieceType") == "tile") {
+        if (elmnt.getAttribute("pieceType") == "tile" && elmnt.getAttribute("onMap") == "yes" ) {
             if (elmnt.getAttribute("orientation") == 0) {
                 elmnt.src = elmnt.src.substr(0, elmnt.src.indexOf('.')) + "90.png";
                 elmnt.setAttribute("orientation", "90")
@@ -147,8 +157,8 @@ function dragElement(elmnt) {
         }
 
         if (toDrag) {
-            document.onmouseup = closeDragElement;
             document.onmousemove = elementDrag;
+            document.onmouseup = closeDragElement;
         }
     }
 
@@ -165,27 +175,30 @@ function dragElement(elmnt) {
 
         elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
         elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-        if (e.clientX < document.getElementById("sidenav").offsetWidth) {
+        if (e.clientX < document.getElementById(activeSet).offsetWidth) {
+            elmnt.setAttribute("onCan", "no");
             var oldLeft = elmnt.offsetLeft;
             var oldWidth = elmnt.offsetWidth;
             var oldTop = elmnt.offsetTop - document.getElementById("map").scrollTop;
             var oldHeigth = elmnt.offsetHeight;
 
-            document.getElementById("sidenav").appendChild(elmnt);
+            document.getElementById(activeSet).appendChild(elmnt);
             //TODO
             //elmnt.style.width = 'auto';
             //elmnt.style.width = (elmnt.offsetWidth/2) + "px"
             elmnt.style.width = "100%";
             if (elmnt.getAttribute("onMap") == "yes") {
                 elmnt.style.left = (e.clientX - (((e.clientX - oldLeft) * elmnt.offsetWidth) / oldWidth)) + "px";
-                elmnt.style.top = (e.clientY - (((e.clientY - oldTop) * elmnt.offsetHeight) / oldHeigth) + (document.getElementById("sidenav").scrollTop) - document.getElementById("sidenav").offsetTop) + "px";
+                elmnt.style.top = (e.clientY - (((e.clientY - oldTop) * elmnt.offsetHeight) / oldHeigth) + (document.getElementById(activeSet).scrollTop) - document.getElementById(activeSet).offsetTop) + "px";
                 elmnt.setAttribute("onMap", "no")
             }
 
-        } else if (e.clientX > document.getElementById("sidenav").offsetWidth) {
+        } else if (e.clientX > document.getElementById(activeSet).offsetWidth
+                && e.clientX < 1600) {
+            elmnt.setAttribute("onCan", "no");
             var oldLeft = elmnt.offsetLeft;
             var oldWidth = elmnt.offsetWidth;
-            var oldTop = elmnt.offsetTop - document.getElementById("sidenav").scrollTop + document.getElementById("sidenav").offsetTop;
+            var oldTop = elmnt.offsetTop - document.getElementById(activeSet).scrollTop + document.getElementById(activeSet).offsetTop;
             var oldHeigth = elmnt.offsetHeight;
 
             document.getElementById("map").appendChild(elmnt);
@@ -195,7 +208,11 @@ function dragElement(elmnt) {
                 elmnt.style.top = (e.clientY - (((e.clientY - oldTop) * elmnt.offsetHeight) / oldHeigth) + document.getElementById("map").scrollTop) + "px";
 
                 elmnt.setAttribute("onMap", "yes")
+                elmnt.setAttribute("onCan", "no");
             }
+        } else if (e.clientX > 1600) {//TODO
+            elmnt.style.width = '144px';
+            elmnt.setAttribute("onCan", "yes");
         }
     }
 
@@ -205,21 +222,54 @@ function dragElement(elmnt) {
         document.onmousemove = null;
         var end_top = elmnt.style.offsetTop;
         var end_left = elmnt.style.offsetLeft;
-        if (elmnt.getAttribute("onMap") == "yes") {
-            if (elmnt.getAttribute("pieceType") == "tile") { //if it's a tile it must "snap"
-                var end_top = parseInt(elmnt.style.top, 10)
-                var end_left = parseInt(elmnt.style.left, 10)
-                end_top = (Math.round(end_top / 72) * 72) - 21;
-                end_left = (Math.round(end_left / 72) * 72) - 21;
-            }//otherwise no snap
-        } else {//everything on the sidebar must "snap" to centered position
-            end_top = parseInt(elmnt.style.top, 10)
-            end_top = (Math.round(end_top / 32) * 32);
-            end_left = 0;
-        }
+        if(elmnt.getAttribute("onCan") == "yes" || elmnt.getAttribute("onMap") == "no"){
+            var placeholderImage = document.getElementById("placeholder_" + elmnt.id);
+            elmnt.setAttribute("onCan", "no");
+            elmnt.setAttribute("onMap", "no");
+            elmnt.src = placeholderImage.src;
+            document.getElementById(elmnt.getAttribute("set")).appendChild(elmnt);
+            elmnt.style.top = placeholderImage.offsetTop + "px";
+            elmnt.style.left = placeholderImage.offsetLeft + "px";
+            elmnt.style.width = placeholderImage.offsetWidth + "px";
 
-        elmnt.style.top = end_top + "px";
-        elmnt.style.left = end_left + "px";
-        elmnt.style.zIndex = "-1";
+            var tileFace = ""
+            if(elmnt.id.charAt(elmnt.id.length - 1) == 'A'){
+                tileFace = 'B'
+            } else if(elmnt.id.charAt(elmnt.id.length - 1) == 'B'){
+                tileFace = 'A'
+            }
+            var placeholderOtherSide = document.getElementById(elmnt.id.substring(0, elmnt.id.length - 1) + tileFace);
+            placeholderOtherSide.style.visibility = "";
+            
+            
+        }else{
+            if (elmnt.getAttribute("onMap") == "yes") {
+
+                var tileFace = ""
+                if(elmnt.id.charAt(elmnt.id.length - 1) == 'A'){
+                    tileFace = 'B'
+                } else if(elmnt.id.charAt(elmnt.id.length - 1) == 'B'){
+                    tileFace = 'A'
+                }
+                var placeholderOtherSide = document.getElementById(elmnt.id.substring(0, elmnt.id.length - 1) + tileFace);
+                if(placeholderOtherSide != null)
+                    placeholderOtherSide.style.visibility = "hidden";
+
+                if (elmnt.getAttribute("pieceType") == "tile") { //if it's a tile it must "snap"
+                    var end_top = parseInt(elmnt.style.top, 10)
+                    var end_left = parseInt(elmnt.style.left, 10)
+                    end_top = (Math.round(end_top / 72) * 72) - 21;
+                    end_left = (Math.round(end_left / 72) * 72) - 21;
+                }//otherwise no snap
+            } else {//everything on the sidebar must "snap" to centered position
+                end_top = parseInt(elmnt.style.top, 10)
+                end_top = (Math.round(end_top / 32) * 32);
+                end_left = 0;
+            }
+
+            elmnt.style.top = end_top + "px";
+            elmnt.style.left = end_left + "px";
+            elmnt.style.zIndex = "-1";
+        }
     }
 }

@@ -2,64 +2,99 @@ var activeSet = "baseSetOutside"
 var activeArea = "Outside";
 var activeSetName = "baseSet";
 
+function loadBaseSetMiscellaneous() {
+    document.getElementById(activeSet).style.visibility = "hidden"
+    document.getElementById("baseSetMiscellaneous").style.visibility = ""
+
+    document.getElementById('insideButton').style.display = ""
+    document.getElementById('miscellaneousButton').style.display = ""
+    activeSet = "baseSetMiscellaneous"
+}
+
+function loadBaseSetInside() {
+        document.getElementById(activeSet).style.visibility = "hidden"
+        document.getElementById("baseSetInside").style.visibility = ""
+        
+        document.getElementById('insideButton').onclick = loadBaseSetOutside
+        document.getElementById('insideButton').style.display = ""
+        document.getElementById('miscellaneousButton').onclick = loadBaseSetMiscellaneous;
+        document.getElementById('miscellaneousButton').style.display = ""
+        activeSet = "baseSetInside";
+}
+
+function loadBaseSetOutside() {
+        document.getElementById(activeSet).style.visibility = "hidden"
+        document.getElementById("baseSetOutside").style.visibility = ""
+        
+        document.getElementById('insideButton').onclick = loadBaseSetInside
+        document.getElementById('insideButton').style.display = ""
+        document.getElementById('miscellaneousButton').onclick = loadBaseSetMiscellaneous;
+        document.getElementById('miscellaneousButton').style.display = ""
+        activeSet = "baseSetOutside";
+}
+
+function loadTextAreas(){
+    document.getElementById(activeSet).style.visibility = "hidden"
+    document.getElementById("textAreas").style.visibility = ""
+    
+    document.getElementById('insideButton').style.display = "none"
+    document.getElementById('miscellaneousButton').style.display = "none"
+    activeSet = "textAreas";
+}
 
 
 function LoadShadowOfNerekhallOutside() {
-    backupToInvisibleDiv();
-    document.getElementById("sidenav").innerHTML = document.getElementById("shadowOfNerekhallOutside").innerHTML;
-    document.getElementById("shadowOfNerekhallOutside").innerHTML = "";
+    document.getElementById(activeSet).style.visibility = "hidden"
+    document.getElementById("shadowOfNerekhallOutside").style.visibility = ""
+    
     document.getElementById('insideButton').style.display = ""
     document.getElementById('insideButton').onclick = LoadShadowOfNerekhallInside
     document.getElementById('miscellaneousButton').onclick = LoadShadowOfNerekhallMiscellaneous;
     document.getElementById('miscellaneousButton').style.display = ""
     activeSet = "shadowOfNerekhallOutside";
-    loadAndArrangeTiles();
 }
 
 function LoadShadowOfNerekhallInside() {
-    backupToInvisibleDiv();
-    document.getElementById("sidenav").innerHTML = document.getElementById("shadowOfNerekhallInside").innerHTML;
-    document.getElementById("shadowOfNerekhallInside").innerHTML = "";
+    document.getElementById(activeSet).style.visibility = "hidden"
+    document.getElementById("shadowOfNerekhallInside").style.visibility = ""
+
     document.getElementById('insideButton').style.display = ""
     document.getElementById('insideButton').onclick = LoadShadowOfNerekhallOutside
     document.getElementById('miscellaneousButton').onclick = LoadShadowOfNerekhallMiscellaneous;
     document.getElementById('miscellaneousButton').style.display = ""
     activeSet = "shadowOfNerekhallInside";
-    loadAndArrangeTiles();
 }
 
 function LoadShadowOfNerekhallMiscellaneous() {
-    backupToInvisibleDiv();
-    document.getElementById("sidenav").innerHTML = document.getElementById("shadowOfNerekhallMiscellaneous").innerHTML;
-    document.getElementById("shadowOfNerekhallMiscellaneous").innerHTML = "";
+    document.getElementById(activeSet).style.visibility = "hidden"
+    document.getElementById("shadowOfNerekhallMiscellaneous").style.visibility = ""
+
     document.getElementById('insideButton').style.display = ""
     document.getElementById('miscellaneousButton').style.display = ""
     activeSet = "shadowOfNerekhallMiscellaneous";
-    loadAndArrangeTiles();
 }
 
 function LoadLabyrinthOfRuinOutside() {
-    backupToInvisibleDiv();
-    document.getElementById("sidenav").innerHTML = document.getElementById("labyrinthOfRuinOutside").innerHTML;
-    document.getElementById("labyrinthOfRuinOutside").innerHTML = "";
+    document.getElementById(activeSet).style.visibility = "hidden"
+    document.getElementById("labyrinthOfRuinOutside").style.visibility = ""
+
     document.getElementById('insideButton').onclick = LoadLabyrinthOfRuinInside
     document.getElementById('insideButton').style.display = ""
     document.getElementById('miscellaneousButton').style.display = "none"
     activeSet = "labyrinthOfRuinOutside";
-    loadAndArrangeTiles();
+
 }
 
 function LoadLabyrinthOfRuinInside() {
-    backupToInvisibleDiv();
-    document.getElementById("sidenav").innerHTML = document.getElementById("labyrinthOfRuinInside").innerHTML;
-    document.getElementById("labyrinthOfRuinInside").innerHTML = "";
+    document.getElementById(activeSet).style.visibility = "hidden"
+    document.getElementById("labyrinthOfRuinInside").style.visibility = ""
+
     document.getElementById('insideButton').onclick = LoadLabyrinthOfRuinOutside
     document.getElementById('insideButton').style.display = ""
     document.getElementById('miscellaneousButton').style.display = "none"
     activeSet = "labyrinthOfRuinInside";
-    loadAndArrangeTiles();
 }
-
+/*
 function backupToInvisibleDiv() {
     if (activeSet == "baseSetOutside") {
         document.getElementById("baseSetOutside").innerHTML = document.getElementById("sidenav").innerHTML;
@@ -80,57 +115,5 @@ function backupToInvisibleDiv() {
     }else if (activeSet == "textAreas") {
         document.getElementById("textAreas").innerHTML = document.getElementById("sidenav").innerHTML;
     }
-    
 }
-
-function loadBaseSetMiscellaneous() {
-    backupToInvisibleDiv();
-    //if (activeSet == "baseSetOutside" || activeSet == "baseSetInside") { //we will put check for expansions
-        document.getElementById("sidenav").innerHTML = document.getElementById("baseSetMiscellaneous").innerHTML;
-        document.getElementById("baseSetMiscellaneous").innerHTML = "";
-        document.getElementById('insideButton').style.display = ""
-        document.getElementById('miscellaneousButton').style.display = ""
-        activeSet = "baseSetMiscellaneous"
-        loadAndArrangeTiles();
-    //}
-}
-
-function loadBaseSetInside() {
-    backupToInvisibleDiv();
-    //if (activeSet == "baseSetOutside" || activeSet == "baseSetMiscellaneous") {
-        document.getElementById("sidenav").innerHTML = document.getElementById("baseSetInside").innerHTML;
-        document.getElementById("baseSetInside").innerHTML = "";
-        document.getElementById('insideButton').onclick = loadBaseSetOutside
-        document.getElementById('insideButton').style.display = ""
-        document.getElementById('miscellaneousButton').onclick = loadBaseSetMiscellaneous;
-        document.getElementById('miscellaneousButton').style.display = ""
-        
-        activeSet = "baseSetInside";
-        loadAndArrangeTiles();
-    //}
-}
-
-function loadBaseSetOutside() {
-    backupToInvisibleDiv();
-    //if (activeSet == "baseSetInside" || activeSet == "baseSetMiscellaneous") {
-        document.getElementById("sidenav").innerHTML = document.getElementById("baseSetOutside").innerHTML;
-        document.getElementById("baseSetOutside").innerHTML = "";
-        document.getElementById('insideButton').onclick = loadBaseSetInside
-        document.getElementById('insideButton').style.display = ""
-        document.getElementById('miscellaneousButton').onclick = loadBaseSetMiscellaneous;
-        document.getElementById('miscellaneousButton').style.display = ""
-        activeSet = "baseSetOutside";
-        loadAndArrangeTiles();
-    //}
-}
-
-function loadTextAreas(){
-    backupToInvisibleDiv();
-    //if (activeSet == "baseSetInside" || activeSet == "baseSetMiscellaneous") {
-    document.getElementById("sidenav").innerHTML = document.getElementById("textAreas").innerHTML;
-    document.getElementById("textAreas").innerHTML = "";
-    document.getElementById('insideButton').style.display = "none"
-    document.getElementById('miscellaneousButton').style.display = "none"
-    activeSet = "textAreas";
-    loadAndArrangeTiles();
-}
+*/
