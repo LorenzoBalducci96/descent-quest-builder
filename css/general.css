@@ -159,3 +159,11 @@ body {
 .card textarea{
     max-width: 100%;
 }
+
+.card button{
+    height:48px; width:36px; 
+}
+
+.card .bottomButton{
+    margin-top: 8px; height: 36px
+}
