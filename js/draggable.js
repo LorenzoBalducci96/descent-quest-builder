@@ -6,14 +6,31 @@ window.onload = function () {
     this.loadAndArrangeTiles();
 };
 
+function compareFunction(tileA, tileB){
+    if(tileA.getAttribute("pieceType") == "placeholder"){
+        return 1;
+    }
+    if(tileB.getAttribute("pieceType") == "placeholder"){
+        return -1;
+    }
+    console.log(tileA, tileB)
+    var tileAsrc = tileA.src;
+    var tileBsrc = tileB.src;
+    var valA = parseInt(tileAsrc.substring(tileAsrc.lastIndexOf("/") + 1,  tileAsrc.lastIndexOf("/") + 4), 10);
+    var valB = parseInt(tileBsrc.substring(tileBsrc.lastIndexOf("/") + 1,  tileBsrc.lastIndexOf("/") + 4), 10);
+    return valA - valB;
+}
+
 function loadAndArrangeTiles(){
     resetTiles();
     var pieces = [].slice.call(document.getElementById("sidenav").children);//get all the elements on the map
+    pieces.sort(compareFunction)
     pieces.forEach(element => {
         if (element.getAttribute("pieceType") != "placeholder") {
             dragElement(element);
         }
     });
+    
     arrangeTiles();
 }
 
