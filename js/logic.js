@@ -2,11 +2,22 @@
 var pdfPageWidth = 1240; var pdfPageHeight = 1754; //150dpi
 //var pdfPageWidth = 1654; var pdfPageHeight = 2339 //200dpi
 //var pdfPageWidth =  2480;var pdfPageHeight = 3508; //300dpi
-var marginLeft = 100;
-var marginTop = 100;
+var marginLeft = 0;
+var marginTop = 0;
 
 var pdfDocument;
 var imageToPrintOnPdf;
+
+function savePage() {
+    var blob = new Blob([document.documentElement.outerHTML],
+        { type: "text/plain;charset=utf-8" });
+    anchor = document.createElement('a');
+
+    anchor.download = "backupMap.html";
+    anchor.href = (window.webkitURL || window.URL).createObjectURL(blob);
+    anchor.dataset.downloadurl = ['text/plain', anchor.download, anchor.href].join(':');
+    anchor.click();
+}
 
 function exportPDF() {
     pdfDocument = new jsPDF('potrait');
@@ -53,7 +64,7 @@ function goToTextEdit() {
             maxX = parseInt(tile.style.left, 10) + parseInt(tile.offsetWidth, 10);
         }
     });
-   
+
     var pageWidth = maxX - minX
     var pageHeight = maxY - minY
 
@@ -134,4 +145,14 @@ function setSmokyBackground() {
         document.getElementById("output").style.backgroundImage = "url('assets/pdf_background.jpg')";
         createImg();
     }
+}
+
+function setMarginLeft() {
+    marginLeft = parseInt(document.getElementById("marginLeft").value)
+    goToTextEdit();
+}
+
+function setMarginTop() {
+    marginTop = parseInt(document.getElementById("marginTop").value)
+    goToTextEdit();
 }

@@ -14,7 +14,7 @@ body {
     height: 92%;
     width: 286px; /* Set the width of the sidebar */
     overflow-y : auto;
-    overflow-x : visible;
+    overflow-x : hidden;
     position: fixed; /* Fixed Sidebar (stay in place on scroll) */
     z-index: 1; /* Stay on top */
     top: 0; /* Stay at the top */
@@ -39,8 +39,7 @@ body {
     overflow-y : auto;
     overflow-x : visible;
     position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-    top: 0; /* Stay at the top */
-    left: 286;
+    top: 0px; /* Stay at the top */
     background-image: url('../assets/background.jpg');
     background-attachment:local;
 }

@@ -1,39 +1,38 @@
 
-function incFont(id){
-    document.getElementById(id).style.fontSize = 
-        (parseInt(document.getElementById(id).style.fontSize, 10) + 2) + "px";
+function incFont(textArea){
+
+    textArea.style.fontSize = (parseInt(textArea.style.fontSize, 10) + 2) + "px";
 }
 
 
-function decFont(id){
-    document.getElementById(id).style.fontSize = 
-        (parseInt(document.getElementById(id).style.fontSize, 10) - 2) + "px";
+function decFont(textArea){
+    textArea.style.fontSize = (parseInt(textArea.style.fontSize, 10) - 2) + "px";
 }
 
-function boldFont(id){
-    if(document.getElementById(id).style.fontWeight == "bold"){
-        document.getElementById(id).style.fontWeight = "normal"
+function boldFont(textArea){
+    if(textArea.style.fontWeight == "bold"){
+        textArea.style.fontWeight = "normal"
     }else{
-        document.getElementById(id).style.fontWeight = "bold"
+        textArea.style.fontWeight = "bold"
     }
 }
 
-function colorBlack(id){
-    document.getElementById(id).style.color = "black";
+function colorBlack(textArea){
+    textArea.style.color = "black";
 }
 
-function colorRed(id){
-    document.getElementById(id).style.color = "red";
+function colorRed(textArea){
+    textArea.style.color = "red";
 }
 
-function colorGreen(id){
-    document.getElementById(id).style.color = "green";
+function colorGreen(textArea){
+    textArea.style.color = "green";
 }
 
-function colorBlue(id){
-    document.getElementById(id).style.color = "blue";
+function colorBlue(textArea){
+    textArea.style.color = "blue";
 }
 
-function colorWhite(id){
-    document.getElementById(id).style.color = "white";
+function colorWhite(textArea){
+    textArea.style.color = "white";
 }

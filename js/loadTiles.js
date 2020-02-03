@@ -2,6 +2,15 @@ var activeSet = "baseSetOutside"
 var activeArea = "Outside";
 var activeSetName = "baseSet";
 
+function loadTokens() {
+    document.getElementById(activeSet).style.visibility = "hidden"
+    document.getElementById("tokens").style.visibility = ""
+
+    document.getElementById('insideButton').style.display = "none"
+    document.getElementById('miscellaneousButton').style.display = "none"
+    activeSet = "tokens"
+}
+
 function loadBaseSetMiscellaneous() {
     document.getElementById(activeSet).style.visibility = "hidden"
     document.getElementById("baseSetMiscellaneous").style.visibility = ""
