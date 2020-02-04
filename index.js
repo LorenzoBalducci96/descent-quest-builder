@@ -40,34 +40,12 @@ app.on('ready', function(){
   createWindow();
 
   const template = [
-    {
-      label: 'File',
-      submenu: [
-        {
-          label: 'save actual map',
-          click: function(){
-            var files = fs.readdirSync(app.getAppPath());
-            console.log(files)
-          }
-        },
-        {
-          label: 'load map',
-          click: function(){
-            win.loadURL(url.format({
-              pathname: path.join(__dirname, 'index.html'),
-              protocol: 'file:',
-              slashes: true
-            }));
-          }
-        },
-        {
-          label: 'exit'
-        }
-      ]
-    }
+	{ role: 'zoomin' },
+    { role: 'zoomout' },
+	{ role: 'togglefullscreen' }
   ]
   const menu = Menu.buildFromTemplate(template)
-  Menu.setApplicationMenu(null);
+  Menu.setApplicationMenu(menu);
 });
 
 
