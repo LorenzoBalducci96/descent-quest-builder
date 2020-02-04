@@ -1,12 +1,12 @@
 
 function incFont(textArea){
 
-    textArea.style.fontSize = (parseInt(textArea.style.fontSize, 10) + 2) + "px";
+    textArea.style.fontSize = (parseInt(textArea.style.fontSize, 10) + 4) + "px";
 }
 
 
 function decFont(textArea){
-    textArea.style.fontSize = (parseInt(textArea.style.fontSize, 10) - 2) + "px";
+    textArea.style.fontSize = (parseInt(textArea.style.fontSize, 10) - 4) + "px";
 }
 
 function boldFont(textArea){
@@ -35,4 +35,5 @@ function colorBlue(textArea){
 
 function colorWhite(textArea){
     textArea.style.color = "white";
+    textArea.style.text.borderColor = "black"
 }

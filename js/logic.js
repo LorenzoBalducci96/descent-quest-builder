@@ -7,16 +7,131 @@ var marginTop = 0;
 
 var pdfDocument;
 var imageToPrintOnPdf;
+const save_files_folder = 'save_files'
+var documentToSave = "" //we have to save before unless we get the override of the modal
+
+function loadSave(backupFile) {
+    try {
+        let fs = require('fs');
+        let backup = fs.readFileSync(backupFile, "UTF-8")
+        $("#loadProjectModal").modal("hide");
+        document.documentElement.innerHTML = backup;
+        bootstrap_page();
+    } catch (e) {
+        alert('function not available in web application, please install the desktop application');
+    }
+}
+
+function loadSaveList() {
+    try {
+        let fs = require('fs');
+
+        var files = fs.readdirSync(__dirname + '/' + save_files_folder);
+
+        var tableSave = document.getElementById('save_list')
+        tableSave.innerHTML = "";
+        files.forEach(element => {
+            if (fs.lstatSync(__dirname + '/' + save_files_folder + '/' + element.toString()).isDirectory()) {
+                let newSave = tableSave.insertRow()
+
+                let loadButtonCell = newSave.insertCell(0);
+                let loadButton = document.createElement("button");
+                loadButton.setAttribute("class", "selectButton");
+                loadButton.innerHTML = "load";
+                loadButton.onclick = function () {
+                    loadSave(__dirname + '/' + save_files_folder + '/' +
+                        element + "/" + 'save_page.html')
+                }
+                loadButtonCell.appendChild(loadButton);
+
+                let cancelButtonCell = newSave.insertCell(1);
+                let cancelButton = document.createElement("button");
+                cancelButton.setAttribute("class", "cancelSaveButton");
+                cancelButton.innerHTML = "cancel";
+                cancelButton.onclick = function () {
+                    cancelSave(__dirname + '/' + save_files_folder + '/' + element);
+                }
+                cancelButtonCell.appendChild(cancelButton);
+
+                var saveName = newSave.insertCell(2);
+                saveName.innerHTML = element.toString();
+                /*
+                saveName.onclick = function () {
+                    loadSave(__dirname + '/' + save_files_folder + '/' +
+                        element + "/" + 'save_page.html')
+                }
+                */
+                tableSave.insertRow(newSave);
+
+            }
+        });
+        $("#loadProjectModal").modal("show");
+    } catch (e) {
+        alert('function not available in web application, please install the desktop application');
+    }
+}
+
+function cancelSave(path) {
+    try{
+        const fs = require('fs');
+        const Path = require('path');
+
+        if (fs.existsSync(path)) {
+            fs.readdirSync(path).forEach((file, index) => {
+                const curPath = Path.join(path, file);
+                if (fs.lstatSync(curPath).isDirectory()) { // recurse
+                    deleteFolderRecursive(curPath);
+                } else { // delete file
+                    fs.unlinkSync(curPath);
+                }
+            });
+            fs.rmdirSync(path);
+            loadSaveList();
+        }
+    }catch(e){
+        alert("function not available in web application, please install the desktop application")
+    }
+}
+
+
+function saveProject() {
+    try {
+        var fs = require('fs');
+        let projectName = document.getElementById("projectSaveName").value;
+        try {
+            let dirPath = __dirname + '/' + save_files_folder + '/' + projectName + "/";
+            if (!fs.existsSync(dirPath)) {
+                $("#saveProjectModal").modal("hide");
+                fs.mkdirSync(dirPath);
+                fs.writeFileSync(__dirname + '/' + save_files_folder + '/' +
+                    projectName + "/" + 'save_page.html', documentToSave, 'utf-8');
+            } else {
+                alert("project with this name already exist, please use different name")
+            }
+        } catch (e) {
+            alert('unknown error in saving project');
+        }
+    } catch (e) {
+        alert('function not available in web application, please install the desktop application');
+    }
+}
 
 function savePage() {
-    var blob = new Blob([document.documentElement.outerHTML],
-        { type: "text/plain;charset=utf-8" });
-    anchor = document.createElement('a');
+    try {
+        let fs = require('fs');
+        documentToSave = document.documentElement.innerHTML;
+        $('#saveProjectModal').modal('show');
+    } catch (e) {
+        alert("function not available in web application, please install the desktop application")
+    }
+}
 
-    anchor.download = "backupMap.html";
-    anchor.href = (window.webkitURL || window.URL).createObjectURL(blob);
-    anchor.dataset.downloadurl = ['text/plain', anchor.download, anchor.href].join(':');
-    anchor.click();
+function deleteProject() {
+    try {
+        let fs = require('fs');
+    } catch (e) {
+        alert("function not available in web application, please install the desktop application")
+    }
 }
 
 function exportPDF() {

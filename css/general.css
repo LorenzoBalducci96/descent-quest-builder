@@ -129,6 +129,33 @@ body {
     overflow: auto;
 }
 
+
+
+
+
+.modal-center {
+    margin-top: 30vh;
+    min-width: 60vw;
+    margin-left: 20vw;
+    margin-right: 20vw;
+}
+
+.modal-center .modal-content {
+    min-height: 40vh;
+}
+
+.modal-center .modal-header {
+    min-height: 4vh;
+}
+
+.modal-center .modal-body {
+    max-height: 70vh;
+    overflow: auto;
+}
+
+
+
+
 #mapRendered{
     height: 81vh;
     float: right;
@@ -165,4 +192,112 @@ body {
 
 .card .bottomButton{
     margin-top: 8px; height: 36px
+}
+
+.bigtable{
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.bigtable .tbody .tr:hover{
+    cursor: pointer;
+}
+
+.saveButton {
+	box-shadow:inset 0px -3px 7px 0px #0000cc;
+	background:linear-gradient(to bottom, #000000 5%, #350b8f 100%);
+	background-color:#000000;
+	border-radius:10px;
+	border:2px solid #0020c2;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:32px;
+    float: right;
+    padding:4px 20px;
+    margin-top: 24px;
+    margin-bottom: 0px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #000000;
+}
+.saveButton:hover {
+	background:linear-gradient(to bottom, #350b8f 5%, #000000 100%);
+	background-color:#350b8f;
+}
+.saveButton:active {
+	margin-top:10px;
+}
+
+
+.cancelSaveButton{
+    width: 140px;
+    box-shadow:inset 0px 1px 0px 0px #f55858;
+	background:linear-gradient(to bottom, #d10404 5%, #520c0c 100%);
+	background-color:#d10404;
+	border-radius:3px;
+	border:1px solid #75131b;
+	display:inline-block;
+	cursor:pointer;
+	color:#000000;
+	font-family:Arial;
+	font-size:32px;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #801616;
+}
+
+.cancelSaveButton:hover{
+    background:linear-gradient(to bottom, #520c0c 5%, #d10404 100%);
+	background-color:#520c0c;
+}
+
+.cancelSaveButton:active{
+    position:relative;
+	top:1px;
+}
+
+.selectButton {
+    width: 140px;
+	box-shadow:inset 0px 1px 0px 0px #24a600;
+	background:linear-gradient(to bottom, #40b800 5%, #004713 100%);
+	background-color:#004713;
+	border-radius:3px;
+	border:1px solid #00a310;
+	display:inline-block;
+	cursor:pointer;
+	color:#000000;
+	font-family:Arial;
+	font-size:32px;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #428538;
+}
+.selectButton:hover {
+    background:linear-gradient(to bottom, #004713 5%, #40b800 100%);
+	
+	background-color:#40b800;
+}
+.selectButton:active {
+	position:relative;
+	top:1px;
+}
+
+.textAreaRed textarea{
+    color: red
+}
+
+.textAreaBlack textarea{
+    color: red
+}
+
+.textAreaBlue textarea{
+    color: red
+}
+
+.textAreaGreen textarea{
+    color: red
+}
+
+.textAreaWhite textarea{
+    color: red
 }

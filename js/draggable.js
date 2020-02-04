@@ -2,11 +2,9 @@ var tiles = [];
 var offsetTopTiles = [];
 var count = 0;
 
-window.onload = function () {
+function bootstrap_page() {
     //loadAndArrange decide the position of each tile in his bar
-    //we must put that bar in the rendered sidebar beause otherwise we don't have the width of the tiles
-    //we have to reboud the dragElement for each bar changed because otherwise we lost the 
-    
+
     this.loadAndArrangeTiles("baseSetOutside");
     this.loadAndArrangeTiles("baseSetInside");
     this.loadAndArrangeTiles("baseSetMiscellaneous");
@@ -20,7 +18,7 @@ window.onload = function () {
     this.loadAndArrangeTiles("tokens");
 
     this.loadAndArrangeTiles("textAreas");
-    
+
     //used for restoring save point
     var piecesOnMap = [].slice.call(document.getElementById("map").children);
     piecesOnMap.forEach(element => {
@@ -28,6 +26,11 @@ window.onload = function () {
             dragElement(element);
         }
     });
+
+}
+
+window.onload = function () {
+    this.bootstrap_page();
 };
 
 
@@ -38,6 +41,9 @@ function resetTiles() {
 }
 
 function loadAndArrangeTiles(blockId) {
+    if (!(document.getElementById(blockId).style.visibility == "hidden")) {
+        activeSet = blockId;
+    }
     resetTiles();
     var pieces = [].slice.call(document.getElementById(blockId).children);//get all the elements on the map
     pieces.forEach(element => {
@@ -60,24 +66,36 @@ function arrangeTiles(blockId) {
     for (c = 0; c < count; c++) {
         //put the tile
         //now put the background placeholder
-        if(document.getElementById("placeholder_" + document.getElementById(tiles[c]).getAttribute("id")) == null){
-            var placeholderImage = document.createElement("img");
-            placeholderImage.style.position = "absolute";
-            placeholderImage.style.top = (offsetTopTiles[c]) + "px";
-            placeholderImage.style.left = "0px";
-            placeholderImage.src = document.getElementById(tiles[c]).src
-    
-            placeholderImage.id = "placeholder_" + document.getElementById(tiles[c]).getAttribute("id");
-    
-            placeholderImage.style.zIndex = "-2"
-            placeholderImage.style.opacity = "0.4"
-            placeholderImage.style.width = document.getElementById(tiles[c]).offsetWidth + "px"
-            placeholderImage.style.height = document.getElementById(tiles[c]).offsetHeight + "px"
-            document.getElementById(blockId).appendChild(placeholderImage);
-            document.getElementById(tiles[c]).style.top = (offsetTopTiles[c]) + "px"
-            document.getElementById(tiles[c]).style.left = "0px"
-        }else{
+        if (document.getElementById("placeholder_" + document.getElementById(tiles[c]).getAttribute("id")) == null) {
+            let toPut = true;
+            if (document.getElementById(tiles[c]).getAttribute("single") == "no") {
+                if (document.getElementById("placeholder_" + document.getElementById(tiles[c]).id.substr(0,
+                    document.getElementById(tiles[c]).id.lastIndexOf("_") + 1) + "1") != null)
+                    toPut = false;
+            }
 
+            if (toPut) {
+                let placeholderImage = document.createElement("img");
+                placeholderImage.style.position = "absolute";
+                placeholderImage.style.top = (offsetTopTiles[c]) + "px";
+                placeholderImage.style.left = "0px";
+                placeholderImage.src = document.getElementById(tiles[c]).src
+
+                placeholderImage.id = "placeholder_" + document.getElementById(tiles[c]).getAttribute("id");
+
+                placeholderImage.style.zIndex = "-2"
+                placeholderImage.style.opacity = "0.4"
+                placeholderImage.style.width = document.getElementById(tiles[c]).offsetWidth + "px"
+                placeholderImage.style.height = document.getElementById(tiles[c]).offsetHeight + "px"
+                document.getElementById(blockId).appendChild(placeholderImage);
+                document.getElementById(tiles[c]).style.top = (offsetTopTiles[c]) + "px"
+                document.getElementById(tiles[c]).style.left = "0px"
+            }
+
+        } else {
+            document.getElementById(tiles[c]).style.top = document.getElementById(
+                "placeholder_" + document.getElementById(tiles[c]).getAttribute("id")).style.top;
+            document.getElementById(tiles[c]).style.left = "0px"
         }
     }
 }
@@ -120,7 +138,6 @@ function dragElement(elmnt) {
 
     //pieceType = text --> no snap
     //pieceType = tile --> snap
-
     function dragMouseDown(e) {
         if (document.elementFromPoint(e.clientX, e.clientY).getAttribute("pieceType") == "text") {
             if (document.elementFromPoint(e.clientX, e.clientY).getAttribute("draggable_trigger") == "false") {
@@ -144,7 +161,9 @@ function dragElement(elmnt) {
             canvas.style.left = 0 + "px";
             canvas.getContext('2d').drawImage(elmnt, 0, 0);
 
-            var point = canvas.getContext('2d').getImageData(e.clientX - elmnt.offsetLeft + document.getElementById("map").scrollLeft, e.clientY + (document.getElementById("map").scrollTop) - elmnt.offsetTop, 1, 1).data
+            var point = canvas.getContext('2d').getImageData(e.clientX - elmnt.offsetLeft
+                + document.getElementById("map").scrollLeft,
+                e.clientY + (document.getElementById("map").scrollTop) - elmnt.offsetTop, 1, 1).data
             if (point[3] == 0) {
                 toDrag = false;
                 elmnt.style.zIndex = "-99"
@@ -159,19 +178,20 @@ function dragElement(elmnt) {
             document.onmousemove = elementDrag;
             document.onmouseup = closeDragElement;
         }
-
-        if(elmnt.getAttribute("single") == "no"){
-            var placeholderImage = document.getElementById("placeholder_" + elmnt.id.substr(0, elmnt.id.lastIndexOf("_") + 1) + "1");
-            var backup = elmnt.cloneNode(true);
-            document.getElementById(elmnt.getAttribute("set")).appendChild(backup);
-            backup.style.top = placeholderImage.offsetTop + "px";
-            backup.style.left = placeholderImage.offsetLeft + "px";
-            backup.style.width = placeholderImage.offsetWidth + "px";
-            backup.src = placeholderImage.src;
-            backup.style.zIndex = "0";
-            backup.id = elmnt.id.substr(0, elmnt.id.lastIndexOf("_") + 1) + (parseInt(elmnt.id.match(/(\d+)$/)[0], 10) + 1);
-            backup.setAttribute("onMap", "no");
-            dragElement(backup);
+        if (e.clientX < document.getElementById(activeSet).offsetWidth) {
+            if (elmnt.getAttribute("single") == "no") {
+                var placeholderImage = document.getElementById("placeholder_" + elmnt.id.substr(0, elmnt.id.lastIndexOf("_") + 1) + "1");
+                var backup = elmnt.cloneNode(true);
+                document.getElementById(elmnt.getAttribute("set")).appendChild(backup);
+                backup.style.top = placeholderImage.offsetTop + "px";
+                backup.style.left = placeholderImage.offsetLeft + "px";
+                backup.style.width = placeholderImage.offsetWidth + "px";
+                backup.src = placeholderImage.src;
+                backup.style.zIndex = "0";
+                backup.id = elmnt.id.substr(0, elmnt.id.lastIndexOf("_") + 1) + (parseInt(elmnt.id.match(/(\d+)$/)[0], 10) + 1);
+                backup.setAttribute("onMap", "no");
+                dragElement(backup);
+            }
         }
     }
 
@@ -230,7 +250,7 @@ function dragElement(elmnt) {
         var end_left = elmnt.style.offsetLeft;
 
         if (elmnt.getAttribute("onMap") == "no") {
-            if(elmnt.getAttribute("single") == "yes"){//updating visibility of other side tiles
+            if (elmnt.getAttribute("single") == "yes") {//updating visibility of other side tiles
                 var placeholderImage = document.getElementById("placeholder_" + elmnt.id);
                 elmnt.setAttribute("onMap", "no");
                 elmnt.src = placeholderImage.src;
@@ -247,12 +267,12 @@ function dragElement(elmnt) {
                 }
                 var placeholderOtherSide = document.getElementById(elmnt.id.substring(0, elmnt.id.length - 1) + tileFace);
                 placeholderOtherSide.style.visibility = "";
-            }else{
+            } else {
                 var placeholderImage = document.getElementById("placeholder_" + elmnt.id.substr(0, elmnt.id.lastIndexOf("_") + 1) + "1");
                 elmnt.parentNode.removeChild(elmnt);
             }
-        } else if (elmnt.getAttribute("onMap") == "yes"){
-            if(elmnt.getAttribute("single") == "yes"){
+        } else if (elmnt.getAttribute("onMap") == "yes") {
+            if (elmnt.getAttribute("single") == "yes") {
                 var tileFace = ""
                 if (elmnt.id.charAt(elmnt.id.length - 1) == 'A') {
                     tileFace = 'B'
@@ -266,15 +286,15 @@ function dragElement(elmnt) {
             }
 
             if (elmnt.getAttribute("pieceType") == "tile") { //if it's a tile it must "snap"
-                    var end_top = parseInt(elmnt.style.top, 10)
-                    var end_left = parseInt(elmnt.style.left, 10)
-                    end_top = (Math.round(end_top / 72) * 72) - 21;
-                    end_left = (Math.round(end_left / 72) * 72) - 21;
+                var end_top = parseInt(elmnt.style.top, 10)
+                var end_left = parseInt(elmnt.style.left, 10)
+                end_top = (Math.round(end_top / 72) * 72) - 21;
+                end_left = (Math.round(end_left / 72) * 72) - 21;
             }//otherwise no snap
 
             elmnt.style.top = end_top + "px";
             elmnt.style.left = end_left + "px";
-            if(elmnt.getAttribute("single") == "yes")
+            if (elmnt.getAttribute("single") == "yes")
                 elmnt.style.zIndex = "-1";
             else
                 elmnt.style.zIndex = "2";

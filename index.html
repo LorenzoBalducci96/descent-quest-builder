@@ -6,33 +6,99 @@
     <title>Descent quest builder</title>
 </head>
 
-<script src="js/jquery/jquery-3.4.1.min.js"></script>
-<script src="js/jquery/jquery-ui.js"></script>
-<script src="js/fileSaver/FileSaver.js"></script>
-<script type="text/javascript" src="js/bootstrap/bootstrap.js"></script>
+
+
+
 <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="css/general.css">
 <link rel="stylesheet" type="text/css" href="css/scrollbar.css">
 
-<!-- BS JavaScript -->
-
-
-<!--
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-    
-    <script src="jquery-ui.js"></script>
-	<script src="js/bootstrap.js"></script>
-	-->
-<script src="js/html2canvas/html2canvas.js"></script>
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>-->
-<script src="js/html2canvas/jspdf.debug.js"></script>
 
 <script type="text/javascript" src="js/draggable.js"></script>
 <script type="text/javascript" src="js/logic.js"></script>
 <script type="text/javascript" src="js/text_script.js"></script>
 <script type="text/javascript" src="js/loadTiles.js"></script>
 
+<script>if (typeof module === 'object') { window.module = module; module = undefined; }</script>
+
+<script src="js/jquery/jquery-3.4.1.min.js"></script>
+<script src="js/jquery/jquery-ui.js"></script>
+<script type="text/javascript" src="js/bootstrap/bootstrap.js"></script>
+<script src="js/html2canvas/html2canvas.js"></script>
+<script src="js/html2canvas/jspdf.debug.js"></script>
+<script src="js/fileSaver/FileSaver.js"></script>
+
+<script>if (window.module) module = window.module;</script>
+
+
 <body>
+
+
+    <div class="modal fade" id="loadProjectModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-full" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">select one of the saved missions to reload</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <h1 aria-hidden="true">×</h1>
+                    </button>
+                </div>
+                <div class="modal-body p-4 funny_scrollbar_blue" id="result">
+                    <div class="row">
+                        <div class="col-12">
+                            <table class="bigtable table table-hover table-striped table-inverse table-responsive">
+                                <thead class="thead-inverse">
+                                    <tr>
+                                        <th>load</th>
+                                        <th>cancel</th>
+                                        <th>mission name</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody id="save_list">
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="saveProjectModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-center" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">configure save</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <h1 aria-hidden="true">×</h1>
+                    </button>
+                </div>
+                <div class="modal-body p-4 funny_scrollbar_blue" id="result">
+                    <div class="row">
+                        <div class="col-4">
+                            <label class="labelBig">mission name :</label>
+                        </div>
+                        <div class="col-8">
+                            <input class="labelBig" style="width: 100%" id="projectSaveName" type="text" class="form-control"
+                                placeholder="enter mission name">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="saveButton" onclick="saveProject()">save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
     <div class="modal fade" id="outputModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-full" role="document">
             <div class="modal-content">
@@ -103,7 +169,7 @@
             <button class="blueButton" id="miscellaneousButton" onclick="loadBaseSetMiscellaneous()">extra</button>
             <button class="blueButton" id="insideButton" onclick="loadBaseSetInside()">inside/outside</button>
         </div>
-        <div class="sidenav funny_scrollbar_blue" id="baseSetOutside">
+        <div class="sidenav funny_scrollbar_blue" id="baseSetOutside" style="visibility: ''">
             <img src="assets/tiles/base/01A.png" set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
                 oncontextmenu="return false;" id="01A"
                 style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 20px; left: 0px;" onmap="no">
@@ -794,8 +860,8 @@
                         single="no" pieceType="text" draggable_trigger="false">spider's cave</textarea>
                 </div>
             </div>
-            
-            
+
+
             <image src="assets/tiles/miscellaneous/Green-Door.png" set="textAreas" orientation="0" single="no"
                 pieceType="tile" oncontextmenu="return false;" id="GND_1"
                 style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
@@ -826,43 +892,43 @@
 
         <div class="sidenav funny_scrollbar_blue" id="tokens" style="visibility: hidden;">
             <image src="assets/tiles/tokens/Objective-Token-Black.png" set="tokens" orientation="0" single="no"
-            pieceType="tile" oncontextmenu="return false;" id="TOKENBLACK_1"
-            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+                pieceType="tile" oncontextmenu="return false;" id="TOKENBLACK_1"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
             <image src="assets/tiles/tokens/Objective-Token-Red.png" set="tokens" orientation="0" single="no"
-            pieceType="tile" oncontextmenu="return false;" id="TOKENRED_1"
-            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+                pieceType="tile" oncontextmenu="return false;" id="TOKENRED_1"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
             <image src="assets/tiles/tokens/Objective-Token-Blue.png" set="tokens" orientation="0" single="no"
-            pieceType="tile" oncontextmenu="return false;" id="TOKEN_BLUE_1"
-            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+                pieceType="tile" oncontextmenu="return false;" id="TOKEN_BLUE_1"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
             <image src="assets/tiles/tokens/Objective-Token-Green.png" set="tokens" orientation="0" single="no"
-            pieceType="tile" oncontextmenu="return false;" id="TOKEN_GREEN_1"
-            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+                pieceType="tile" oncontextmenu="return false;" id="TOKEN_GREEN_1"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
             <image src="assets/tiles/tokens/Objective-Token-White.png" set="tokens" orientation="0" single="no"
-            pieceType="tile" oncontextmenu="return false;" id="TOKEN_WHITE_1"
-            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+                pieceType="tile" oncontextmenu="return false;" id="TOKEN_WHITE_1"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
 
             <image src="assets/tiles/tokens/Search-Token-1.png" set="tokens" orientation="0" single="no"
-            pieceType="tile" oncontextmenu="return false;" id="TOKEN_SEARCH1_1"
-            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+                pieceType="tile" oncontextmenu="return false;" id="TOKEN_SEARCH1_1"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
             <image src="assets/tiles/tokens/Search-Token-2.png" set="tokens" orientation="0" single="no"
-            pieceType="tile" oncontextmenu="return false;" id="TOKEN_SEARCH2_1"
-            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+                pieceType="tile" oncontextmenu="return false;" id="TOKEN_SEARCH2_1"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
             <image src="assets/tiles/tokens/Search-Token-3.png" set="tokens" orientation="0" single="no"
-            pieceType="tile" oncontextmenu="return false;" id="TOKEN_SEARCH3_1"
-            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+                pieceType="tile" oncontextmenu="return false;" id="TOKEN_SEARCH3_1"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
             <image src="assets/tiles/tokens/Search-Token-4.png" set="tokens" orientation="0" single="no"
-            pieceType="tile" oncontextmenu="return false;" id="TOKEN_SEARCH4_1"
-            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+                pieceType="tile" oncontextmenu="return false;" id="TOKEN_SEARCH4_1"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
             <image src="assets/tiles/tokens/Search-Token-Special.png" set="tokens" orientation="0" single="no"
-            pieceType="tile" oncontextmenu="return false;" id="TOKEN_SPECIAL_1"
-            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+                pieceType="tile" oncontextmenu="return false;" id="TOKEN_SPECIAL_1"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
 
             <image src="assets/tiles/tokens/Villager-Token-Man.png" set="tokens" orientation="0" single="no"
-            pieceType="tile" oncontextmenu="return false;" id="TOKEN_VIL_MAN_1"
-            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+                pieceType="tile" oncontextmenu="return false;" id="TOKEN_VIL_MAN_1"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
             <image src="assets/tiles/tokens/Villager-Token-Woman.png" set="tokens" orientation="0" single="no"
-            pieceType="tile" oncontextmenu="return false;" id="TOKEN_VIL_WOMAN_1"
-            style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+                pieceType="tile" oncontextmenu="return false;" id="TOKEN_VIL_WOMAN_1"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
 
 
             <label pieceType="placeholder" style="position: absolute; top: 4000px;">.</label>
@@ -879,6 +945,8 @@
     <div class="control_bar" id="control_bar" style="z-index: 0;">
         <!--<button class="craeteTextBoxButton" onclick="createTextBox()">insert text</button>-->
         <button class="blueButton" id="go_to_text_edit_button" onclick="goToTextEdit()">go to text edit</button>
+        <button class="blueButton" onclick="savePage()">save project</button>
+        <button class="blueButton" onclick="loadSaveList()">load</button>
         <button class="blueButton" id="load_base_set_tiles" onclick="loadBaseSetOutside()">load base set</button>
         <button class="blueButton" onclick="LoadLabyrinthOfRuinOutside()">load labyrinth of
             ruin</button>
@@ -886,7 +954,7 @@
             nerekhall</button>
         <button class="blueButton" onclick="loadTokens()">load tokes</button>
         <button class="blueButton" onclick="loadTextAreas()">load miscellaneous</button>
-        <button class="blueButton" onclick="savePage()">save project</button>
+        
     </div>
 
 </body>
