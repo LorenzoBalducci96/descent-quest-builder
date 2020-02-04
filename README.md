@@ -3,7 +3,7 @@ web page for creating custom missions for descent board game.
 
 Due to the end of the official descent quest vault i decided to create this project hoping fantasy flight games will restore the official site one day.
 
-![Alt text](/demo.jpg?raw=true "UI_DEMO")
+![watch the demo image on the repository](/demo.gif?raw=true "UI_DEMO")
 
 The javascript is a little tricky because all the movement/resizing/reshaping and "snapping to square" functions of the images are implemented from scratch, the canvas are produced just for ignore the click on trasparent position of the images.
 
