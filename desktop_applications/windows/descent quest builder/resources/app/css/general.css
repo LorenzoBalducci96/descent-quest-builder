@@ -1,0 +1,303 @@
+body {
+    height: 100%;
+    width: 100%;
+}
+
+/*global*/
+.sidebar-container{
+    height: 100%; /* Full-height: remove this if you want "auto" height */
+    width: 286px; /* Set the width of the sidebar */
+}
+
+.sidenav {
+    margin-top : 8vh;
+    height: 92%;
+    width: 286px; /* Set the width of the sidebar */
+    overflow-y : auto;
+    overflow-x : hidden;
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    background-color: #111; /* Black */
+}
+
+
+#tilesSelectorBar{
+    height: 8%; /* Full-height: remove this if you want "auto" height */
+    width: 286px; /* Set the width of the sidebar */
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 5; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    background-color: #000; /* Black */
+}
+
+.map {
+    height: 95%;/* Full-height: remove this if you want "auto" height */
+    width: 100%; /* Set the width of the sidebar */
+    overflow-y : auto;
+    overflow-x : visible;
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    top: 0px; /* Stay at the top */
+    background-image: url('../assets/background.jpg');
+    background-attachment:local;
+}
+
+.control_bar{
+    width: 100%;
+    height: 5%;
+    position: fixed;
+    z-index: 1;
+    bottom: 0;
+    left: 286px;
+    background-color: #111;
+}
+/*global*/
+
+
+/*bottom bar*/
+
+.blueButton {
+    height: 90%;
+
+	box-shadow:inset 0px -3px 7px 0px #0000cc;
+	background:linear-gradient(to bottom, #000000 5%, #350b8f 100%);
+	background-color:#000000;
+	border-radius:10px;
+	border:2px solid #0020c2;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:20px;
+    
+    padding:16px 20px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #000000;
+}
+.blueButton:hover {
+	background:linear-gradient(to bottom, #350b8f 5%, #000000 100%);
+	background-color:#350b8f;
+}
+.blueButton:active {
+	margin-top:10px;
+}
+
+.craeteTextBoxButton{
+    height: 100%;
+    margin-left: 32px;
+    background-color: black;
+    font-size: 32px;
+    font-weight: bold;
+    color: white;
+}
+/*bottom bar*/
+
+
+/*output and html2canvas max dimension*/
+#output{
+    position: fixed;
+    left: 1200px;
+    
+    /*background-color: black;*/
+    background-image: url('../assets/pdf_background.jpg');
+}
+
+.html2canvas-container { width: 4000px !important; height: 4000px !important; }
+/*output and html2canvas max dimension*/
+
+
+/*modal*/
+.modal-full {
+    min-width: 80%;
+    margin-left: 80;
+}
+
+.modal-full .modal-content {
+    min-height: 90vh;
+}
+
+.modal-full .modal-header {
+    min-height: 4vh;
+}
+
+.modal-full .modal-body {
+    max-height: 86vh;
+    overflow: auto;
+}
+
+
+
+
+
+.modal-center {
+    margin-top: 30vh;
+    min-width: 60vw;
+    margin-left: 20vw;
+    margin-right: 20vw;
+}
+
+.modal-center .modal-content {
+    min-height: 40vh;
+}
+
+.modal-center .modal-header {
+    min-height: 4vh;
+}
+
+.modal-center .modal-body {
+    max-height: 70vh;
+    overflow: auto;
+}
+
+
+
+
+#mapRendered{
+    height: 81vh;
+    float: right;
+}
+
+.labelBig{
+    font-size: 32px;
+}
+
+.checkmark {
+    height: 32px;
+    width: 32px;
+}
+
+.exportPDFButton{
+    background-color: black;
+    font-size: 32px;
+    font-weight: bold;
+    color: white;
+}
+/*modal*/
+
+.card button{
+    font-size: 32px;
+}
+
+.card textarea{
+    max-width: 100%;
+}
+
+.card button{
+    height:48px; width:36px; 
+}
+
+.card .bottomButton{
+    margin-top: 8px; height: 36px
+}
+
+.bigtable{
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.bigtable .tbody .tr:hover{
+    cursor: pointer;
+}
+
+.saveButton {
+	box-shadow:inset 0px -3px 7px 0px #0000cc;
+	background:linear-gradient(to bottom, #000000 5%, #350b8f 100%);
+	background-color:#000000;
+	border-radius:10px;
+	border:2px solid #0020c2;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:32px;
+    float: right;
+    padding:4px 20px;
+    margin-top: 24px;
+    margin-bottom: 0px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #000000;
+}
+.saveButton:hover {
+	background:linear-gradient(to bottom, #350b8f 5%, #000000 100%);
+	background-color:#350b8f;
+}
+.saveButton:active {
+	margin-top:10px;
+}
+
+
+.cancelSaveButton{
+    width: 140px;
+    box-shadow:inset 0px 1px 0px 0px #f55858;
+	background:linear-gradient(to bottom, #d10404 5%, #520c0c 100%);
+	background-color:#d10404;
+	border-radius:3px;
+	border:1px solid #75131b;
+	display:inline-block;
+	cursor:pointer;
+	color:#000000;
+	font-family:Arial;
+	font-size:32px;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #801616;
+}
+
+.cancelSaveButton:hover{
+    background:linear-gradient(to bottom, #520c0c 5%, #d10404 100%);
+	background-color:#520c0c;
+}
+
+.cancelSaveButton:active{
+    position:relative;
+	top:1px;
+}
+
+.selectButton {
+    width: 140px;
+	box-shadow:inset 0px 1px 0px 0px #24a600;
+	background:linear-gradient(to bottom, #40b800 5%, #004713 100%);
+	background-color:#004713;
+	border-radius:3px;
+	border:1px solid #00a310;
+	display:inline-block;
+	cursor:pointer;
+	color:#000000;
+	font-family:Arial;
+	font-size:32px;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #428538;
+}
+.selectButton:hover {
+    background:linear-gradient(to bottom, #004713 5%, #40b800 100%);
+	
+	background-color:#40b800;
+}
+.selectButton:active {
+	position:relative;
+	top:1px;
+}
+
+.textAreaRed textarea{
+    color: red
+}
+
+.textAreaBlack textarea{
+    color: red
+}
+
+.textAreaBlue textarea{
+    color: red
+}
+
+.textAreaGreen textarea{
+    color: red
+}
+
+.textAreaWhite textarea{
+    color: red
+}

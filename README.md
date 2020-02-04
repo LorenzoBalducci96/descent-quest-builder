@@ -12,7 +12,7 @@ Running the web page in a browser won't let you save/load project (due to unavai
   2) If you are experiencing tiles disappearing in google-chrome here are the possible solutions:
       * run google-chrome with the bat or sh script (startWithChrom.bat/sh) or
       * use microsoft edge or
-      * consider to use the desktop application (available in dist folder)
+      * consider to use the desktop application (available in desktop_applications folder)
   This is caused by "the canvas has been tainted by cross-origin data" known error.
 
 
