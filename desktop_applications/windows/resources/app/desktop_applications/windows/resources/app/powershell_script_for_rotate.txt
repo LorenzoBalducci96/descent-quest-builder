@@ -1,0 +1,2 @@
+$image. rotateflip("Rotate90FlipNone") 
+Dir | Rename-Item -NewName {$_ -replace " - Copy.png","90.png"}

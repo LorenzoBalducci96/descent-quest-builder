@@ -119,6 +119,12 @@ function saveProject() {
 function savePage() {
     try {
         let fs = require('fs');
+        var tilesOnMap = [].slice.call(document.getElementById("map").children);//get all the elements on the map
+        for (var i = 0; i < tilesOnMap.length; i++) {
+            if (tilesOnMap[i].getAttribute("pieceType") == "text") {
+                tilesOnMap[i].childNodes[3].childNodes[1].innerHTML = tilesOnMap[i].childNodes[3].childNodes[1].value;
+            }
+        }
         documentToSave = document.documentElement.innerHTML;
         $('#saveProjectModal').modal('show');
     } catch (e) {

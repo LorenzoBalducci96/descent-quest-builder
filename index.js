@@ -36,18 +36,54 @@ function createWindow () {
   });
 }
 
+
+
+
+
+
+
+
+
 app.on('ready', function(){
-  createWindow();
+    createWindow();
+    const isMac = process.platform === 'darwin'
 
-  const template = [
-	{ role: 'zoomin' },
-    { role: 'zoomout' },
-	{ role: 'togglefullscreen' }
-  ]
-  const menu = Menu.buildFromTemplate(template)
-  Menu.setApplicationMenu(menu);
+    const template = [
+                      
+    ...(isMac ? [
+    {
+        label: app.name,
+        submenu: [
+          { role: 'about' },
+          { type: 'separator' },
+          { role: 'services' },
+          { type: 'separator' },
+          { role: 'hide' },
+          { role: 'hideothers' },
+          { role: 'unhide' },
+          { type: 'separator' },
+          { role: 'quit' }
+        ]
+    },
+    {
+       label: "view",
+       submenu: [
+           {role: 'zoomin'},
+           {role: 'zoomout'},
+           {role: 'togglefullscreen'}
+       ]
+    }
+    ] : [
+        {role: 'zoomin'},
+        {role: 'zoomout'},
+        {role: 'togglefullscreen'}
+     ])
+    ];
+    
+    const menu = Menu.buildFromTemplate(template);
+    Menu.setApplicationMenu(menu);
+   
 });
-
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
