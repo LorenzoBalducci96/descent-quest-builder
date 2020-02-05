@@ -3,6 +3,8 @@ web-page/desktop-application for creating custom missions for descent board game
 
 Due to the end of the official descent quest vault i decided to create this project hoping fantasy flight games will restore the official site one day.
 
+download releases here: https://github.com/LorenzoBalducci96/descent-quest-builder/releases
+
 ![watch the demo image on the repository](/demo.gif?raw=true "UI_DEMO")
 
 The desktop application is made with electron.
