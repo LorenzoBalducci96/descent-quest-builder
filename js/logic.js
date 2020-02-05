@@ -22,6 +22,17 @@ function loadSave(backupFile) {
     }
 }
 
+function handleFileSelect(event){
+    const reader = new FileReader()
+    reader.onload = handleFileLoad;
+    reader.readAsText(event.target.files[0])
+  }
+  
+  function handleFileLoad(event){
+    document.documentElement.innerHTML = event.target.result;
+    bootstrap_page()
+  }
+
 function loadSaveList() {
     try {
         let fs = require('fs');
@@ -67,7 +78,9 @@ function loadSaveList() {
         });
         $("#loadProjectModal").modal("show");
     } catch (e) {
-        alert('function not available in web application, please install the desktop application');
+        alert("give me the backup file you want to restore");
+        document.getElementById("restorePageInputFile").addEventListener('change', handleFileSelect, false);
+        document.getElementById("restorePageInputFile").click();
     }
 }
 
@@ -117,18 +130,26 @@ function saveProject() {
 }
 
 function savePage() {
+    var tilesOnMap = [].slice.call(document.getElementById("map").children);//get all the elements on the map
+    for (var i = 0; i < tilesOnMap.length; i++) {
+        if (tilesOnMap[i].getAttribute("pieceType") == "text") {
+            tilesOnMap[i].childNodes[3].childNodes[1].innerHTML = tilesOnMap[i].childNodes[3].childNodes[1].value;
+        }
+    }
+    documentToSave = document.documentElement.innerHTML;
     try {
         let fs = require('fs');
-        var tilesOnMap = [].slice.call(document.getElementById("map").children);//get all the elements on the map
-        for (var i = 0; i < tilesOnMap.length; i++) {
-            if (tilesOnMap[i].getAttribute("pieceType") == "text") {
-                tilesOnMap[i].childNodes[3].childNodes[1].innerHTML = tilesOnMap[i].childNodes[3].childNodes[1].value;
-            }
-        }
-        documentToSave = document.documentElement.innerHTML;
         $('#saveProjectModal').modal('show');
     } catch (e) {
-        alert("function not available in web application, please install the desktop application")
+        alert("you are going to download a backup file")
+        var blob = new Blob([documentToSave],
+            { type: "text/plain;charset=utf-8" });
+        anchor = document.createElement('a');
+    
+        anchor.download = "backupMap.html";
+        anchor.href = (window.webkitURL || window.URL).createObjectURL(blob);
+        anchor.dataset.downloadurl = ['text/plain', anchor.download, anchor.href].join(':');
+        anchor.click();
     }
 }
 
