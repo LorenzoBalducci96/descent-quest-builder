@@ -139,6 +139,7 @@ function savePage() {
     documentToSave = document.documentElement.innerHTML;
     try {
         let fs = require('fs');
+        document.getElementById('previewSaving');
         $('#saveProjectModal').modal('show');
     } catch (e) {
         alert("you are going to download a backup file")
@@ -167,21 +168,18 @@ function exportPDF() {
     pdfDocument.save('dungeon.pdf');
 }
 
-function createImg() {
+function createImg(outputImage) {
     html2canvas(document.getElementById("output"), {
         onrendered: function (canvas) {
             imageToPrintOnPdf = canvas.toDataURL('image/png');//cera
-            var imageRendered = document.getElementById("mapRendered");
+            var imageRendered = document.getElementById(outputImage);
             imageRendered.src = imageToPrintOnPdf
         }
     });
 }
 
-function goToTextEdit() {
-    //$('#modal').modal()
+function createOutputDivForPrint(){
     document.getElementById("output").innerHTML = "";
-    document.getElementById("output").style.width = "0px"
-    document.getElementById("output").style.height = "0px"
     var tilesOnMap = [].slice.call(document.getElementById("map").children);//get all the elements on the map
     for (var i = 0; i < tilesOnMap.length; i++) {
         if (tilesOnMap[i].getAttribute("pieceType") == "placeholder") {
@@ -239,9 +237,23 @@ function goToTextEdit() {
             document.getElementById("output").appendChild(label);
         }
     });
-    $("#outputModal").modal('show')
-    createImg()
 }
+
+function goToExport() {
+    //basing on pdfPageWidth and pdfPageHeight the output div if prepared for printing on canvas
+    createOutputDivForPrint();
+    $("#outputModal").modal('show')
+    createImg('mapRendered')//after the output div is prepared let's print on image
+}
+
+
+
+
+
+
+
+
+
 
 function scaleRes() {
     //we want to support just A4 "standard" resolution
@@ -262,14 +274,24 @@ function scaleRes() {
         pdfPageWidth = 620;
         pdfPageHeight = 876;;
     }
-    goToTextEdit();
+    goToExport();
+}
+
+function setMarginLeft() {
+    marginLeft = parseInt(document.getElementById("marginLeft").value)
+    goToExport();
+}
+
+function setMarginTop() {
+    marginTop = parseInt(document.getElementById("marginTop").value)
+    goToExport();
 }
 
 function setWhiteBackground() {
     if (document.getElementById("output").style.backgroundColor != "white") {
         document.getElementById("output").style.backgroundImage = "none";
         document.getElementById("output").style.backgroundColor = "white";
-        createImg();
+        createImg('mapRendered');
     }
 }
 
@@ -277,7 +299,7 @@ function setBlackBackground() {
     if (document.getElementById("output").style.backgroundColor != "black") {
         document.getElementById("output").style.backgroundImage = "none";
         document.getElementById("output").style.backgroundColor = "black";
-        createImg();
+        createImg('mapRendered');
     }
 }
 
@@ -285,16 +307,6 @@ function setSmokyBackground() {
     if (document.getElementById("output").style.backgroundImage != "url('assets/pdf_background.jpg')") {
         document.getElementById("output").style.backgroundColor = "none";
         document.getElementById("output").style.backgroundImage = "url('assets/pdf_background.jpg')";
-        createImg();
+        createImg('mapRendered');
     }
-}
-
-function setMarginLeft() {
-    marginLeft = parseInt(document.getElementById("marginLeft").value)
-    goToTextEdit();
-}
-
-function setMarginTop() {
-    marginTop = parseInt(document.getElementById("marginTop").value)
-    goToTextEdit();
 }

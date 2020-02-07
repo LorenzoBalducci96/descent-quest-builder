@@ -47,7 +47,7 @@ function arrangeTiles(blockId) {
                 placeholderImage.style.position = "absolute";
                 placeholderImage.style.top = (offsetTopTiles[c]) + "px";
                 placeholderImage.style.left = "0px";
-                placeholderImage.src = document.getElementById(tiles[c]).src
+                placeholderImage.src = document.getElementById(tiles[c]).getAttribute("src");
 
                 placeholderImage.id = "placeholder_" + document.getElementById(tiles[c]).getAttribute("id");
 
@@ -83,6 +83,7 @@ function dragElement(elmnt) {
         if (elmnt.getAttribute("pieceType") == "tile" && elmnt.getAttribute("onMap") == "yes") {
             if (elmnt.getAttribute("orientation") == 0) {
                 elmnt.src = elmnt.src.substr(0, elmnt.src.lastIndexOf('.')) + "90.png";
+                //elmnt.classList.add("rot90");
                 elmnt.setAttribute("orientation", "90")
             } else if (elmnt.getAttribute("orientation") == 90) {
                 elmnt.src = elmnt.src.substr(0, elmnt.src.lastIndexOf('.') - 2) + "180.png";
@@ -99,7 +100,6 @@ function dragElement(elmnt) {
             }
         }
     }, false);
-
 
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
     elmnt.onmousedown = dragMouseDown;
@@ -121,7 +121,8 @@ function dragElement(elmnt) {
 
         var toDrag = true;
         if (elmnt.getAttribute("onMap") == "yes" && elmnt.getAttribute("pieceType") == "tile") {
-            var canvas = document.createElement("canvas");
+            let canvas = document.createElement("canvas");
+            
             canvas.width = elmnt.offsetWidth;
             canvas.height = elmnt.offsetHeight;
             canvas.style.position = "absolute";
@@ -129,13 +130,15 @@ function dragElement(elmnt) {
             canvas.style.left = 0 + "px";
             canvas.getContext('2d').drawImage(elmnt, 0, 0);
 
-            var point = canvas.getContext('2d').getImageData(e.clientX - elmnt.offsetLeft
-                + document.getElementById("map").scrollLeft,
-                e.clientY + (document.getElementById("map").scrollTop) - elmnt.offsetTop, 1, 1).data
+            let x = e.clientX - elmnt.offsetLeft + document.getElementById("map").scrollLeft;
+            let y = e.clientY + (document.getElementById("map").scrollTop) - elmnt.offsetTop;
+
+            let point = canvas.getContext('2d').getImageData(x, y, 1, 1).data
+
             if (point[3] == 0) {
                 toDrag = false;
                 elmnt.style.zIndex = "-99"
-                var elementBehind = document.elementFromPoint(e.clientX, e.clientY);
+                let elementBehind = document.elementFromPoint(e.clientX, e.clientY);
                 elementBehind.style.zIndex = "1";
                 triggerMouseEvent(elementBehind, e)
                 elmnt.style.zIndex = "-1"

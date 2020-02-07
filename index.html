@@ -15,7 +15,10 @@
 
 
 <script type="text/javascript" src="js/draggable.js"></script>
-<script type="text/javascript" src="js/logic.js"></script>
+
+<script type="text/javascript" src="js/PDF_logic.js"></script>
+<script type="text/javascript" src="js/save_project_logic.js"></script>
+
 <script type="text/javascript" src="js/text_script.js"></script>
 <script type="text/javascript" src="js/loadTiles.js"></script>
 <script type="text/javascript" src="js/bootstrap_page.js"></script>
@@ -34,7 +37,7 @@
 
 <body>
 
-    <input type="file" id="restorePageInputFile" accept="text/html" style="display:none"/>
+    <input type="file" id="restorePageInputFile" accept="text/html" style="display:none" />
 
     <div class="modal fade" id="loadProjectModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-full" role="document">
@@ -47,22 +50,25 @@
                 </div>
                 <div class="modal-body p-4 funny_scrollbar_blue" id="result">
                     <div class="row">
-                        <div class="col-12">
-                            <table class="bigtable table table-hover table-striped table-inverse table-responsive">
+                        <div class="col-8">
+                            <table class="bigtable table table-hover">
                                 <thead class="thead-inverse">
                                     <tr>
                                         <th>load</th>
                                         <th>cancel</th>
                                         <th>mission name</th>
-                                        
+
                                     </tr>
                                 </thead>
                                 <tbody id="save_list">
-                                    
+
                                 </tbody>
                             </table>
                         </div>
-                        
+                        <div class="col-4">
+                            <image class="full_width_window_image" id="previewLoading"></image>    
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -70,7 +76,7 @@
     </div>
 
     <div class="modal fade" id="saveProjectModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-center" role="document">
+        <div class="modal-dialog modal-near-full" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h2 class="modal-title">configure save</h2>
@@ -80,12 +86,18 @@
                 </div>
                 <div class="modal-body p-4 funny_scrollbar_blue" id="result">
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-7">
                             <label class="labelBig">mission name :</label>
+                            <input class="labelBig" style="width: 100%" id="projectSaveName" type="text"
+                                class="form-control" placeholder="enter mission name">
+                            <br>
+                            <br>
+                            <label class="labelBig">description or notes :</label>
+                            <textarea class="labelBig" style="width: 100%" id="projectSaveNotes"
+                                style="resize: none;"></textarea>
                         </div>
-                        <div class="col-8">
-                            <input class="labelBig" style="width: 100%" id="projectSaveName" type="text" class="form-control"
-                                placeholder="enter mission name">
+                        <div class="col-5">
+                            <image class="full_width_window_image" id="previewSaving"></image>
                         </div>
                     </div>
                 </div>
@@ -152,7 +164,7 @@
                             </div>
                         </div>
                         <div class="col-6">
-                            <image id="mapRendered"></image>
+                            <image class="half_window_image" id="mapRendered"></image>
                         </div>
                     </div>
                 </div>
@@ -172,9 +184,12 @@
             <button class="blueButton" id="insideButton" onclick="loadBaseSetInside()">inside/outside</button>
         </div>
         <div class="sidenav funny_scrollbar_blue" id="baseSetOutside" style="visibility: ''">
+
             <img src="assets/tiles/base/01A.png" set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
                 oncontextmenu="return false;" id="01A"
                 style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 20px; left: 0px;" onmap="no">
+
+
             <img src="assets/tiles/base/02A.png" set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
                 oncontextmenu="return false;" id="02A"
                 style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 235px; left: 0px;" onmap="no">
@@ -946,7 +961,7 @@
     </div>
     <div class="control_bar" id="control_bar" style="z-index: 0;">
         <!--<button class="craeteTextBoxButton" onclick="createTextBox()">insert text</button>-->
-        <button class="blueButton" id="go_to_text_edit_button" onclick="goToTextEdit()">go to text edit</button>
+        <button class="blueButton" onclick="goToExport()">go to text edit</button>
         <button class="blueButton" onclick="savePage()">save project</button>
         <button class="blueButton" onclick="loadSaveList()">load</button>
         <button class="blueButton" id="load_base_set_tiles" onclick="loadBaseSetOutside()">load base set</button>
@@ -956,7 +971,7 @@
             nerekhall</button>
         <button class="blueButton" onclick="loadTokens()">load tokes</button>
         <button class="blueButton" onclick="loadTextAreas()">load miscellaneous</button>
-        
+
     </div>
 
 </body>

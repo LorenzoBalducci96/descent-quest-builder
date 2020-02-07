@@ -133,6 +133,30 @@ body {
 
 
 
+.modal-near-full {
+    min-width: 65%;
+    margin-left: 80;
+}
+
+.modal-near-full .modal-content {
+    min-height: 82vh;
+}
+
+.modal-near-full .modal-header {
+    min-height: 4vh;
+}
+
+.modal-near-full .modal-body {
+    max-height: 78vh;
+    overflow: auto;
+}
+
+
+
+
+
+
+
 .modal-center {
     margin-top: 30vh;
     min-width: 60vw;
@@ -154,9 +178,12 @@ body {
 }
 
 
+.full_width_window_image{
+    width: 100%;
+    float: right;
+}
 
-
-#mapRendered{
+.half_window_image{
     height: 81vh;
     float: right;
 }
