@@ -1,26 +1,15 @@
 {
-  "name": "descent_quest_builder",
+  "name": "descent_board_game",
   "version": "1.0.0",
   "description": "A custom mission editor for descent board game",
   "main": "index.js",
   "scripts": {
-    "start": "electron .",
-    "pack:osx": "electron-packager . --out=../desktop_applications --platform=darwin --arch=x64 --icon=assets/icon.ico && npm run codesign",
-    "pack:win32": "electron-packager . $npm_package_productName --out=../desktop_applications --platform=win32 --arch=ia32",
-    "pack:win64": "electron-packager . --out=../desktop_applications --platform=win32 --arch=x64 --icon=assets/icon.ico --overwrite",
-    "build": "npm run pack:win64"
+	"start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Lorenzo Balducci",
   "license": "ISC",
   "dependencies": {
-    "bootstrap": "^4.4.1",
-    "electron": "^7.1.11",
-    "electron-packager": "^14.2.0",
-    "electron-squirrel-startup": "^1.0.0",
-    "electron-winstaller": "^4.0.0",
-    "html2canvas": "^1.0.0-rc.5",
-    "jquery": "^3.4.1",
-    "jspdf": "^1.5.3",
-    "popper.js": "^1.16.1"
+    "electron": "^8.0.0"
   }
 }

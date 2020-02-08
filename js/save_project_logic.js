@@ -33,6 +33,11 @@ function handleFileLoad(event) {
     bootstrap_page()
 }
 
+function erasePreviewMissionData(){
+    document.getElementById('restoreProjectNotes').innerHTML = "";
+    document.getElementById('previewLoading').src = "";
+}
+
 function loadSaveList() {
     try {
         let fs = require('fs');
@@ -45,10 +50,15 @@ function loadSaveList() {
             if (fs.lstatSync(__dirname + '/' + save_files_folder + '/' + element.toString()).isDirectory()) {
                 let newSave = tableSave.insertRow()
 
-                newSave.onclick = function () {
+                newSave.onmouseover = function () {
                     document.getElementById('previewLoading').src = __dirname + '/' +
                     save_files_folder + '/' + element + "/" + 'preview.png';
+                    
+                    document.getElementById('restoreProjectNotes').innerHTML = "notes: " + fs.readFileSync(__dirname + '/' +
+                    save_files_folder + '/' + element + '/' + 'notes.txt', 'utf-8');
                 }
+
+                newSave.onmouseout = erasePreviewMissionData();
 
                 let loadButtonCell = newSave.insertCell(0);
                 let loadButton = document.createElement("button");
@@ -65,7 +75,9 @@ function loadSaveList() {
                 cancelButton.setAttribute("class", "cancelSaveButton");
                 cancelButton.innerHTML = "cancel";
                 cancelButton.onclick = function () {
+                    erasePreviewMissionData();
                     cancelSave(__dirname + '/' + save_files_folder + '/' + element);
+                    
                 }
                 cancelButtonCell.appendChild(cancelButton);
 
@@ -126,6 +138,8 @@ function saveProject() {
                 let base64Data =  document.getElementById('previewSaving').src.replace(/^data:image\/png;base64,/, "");
                 fs.writeFileSync(__dirname + '/' + save_files_folder + '/' +
                     projectName + "/" + 'preview.png', base64Data, 'base64');
+                fs.writeFileSync(__dirname + '/' + save_files_folder + '/' +
+                    projectName + '/' + 'notes.txt',document.getElementById('projectSaveNotes').value, 'utf-8');
             } else {
                 alert("project with this name already exist, please use different name")
             }

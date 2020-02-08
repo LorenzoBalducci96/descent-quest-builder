@@ -1,1 +1,1 @@
-google-chrome --allow-file-access-from-files file:////$(pwd)web_src/index.html
+google-chrome --allow-file-access-from-files file:////$(pwd)index.html

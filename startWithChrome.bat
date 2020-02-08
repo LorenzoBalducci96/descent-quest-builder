@@ -1,1 +1,1 @@
-start chrome --allow-file-access-from-files file:////%~dp0web_src/index.html
+start chrome --allow-file-access-from-files file:////%~dp0index.html

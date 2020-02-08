@@ -328,3 +328,9 @@ body {
 .textAreaWhite textarea{
     color: red
 }
+
+.restoreProjectNotes{
+    margin-left: 16px;
+    font-size: 28px;
+    font-weight: 500;
+}
