@@ -80,6 +80,7 @@ function createOutputDivForPrint() {
             label.style.fontSize = tile.childNodes[3].childNodes[1].style.fontSize;
             label.style.fontWeight = tile.childNodes[3].childNodes[1].style.fontWeight;
             label.style.color = tile.childNodes[3].childNodes[1].style.color;
+            label.style.fontFamily = "Impact,Charcoal,sans-serif";
             label.innerHTML = tile.childNodes[3].childNodes[1].value.replace("\n", "<br>");
             document.getElementById("output").appendChild(label);
         }

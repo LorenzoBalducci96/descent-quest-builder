@@ -15,6 +15,7 @@ function bootstrap_page() {
 
     this.loadAndArrangeTiles("textAreas");
 
+    multiDragOnMapSelect(document.getElementById('map'))
     //used for restoring save point
     var piecesOnMap = [].slice.call(document.getElementById("map").children);
     piecesOnMap.forEach(element => {
@@ -22,6 +23,7 @@ function bootstrap_page() {
             dragElement(element);
         }
     });
+    initCanvasDragShower(document.getElementById('canvasDragShower'));
 
 }
 

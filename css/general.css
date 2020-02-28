@@ -3,6 +3,24 @@ body {
     width: 100%;
 }
 
+image {
+    user-select: none; /* supported by Chrome and Opera */
+   -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+   -moz-user-select: none; /* Firefox */
+   -ms-user-select: none; /* Internet Explorer/Edge */
+
+}
+
+img{
+    user-select: none; /* supported by Chrome and Opera */
+   -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+   -moz-user-select: none; /* Firefox */
+   -ms-user-select: none; /* Internet Explorer/Edge */
+
+}
+
 /*global*/
 .sidebar-container{
     height: 100%; /* Full-height: remove this if you want "auto" height */
@@ -33,6 +51,22 @@ body {
     background-color: #000; /* Black */
 }
 
+.canvasContainer{
+    height: 95%;/* Full-height: remove this if you want "auto" height */
+    width: 100%; /* Set the width of the sidebar */
+    overflow-y : hidden;
+    overflow-x : hidden;
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    top: 0px; /* Stay at the top */
+}
+
+#canvasDragShower{
+    z-index: 99;
+    opacity: 1.0;
+    background-image: url('../assets/background.jpg');
+    background-attachment:local;
+}
+
 .map {
     height: 95%;/* Full-height: remove this if you want "auto" height */
     width: 100%; /* Set the width of the sidebar */
@@ -40,8 +74,8 @@ body {
     overflow-x : visible;
     position: fixed; /* Fixed Sidebar (stay in place on scroll) */
     top: 0px; /* Stay at the top */
-    background-image: url('../assets/background.jpg');
-    background-attachment:local;
+    opacity: 1;
+    background-image: url('../assets/trasnparent.png');
 }
 
 .control_bar{
@@ -205,12 +239,17 @@ body {
 }
 /*modal*/
 
+.card{
+    background-color: #fff8;
+}
+
 .card button{
     font-size: 32px;
 }
 
 .card textarea{
     max-width: 100%;
+    background-color: #fff8;
 }
 
 .card button{
@@ -327,10 +366,4 @@ body {
 
 .textAreaWhite textarea{
     color: red
-}
-
-.restoreProjectNotes{
-    margin-left: 16px;
-    font-size: 28px;
-    font-weight: 500;
 }

@@ -5,7 +5,7 @@ Due to the end of the official descent quest vault i decided to create this proj
 
 download releases here: https://github.com/LorenzoBalducci96/descent-quest-builder/releases
 
-![watch the demo image on the repository](/demo.gif?raw=true "UI_DEMO")
+![watch the demo image on the repository](/doc_images/demo.gif?raw=true "UI_DEMO")
 
 The desktop application is made with electron.
 The desktop application can save your project into his folder (backup of entire innerHTML of the document) and can then show all your saved projects and restore the session.
