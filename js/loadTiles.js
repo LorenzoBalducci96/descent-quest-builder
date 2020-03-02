@@ -51,6 +51,17 @@ function loadTextAreas(){
     activeSet = "textAreas";
 }
 
+function loadMonsters(){
+    document.getElementById(activeSet).style.visibility = "hidden"
+    document.getElementById("monsters").style.visibility = ""
+    
+    document.getElementById('insideButton').style.display = "none"
+    document.getElementById('miscellaneousButton').style.display = "none"
+    activeSet = "monsters";
+}
+
+
+
 
 function LoadShadowOfNerekhallOutside() {
     document.getElementById(activeSet).style.visibility = "hidden"
@@ -103,26 +114,43 @@ function LoadLabyrinthOfRuinInside() {
     document.getElementById('miscellaneousButton').style.display = "none"
     activeSet = "labyrinthOfRuinInside";
 }
-/*
-function backupToInvisibleDiv() {
-    if (activeSet == "baseSetOutside") {
-        document.getElementById("baseSetOutside").innerHTML = document.getElementById("sidenav").innerHTML;
-    } else if (activeSet == "baseSetInside") {
-        document.getElementById("baseSetInside").innerHTML = document.getElementById("sidenav").innerHTML;
-    } else if (activeSet == "baseSetMiscellaneous") {
-        document.getElementById("baseSetMiscellaneous").innerHTML = document.getElementById("sidenav").innerHTML;
-    } else if (activeSet == "shadowOfNerekhallOutside") {
-        document.getElementById("shadowOfNerekhallOutside").innerHTML = document.getElementById("sidenav").innerHTML;
-    } else if (activeSet == "shadowOfNerekhallInside") {
-        document.getElementById("shadowOfNerekhallInside").innerHTML = document.getElementById("sidenav").innerHTML;
-    } else if (activeSet == "shadowOfNerekhallMiscellaneous") {
-        document.getElementById("shadowOfNerekhallMiscellaneous").innerHTML = document.getElementById("sidenav").innerHTML;
-    } else if (activeSet == "labyrinthOfRuinInside") {
-        document.getElementById("labyrinthOfRuinInside").innerHTML = document.getElementById("sidenav").innerHTML;
-    }else if (activeSet == "labyrinthOfRuinOutside") {
-        document.getElementById("labyrinthOfRuinOutside").innerHTML = document.getElementById("sidenav").innerHTML;
-    }else if (activeSet == "textAreas") {
-        document.getElementById("textAreas").innerHTML = document.getElementById("sidenav").innerHTML;
-    }
+
+function LoadLairOfTheWyrmOutside(){
+    document.getElementById(activeSet).style.visibility = "hidden"
+    document.getElementById("lairOfTheWyrmOutside").style.visibility = ""
+
+    document.getElementById('insideButton').onclick = LoadLairOfTheWyrmInside
+    document.getElementById('insideButton').style.display = ""
+    document.getElementById('miscellaneousButton').style.display = "none"
+    activeSet = "lairOfTheWyrmOutside";
 }
-*/
+
+function LoadLairOfTheWyrmInside(){
+    document.getElementById(activeSet).style.visibility = "hidden"
+    document.getElementById("lairOfTheWyrmInside").style.visibility = ""
+
+    document.getElementById('insideButton').onclick = LoadLairOfTheWyrmOutside
+    document.getElementById('insideButton').style.display = ""
+    document.getElementById('miscellaneousButton').style.display = "none"
+    activeSet = "lairOfTheWyrmInside";
+}
+
+function LoadTrollfensOutside(){
+    document.getElementById(activeSet).style.visibility = "hidden"
+    document.getElementById("trollfensOutside").style.visibility = ""
+
+    document.getElementById('insideButton').onclick = LoadTrollfensInside
+    document.getElementById('insideButton').style.display = ""
+    document.getElementById('miscellaneousButton').style.display = "none"
+    activeSet = "trollfensOutside";
+}
+
+function LoadTrollfensInside(){
+    document.getElementById(activeSet).style.visibility = "hidden"
+    document.getElementById("trollfensInside").style.visibility = ""
+
+    document.getElementById('insideButton').onclick = LoadTrollfensOutside
+    document.getElementById('insideButton').style.display = ""
+    document.getElementById('miscellaneousButton').style.display = "none"
+    activeSet = "trollfensInside";
+}

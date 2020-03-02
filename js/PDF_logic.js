@@ -11,12 +11,22 @@ function exportPDF() {
     pdfDocument.save('dungeon.pdf');
 }
 
-function createImg(imgOutput){
+async function createImg(imgOutput) {
+    
+    
     html2canvas(document.getElementById("output"), {
         onrendered: function (canvas) {
-            document.getElementById(imgOutput).src = canvas.toDataURL('image/png');;
+            document.getElementById(imgOutput).src = canvas.toDataURL("image/png");
+
         }
     });
+    
+    /*
+    html2canvas(document.getElementById("output")).then(function (canvas) {
+        document.getElementById(imgOutput).src = canvas.toDataURL("image/png");
+    });
+    */
+
 }
 
 function createOutputDivForPrint() {
@@ -78,9 +88,17 @@ function createOutputDivForPrint() {
             label.style.width = tile.childNodes[3].childNodes[1].offsetWidth + "px";
             label.style.height = tile.childNodes[3].childNodes[1].offsetHeight + "px";
             label.style.fontSize = tile.childNodes[3].childNodes[1].style.fontSize;
+            /*
+            var style = window.getComputedStyle(tile.childNodes[3].childNodes[1], null).getPropertyValue('font-size');
+            var fontSize = parseFloat(style);
+            label.style.fontSize = fontSize + "px";
+            */
             label.style.fontWeight = tile.childNodes[3].childNodes[1].style.fontWeight;
             label.style.color = tile.childNodes[3].childNodes[1].style.color;
-            label.style.fontFamily = "Impact,Charcoal,sans-serif";
+            //label.style.fontFamily = "Impact,Charcoal,sans-serif";
+            //label.style.fontFamily = "Lucida Sans Unicode, Lucida Grande, sans-serif";
+            label.style.fontFamily = "Comic Sans MS, cursive, sans-serif";
+            label.numberOfLines = 0;
             label.innerHTML = tile.childNodes[3].childNodes[1].value.replace("\n", "<br>");
             document.getElementById("output").appendChild(label);
         }
@@ -93,6 +111,7 @@ function goToExport() {
     $("#outputModal").modal('show')
 
     createImg('mapRendered');
+
 }
 
 function scaleRes() {

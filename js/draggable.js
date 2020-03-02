@@ -17,6 +17,8 @@ var ctx;
 var rect;
 var drag;
 
+var margin_of_tiles_on_sidenav = 2
+
 var cntrlIsPressed = false;
 
 function adjustCanvasScroll() {
@@ -46,8 +48,8 @@ function initCanvasDragShower(elmnt) {
 }
 /**handles the square selector drawing */
 function mouseDownCanvas(e) {
-    rect.startX = e.pageX + document.getElementById("canvasContainer").scrollLeft;
-    rect.startY = e.pageY + document.getElementById("canvasContainer").scrollTop;
+    rect.startX = e.pageX + document.getElementById("canvasContainer").scrollLeft - document.getElementById("map").offsetLeft;
+    rect.startY = e.pageY + document.getElementById("canvasContainer").scrollTop - document.getElementById("map").offsetTop;
     drag = true;
 }
 function mouseUpCanvas() {
@@ -56,8 +58,8 @@ function mouseUpCanvas() {
 }
 function mouseMoveCanvas(e) {
     if (drag) {
-        rect.w = (e.pageX + document.getElementById("canvasContainer").scrollLeft) - rect.startX;
-        rect.h = (e.pageY + document.getElementById("canvasContainer").scrollTop) - rect.startY;
+        rect.w = (e.pageX + document.getElementById("canvasContainer").scrollLeft) - document.getElementById("map").offsetLeft - rect.startX;
+        rect.h = (e.pageY + document.getElementById("canvasContainer").scrollTop - document.getElementById("map").offsetTop) - rect.startY;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         draw();
     }
@@ -82,16 +84,16 @@ function multiDragOnMapSelect(map) {
             mouseDownCanvas(e);//callback on the canvas for start drawing the rectangle
             map.onmousemove = makeDrag;
             deselectAllPieces();
-            start_x = e.clientX + document.getElementById("map").scrollLeft;
-            start_y = e.clientY + document.getElementById("map").scrollTop;
+            start_x = e.clientX + document.getElementById("map").scrollLeft - document.getElementById("map").offsetLeft;
+            start_y = e.clientY + document.getElementById("map").scrollTop - document.getElementById("map").offsetTop;
             //start_x = e.clientX;
             //start_y = e.clientY ;
             document.onmouseup = endSelect;
         }
     }
     function selectPiecesOnDrag(e) {
-        end_x = e.clientX + document.getElementById("map").scrollLeft;
-        end_y = e.clientY + document.getElementById("map").scrollTop;
+        end_x = e.clientX + document.getElementById("map").scrollLeft - document.getElementById("map").offsetLeft;
+        end_y = e.clientY + document.getElementById("map").scrollTop - document.getElementById("map").offsetTop;
         //switch to top bottom
         adjustTopBottom();
 
@@ -179,13 +181,70 @@ function loadAndArrangeTiles(blockId) {
     arrangeTiles(blockId);
 }
 
+function sortByTop() {
+    return function (a, b) {
+        var filter_a = parseInt(a.offsetTop);
+        var filter_b = parseInt(b.offsetTop);
+        return filter_a < filter_b
+            ? -1
+            : (filter_a > filter_b ? 1 : 0);
+    }
+}
+
+function filterTiles() {
+    return function (a) {
+        return (a.getAttribute("pieceType") == "tile" || a.getAttribute("pieceType") == "text")
+    }
+}
+
+function filterPlaceholders() {
+    return function (a) {
+        return (a.getAttribute("pieceType") == "ghost")
+    }
+}
+
+function countOccurences(string, word) {
+    return string.split(word).length - 1;
+ }
+
+function rearrangeTilesAfterResize(blockId) {
+    let placeholders = [].slice.call(document.getElementById(blockId).children).filter(
+        filterPlaceholders()).sort(sortByTop());//get all the elements on the map
+    let tiles = [].slice.call(document.getElementById(blockId).children).filter(filterTiles());
+    
+    let count = 0;
+
+    for (count = 0; count < placeholders.length; count++) {
+        if (count == 0) {
+            placeholders[count].style.top = margin_of_tiles_on_sidenav + "px";
+        } else {
+            placeholders[count].style.top = (placeholders[count - 1].offsetTop + placeholders[count - 1].offsetHeight + margin_of_tiles_on_sidenav) + "px"
+        }
+    }
+
+    tiles.forEach(elmnt => {
+        if (elmnt.getAttribute("single") == "yes") {//updating visibility of other side tiles
+            let placeholderImage = document.getElementById("placeholder_" + elmnt.id);
+            elmnt.style.top = placeholderImage.offsetTop + "px";
+            elmnt.style.left = placeholderImage.offsetLeft + "px";
+            elmnt.style.width = "100%"//placeholderImage.offsetWidth + "px";
+        } else {
+            let placeholderImage = document.getElementById("placeholder_" + elmnt.id.substr(0, elmnt.id.lastIndexOf("_") + 1) + "1");
+            elmnt.style.top = placeholderImage.offsetTop + "px";
+            elmnt.style.left = placeholderImage.offsetLeft + "px";
+            elmnt.style.width = "100%"//placeholderImage.offsetWidth + "px";
+        }
+    });
+}
+
+
 function arrangeTiles(blockId) {
     //arrange position
-    offsetTopTiles[0] = 20;
+    offsetTopTiles[0] = margin_of_tiles_on_sidenav;
 
     var c = 1;
     for (c = 1; c < count; c++) {
-        offsetTopTiles[c] = offsetTopTiles[c - 1] + document.getElementById(tiles[c - 1]).offsetHeight + 20;
+        offsetTopTiles[c] = offsetTopTiles[c - 1] + document.getElementById(tiles[c - 1]).offsetHeight + margin_of_tiles_on_sidenav;
     }
     for (c = 0; c < count; c++) {
         //put the tile
@@ -199,18 +258,24 @@ function arrangeTiles(blockId) {
             }
 
             if (toPut) {
+
                 let placeholderImage = document.createElement("img");
+                placeholderImage.setAttribute("pieceType", "ghost") ;
                 placeholderImage.style.position = "absolute";
                 placeholderImage.style.top = (offsetTopTiles[c]) + "px";
                 placeholderImage.style.left = "0px";
-                placeholderImage.src = document.getElementById(tiles[c]).getAttribute("src");
+                if (document.getElementById(tiles[c]).getAttribute("pieceType") == "text") {
+                    placeholderImage.src = "assets/trasnparent.png"
+                } else {
+                    placeholderImage.src = document.getElementById(tiles[c]).getAttribute("src");
+                }
 
                 placeholderImage.id = "placeholder_" + document.getElementById(tiles[c]).getAttribute("id");
 
                 placeholderImage.style.zIndex = "-2"
                 placeholderImage.style.opacity = "0.4"
-                placeholderImage.style.width = document.getElementById(tiles[c]).offsetWidth + "px"
-                placeholderImage.style.height = document.getElementById(tiles[c]).offsetHeight + "px"
+                placeholderImage.style.width = "100%"//document.getElementById(tiles[c]).offsetWidth + "px"
+                placeholderImage.style.height = "auto"//document.getElementById(tiles[c]).offsetHeight + "px"
                 document.getElementById(blockId).appendChild(placeholderImage);
                 document.getElementById(tiles[c]).style.top = (offsetTopTiles[c]) + "px"
                 document.getElementById(tiles[c]).style.left = "0px"
@@ -261,9 +326,9 @@ function moveElement(oldPosX, oldPosY, clientX, clientY, elmnt) {
     elmnt.style.top = (elmnt.offsetTop - oldPosY) + "px";
     elmnt.style.left = (elmnt.offsetLeft - oldPosX) + "px";
     if (clientX < document.getElementById(activeSet).offsetWidth) {
-        var oldLeft = elmnt.offsetLeft - document.getElementById("map").scrollLeft;
+        var oldLeft = elmnt.offsetLeft - document.getElementById("map").scrollLeft + document.getElementById("map").offsetLeft;
         var oldWidth = elmnt.offsetWidth;
-        var oldTop = elmnt.offsetTop - document.getElementById("map").scrollTop;
+        var oldTop = elmnt.offsetTop - document.getElementById("map").scrollTop + document.getElementById("map").offsetTop;
         var oldHeigth = elmnt.offsetHeight;
 
         document.getElementById(activeSet).appendChild(elmnt);
@@ -283,8 +348,8 @@ function moveElement(oldPosX, oldPosY, clientX, clientY, elmnt) {
         document.getElementById("map").appendChild(elmnt);
         elmnt.style.width = 'auto';
         if (elmnt.getAttribute("onMap") == "no") {
-            elmnt.style.left = (clientX - (((clientX - oldLeft) * elmnt.offsetWidth) / oldWidth) + document.getElementById("map").scrollLeft) + "px";
-            elmnt.style.top = (clientY - (((clientY - oldTop) * elmnt.offsetHeight) / oldHeigth) + document.getElementById("map").scrollTop) + "px";
+            elmnt.style.left = (clientX - (((clientX - oldLeft) * elmnt.offsetWidth) / oldWidth) - document.getElementById("map").offsetLeft + document.getElementById("map").scrollLeft) + "px";
+            elmnt.style.top = (clientY - (((clientY - oldTop) * elmnt.offsetHeight) / oldHeigth) - document.getElementById("map").offsetTop + document.getElementById("map").scrollTop) + "px";
 
             elmnt.setAttribute("onMap", "yes")
         }
@@ -303,7 +368,7 @@ function endMoveElement(pieces, multipleElementsDragging) {
                 document.getElementById(elmnt.getAttribute("set")).appendChild(elmnt);
                 elmnt.style.top = placeholderImage.offsetTop + "px";
                 elmnt.style.left = placeholderImage.offsetLeft + "px";
-                elmnt.style.width = placeholderImage.offsetWidth + "px";
+                elmnt.style.width = "100%"//placeholderImage.offsetWidth + "px";
 
                 var tileFace = ""
                 if (elmnt.id.charAt(elmnt.id.length - 1) == 'A') {
@@ -350,7 +415,7 @@ function dragElement(elmnt) {//setup the callbacks
     count++;
 
     elmnt.addEventListener('contextmenu', function (ev) {
-        if (selectedPieces.includes(elmnt)) {
+        if (elmnt.getAttribute("pieceType") == "tile" && elmnt.getAttribute("onMap") == "yes" && selectedPieces.includes(elmnt)) {
             startRotateMultipleElements();
         } else {
             if (elmnt.getAttribute("pieceType") == "tile" && elmnt.getAttribute("onMap") == "yes") {
@@ -387,8 +452,8 @@ function dragElement(elmnt) {//setup the callbacks
                 canvas.style.left = 0 + "px";
                 canvas.getContext('2d').drawImage(elmnt, 0, 0);
 
-                let x = e.clientX - elmnt.offsetLeft + document.getElementById("map").scrollLeft;
-                let y = e.clientY + (document.getElementById("map").scrollTop) - elmnt.offsetTop;
+                let x = e.clientX - elmnt.offsetLeft + document.getElementById("map").scrollLeft - document.getElementById("map").offsetLeft;
+                let y = e.clientY - elmnt.offsetTop  + (document.getElementById("map").scrollTop) - document.getElementById("map").offsetTop;
 
                 let point = canvas.getContext('2d').getImageData(x, y, 1, 1).data
 
@@ -441,7 +506,7 @@ function dragElement(elmnt) {//setup the callbacks
                 document.getElementById(elmnt.getAttribute("set")).appendChild(backup);
                 backup.style.top = placeholderImage.offsetTop + "px";
                 backup.style.left = placeholderImage.offsetLeft + "px";
-                backup.style.width = placeholderImage.offsetWidth + "px";
+                backup.style.width = "100%"//placeholderImage.offsetWidth + "px";
                 backup.src = placeholderImage.src;
                 backup.style.zIndex = "0";
                 backup.id = elmnt.id.substr(0, elmnt.id.lastIndexOf("_") + 1) + (parseInt(elmnt.id.match(/(\d+)$/)[0], 10) + 1);
@@ -502,11 +567,11 @@ function returnOnMap(piecesToReadjust) {
     let translationTop = 0;
     piecesToReadjust.forEach(elmnt => {
         if (elmnt.getAttribute("onMap") == "yes") {
-            if ((elmnt.offsetLeft - document.getElementById(activeSet).offsetWidth) < translationRight) {
-                translationRight = (elmnt.offsetLeft - document.getElementById(activeSet).offsetWidth);
+            if ((elmnt.offsetLeft - document.getElementById(activeSet).offsetWidth + document.getElementById("map").offsetLeft) < translationRight) {
+                translationRight = (elmnt.offsetLeft - document.getElementById(activeSet).offsetWidth + document.getElementById("map").offsetLeft);
             }
-            if ((elmnt.offsetTop - document.getElementById("map").offsetTop) < translationTop) {
-                translationTop = (elmnt.offsetTop - document.getElementById("map").offsetTop);
+            if ((elmnt.offsetTop) < translationTop) {
+                translationTop = (elmnt.offsetTop);
             }
         }
     });

@@ -1,12 +1,12 @@
 
 function incFont(textArea){
 
-    textArea.style.fontSize = (parseInt(textArea.style.fontSize, 10) + 4) + "px";
+    textArea.style.fontSize = (parseFloat((textArea.style.fontSize)) + 4) + "px";
 }
 
 
 function decFont(textArea){
-    textArea.style.fontSize = (parseInt(textArea.style.fontSize, 10) - 4) + "px";
+    textArea.style.fontSize = (parseFloat((textArea.style.fontSize)) - 4) + "px";
 }
 
 function boldFont(textArea){

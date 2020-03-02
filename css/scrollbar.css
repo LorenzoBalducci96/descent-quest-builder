@@ -53,7 +53,7 @@
 
 .funny_scrollbar_blue::-webkit-scrollbar
 {
-	width: 32px;
+	width: 1vw;
 	background-color: #FFFFFF00;
 }
 
