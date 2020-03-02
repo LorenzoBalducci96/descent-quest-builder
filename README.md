@@ -9,15 +9,10 @@ download releases here: https://github.com/LorenzoBalducci96/descent-quest-build
 
 The desktop application is made with electron.
 The desktop application can save your project into his folder (backup of entire innerHTML of the document) and can then show all your saved projects and restore the session.
-Running the web page in a browser won't let you save/load project (due to unavailable of node integration) however you can use the rest of the functions but consider:
-  1) Firefox won't let you export the PDF due to html2canvas known problems.
-  2) If you are experiencing tiles disappearing in google-chrome here are the possible solutions:
-      * run google-chrome with the bat or sh script (startWithChrom.bat/sh) or
-      * use microsoft edge (no chromium based) or
-      * consider to use the desktop application (available in release section)
-  
-This is caused by "the canvas has been tainted by cross-origin data" known error.
+Running the web page in a browser won't let you save/load project (due to unavailable of node integration) however you can use the rest of the functions but consider that you have to deal with CORS issues caused by canvas created with local images so:
 
+  1) You can use google-chrome with --allow-file-access-from-files options (.bat and .sh launchers provided in the repository)
+  2) You can use microsoft edge (not the chromium based one).
 
 implementation notes:
 The javascript is a little tricky because all the movement/resizing/reshaping and "snapping to square" functions of the images are implemented from scratch, the canvas are produced just for ignore the click on trasparent position of the images.
