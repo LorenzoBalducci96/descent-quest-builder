@@ -13,9 +13,10 @@ Running the web page in a browser won't let you save/load project (due to unavai
   1) Firefox won't let you export the PDF due to html2canvas known problems.
   2) If you are experiencing tiles disappearing in google-chrome here are the possible solutions:
       * run google-chrome with the bat or sh script (startWithChrom.bat/sh) or
-      * use microsoft edge or
+      * use microsoft edge (no chromium based) or
       * consider to use the desktop application (available in release section)
-  This is caused by "the canvas has been tainted by cross-origin data" known error.
+  
+This is caused by "the canvas has been tainted by cross-origin data" known error.
 
 
 implementation notes:
