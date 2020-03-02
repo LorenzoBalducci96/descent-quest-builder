@@ -299,16 +299,16 @@ function triggerMouseEvent(node, e) {//retrigger the mouse click event, for tile
 
 function rotateElement(elmnt) {
     if (elmnt.getAttribute("orientation") == 0) {
-        elmnt.src = elmnt.src.substr(0, elmnt.src.lastIndexOf('_')) + "_090.png";
+        elmnt.src = elmnt.getAttribute("src").substr(0, elmnt.getAttribute("src").lastIndexOf('_')) + "_090.png";
         elmnt.setAttribute("orientation", "90")
     } else if (elmnt.getAttribute("orientation") == 90) {
-        elmnt.src = elmnt.src.substr(0, elmnt.src.lastIndexOf('_')) + "_180.png";
+        elmnt.src = elmnt.getAttribute("src").substr(0, elmnt.getAttribute("src").lastIndexOf('_')) + "_180.png";
         elmnt.setAttribute("orientation", "180")
     } else if (elmnt.getAttribute("orientation") == 180) {
-        elmnt.src = elmnt.src.substr(0, elmnt.src.lastIndexOf('_')) + "_270.png";
+        elmnt.src = elmnt.getAttribute("src").substr(0, elmnt.getAttribute("src").lastIndexOf('_')) + "_270.png";
         elmnt.setAttribute("orientation", "270")
     } else if (elmnt.getAttribute("orientation") == 270) {
-        elmnt.src = elmnt.src.substr(0, elmnt.src.lastIndexOf('_')) + "_000.png";
+        elmnt.src = elmnt.getAttribute("src").substr(0, elmnt.getAttribute("src").lastIndexOf('_')) + "_000.png";
         elmnt.setAttribute("orientation", "0")
     }
 }
@@ -364,7 +364,8 @@ function endMoveElement(pieces, multipleElementsDragging) {
             if (elmnt.getAttribute("single") == "yes") {//updating visibility of other side tiles
                 var placeholderImage = document.getElementById("placeholder_" + elmnt.id);
                 elmnt.setAttribute("onMap", "no");
-                elmnt.src = placeholderImage.src;
+                //elmnt.src = placeholderImage.src;
+                elmnt.src = placeholderImage.getAttribute("src");
                 document.getElementById(elmnt.getAttribute("set")).appendChild(elmnt);
                 elmnt.style.top = placeholderImage.offsetTop + "px";
                 elmnt.style.left = placeholderImage.offsetLeft + "px";
@@ -507,7 +508,8 @@ function dragElement(elmnt) {//setup the callbacks
                 backup.style.top = placeholderImage.offsetTop + "px";
                 backup.style.left = placeholderImage.offsetLeft + "px";
                 backup.style.width = "100%"//placeholderImage.offsetWidth + "px";
-                backup.src = placeholderImage.src;
+                //backup.src = placeholderImage.src;
+                backup.src = placeholderImage.getAttribute("src");
                 backup.style.zIndex = "0";
                 backup.id = elmnt.id.substr(0, elmnt.id.lastIndexOf("_") + 1) + (parseInt(elmnt.id.match(/(\d+)$/)[0], 10) + 1);
                 backup.setAttribute("onMap", "no");
