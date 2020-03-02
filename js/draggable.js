@@ -33,9 +33,10 @@ function initCanvasDragShower(elmnt) {
     canvas = elmnt
     ctx = canvas.getContext('2d');
     ctx.strokeStyle = 'rgba(255, 0, 0, 2)';
-    ctx.lineWidth = '10';
+    ctx.lineWidth = 10;
     rect = {};
     drag = false;
+    
 
     $(document).keydown(function (event) {
         if (event.which == "17")

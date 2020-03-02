@@ -17,7 +17,16 @@ async function createImg(imgOutput) {
     html2canvas(document.getElementById("output"), {
         onrendered: function (canvas) {
             document.getElementById(imgOutput).src = canvas.toDataURL("image/png");
+            canvas = null;
+            
+            document.getElementById("canvasDragShower").width = 0
+            document.getElementById("canvasDragShower").height = 0
+            document.getElementById("canvasDragShower").width = 3600
+            document.getElementById("canvasDragShower").height = 2000
 
+            ctx = document.getElementById("canvasDragShower").getContext('2d');
+            ctx.strokeStyle = 'rgba(255, 0, 0, 2)';
+            ctx.lineWidth = 10;
         }
     });
     

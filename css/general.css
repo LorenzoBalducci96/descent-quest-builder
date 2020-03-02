@@ -72,6 +72,7 @@ img{
 
 /*everithing of the map*/
 .canvasContainer{
+    z-index: 99;
     height: calc(100vh - var(--bottom-canvas-margin) - var(--top-bar-height));
     width: 100%;
     overflow-y : hidden;
@@ -79,6 +80,7 @@ img{
     position: fixed; 
     top: calc(var(--top-bar-height));
     left: var(--sidenav-width);
+    pointer-events: none;
 }
 
 .menuExportBar{
@@ -92,10 +94,8 @@ img{
 #canvasDragShower{
     z-index: 99;
     opacity: 1.0;
-
-
-    background-image: url('../assets/background.jpg');
-    background-attachment:local;
+    pointer-events: none;
+    background-color: #0000;
 }
 
 .map {
@@ -107,7 +107,9 @@ img{
     top: var(--top-bar-height); /* Stay at the top */
     left: var(--sidenav-width);
     opacity: 1;
-    background-image: url('../assets/trasnparent.png');
+
+    background-image: url('../assets/background.jpg');
+    background-attachment:local;
 }
 
 .control_bar_container{

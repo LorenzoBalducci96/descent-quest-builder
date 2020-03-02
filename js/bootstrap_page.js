@@ -42,6 +42,11 @@ function bootstrap_page() {
     });
 
     $('#startButton').click();
+
+    /*
+    document.getElementById("canvasDragShower").width = window.innerWidth;
+    document.getElementById("canvasDragShower").height = window.innerHeight;
+    */
     
 
 }
