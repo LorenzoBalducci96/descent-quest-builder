@@ -19,14 +19,16 @@ async function createImg(imgOutput) {
             document.getElementById(imgOutput).src = canvas.toDataURL("image/png");
             canvas = null;
             
+            
             document.getElementById("canvasDragShower").width = 0
             document.getElementById("canvasDragShower").height = 0
-            document.getElementById("canvasDragShower").width = 3600
-            document.getElementById("canvasDragShower").height = 2000
+            document.getElementById("canvasDragShower").width = 4096
+            document.getElementById("canvasDragShower").height = 3084
 
             ctx = document.getElementById("canvasDragShower").getContext('2d');
             ctx.strokeStyle = 'rgba(255, 0, 0, 2)';
             ctx.lineWidth = 10;
+            
         }
     });
     
@@ -108,7 +110,7 @@ function createOutputDivForPrint() {
             //label.style.fontFamily = "Lucida Sans Unicode, Lucida Grande, sans-serif";
             label.style.fontFamily = "Comic Sans MS, cursive, sans-serif";
             label.numberOfLines = 0;
-            label.innerHTML = tile.childNodes[3].childNodes[1].value.replace("\n", "<br>");
+            label.innerHTML = tile.childNodes[3].childNodes[1].value.replace(/\n/g, "<br>");
             document.getElementById("output").appendChild(label);
         }
     });

@@ -79,6 +79,21 @@ function multiDragOnMapSelect(map) {
     function makeDrag(e) {
         mouseMoveCanvas(e)//callback on the canvas for drawing the rectangle
         selectPiecesOnDrag(e)
+
+        /*
+        if(e.clientY < document.getElementById("map").offsetTop + 72){
+            document.getElementById("map").scrollTop = document.getElementById("map").scrollTop - 4
+        }if(e.clientY > document.getElementById("map").offsetTop + 
+                document.getElementById("map").offsetHeight - 72){
+            document.getElementById("map").scrollTop = document.getElementById("map").scrollTop + 4
+        }
+        if(e.clientX < document.getElementById("map").offsetLeft + 72){
+            document.getElementById("map").scrollLeft = document.getElementById("map").scrollLeft - 4
+        }if(e.clientX > document.getElementById("map").offsetLeft +
+                document.getElementById("map").offsetWidth - 72){
+            document.getElementById("map").scrollLeft = document.getElementById("map").scrollLeft + 4
+        }
+        */
     }
     function startSelect(e) {
         if (document.elementFromPoint(e.clientX, e.clientY).id == "map") {

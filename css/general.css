@@ -1,7 +1,7 @@
 :root {
     --top-bar-height: 4vh;
-    --bottom-bar-height: 8vh;
-    --bottom-bar-zoomed-height: 15vh;
+    --bottom-bar-height: 4vw;
+    --bottom-bar-zoomed-height: 8vw;
     --sidenav-width: 11vw;
     --bottom-canvas-margin: 0px;
     --bottom-map-margin: 0px;
@@ -166,8 +166,8 @@ img{
 	cursor:pointer;
 	color:#ffffff;
 	font-family:Arial;
-	font-size:22px;
-    padding:0px 12px;
+	font-size:1vw;
+    padding:0px 0.5vw;
     margin-top: 4px;
 
 	text-decoration:none;
