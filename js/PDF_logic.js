@@ -176,7 +176,8 @@ function setBlackBackground() {
 function setSmokyBackground() {
     if (document.getElementById("output").style.backgroundImage != "url('assets/pdf_background.jpg')") {
         document.getElementById("output").style.backgroundColor = "none";
-        document.getElementById("output").style.backgroundImage = "url('assets/pdf_background.jpg')";
+        //document.getElementById("output").style.backgroundImage = "url('assets/pdf_background.jpg')";
+        document.getElementById("output").style.backgroundImage = getSmokyBackground();
         createImg('mapRendered');
     }
 }

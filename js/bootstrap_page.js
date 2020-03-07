@@ -1,4 +1,13 @@
 function bootstrap_page() {
+    var pieces = document.querySelectorAll("[pieceType='tile']");
+    pieces.forEach(element => {
+        startapImage(element);
+    });
+    var pieces = document.querySelectorAll("[pieceType='ghost']");
+    pieces.forEach(element => {
+        startapImage(element);
+    });
+
     //loadAndArrange decide the position of each tile in his bar
     this.loadAndArrangeTiles("baseSetOutside");
     this.loadAndArrangeTiles("baseSetInside");
@@ -12,14 +21,11 @@ function bootstrap_page() {
     this.loadAndArrangeTiles("lairOfTheWyrmInside");
     this.loadAndArrangeTiles("trollfensOutside");
     this.loadAndArrangeTiles("trollfensInside");
-    
     this.loadAndArrangeTiles("tokens");
     this.loadAndArrangeTiles("monsters");
-
-    this.loadAndArrangeTiles("textAreas");
+    this.loadAndArrangeTiles("miscellaneous");
 
     window.addEventListener("resize", rearrangeAllTiles);//we want to rearrange all tiles on zoom change
-    
 
     multiDragOnMapSelect(document.getElementById('map'))
     //used for restoring save point
@@ -40,39 +46,29 @@ function bootstrap_page() {
                 $(element).toggleClass('clicked');
             });
     });
-
     $('#startButton').click();
-
     /*
     document.getElementById("canvasDragShower").width = window.innerWidth;
     document.getElementById("canvasDragShower").height = window.innerHeight;
     */
-    
-
 }
 
-window.onload = function () {
-    this.bootstrap_page();
-};
 
 function rearrangeAllTiles(){
     this.rearrangeTilesAfterResize("baseSetOutside")
     this.rearrangeTilesAfterResize("baseSetInside")
     this.rearrangeTilesAfterResize("baseSetMiscellaneous");
-
     this.rearrangeTilesAfterResize("shadowOfNerekhallOutside");
     this.rearrangeTilesAfterResize("shadowOfNerekhallInside");
     this.rearrangeTilesAfterResize("shadowOfNerekhallMiscellaneous");
-
     this.rearrangeTilesAfterResize("labyrinthOfRuinOutside");
     this.rearrangeTilesAfterResize("labyrinthOfRuinInside");
     this.rearrangeTilesAfterResize("lairOfTheWyrmOutside");
     this.rearrangeTilesAfterResize("lairOfTheWyrmInside");
     this.rearrangeTilesAfterResize("trollfensOutside");
     this.rearrangeTilesAfterResize("trollfensInside");
-    
     this.rearrangeTilesAfterResize("tokens");
     this.rearrangeTilesAfterResize("monsters");
-
-    this.rearrangeTilesAfterResize("textAreas");
+    this.rearrangeTilesAfterResize("miscellaneous");
 }
+

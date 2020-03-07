@@ -197,6 +197,7 @@ function loadAndArrangeTiles(blockId) {
     arrangeTiles(blockId);
 }
 
+
 function sortByTop() {
     return function (a, b) {
         var filter_a = parseInt(a.offsetTop);
@@ -276,13 +277,17 @@ function arrangeTiles(blockId) {
             if (toPut) {
 
                 let placeholderImage = document.createElement("img");
-                placeholderImage.setAttribute("pieceType", "ghost") ;
+                placeholderImage.setAttribute("pieceType", "ghost");
+                placeholderImage.setAttribute("set", document.getElementById(tiles[c]).getAttribute("set"));
+                placeholderImage.setAttribute("image", document.getElementById(tiles[c]).getAttribute("image"));
+                placeholderImage.setAttribute("orientation", "0");
                 placeholderImage.style.position = "absolute";
                 placeholderImage.style.top = (offsetTopTiles[c]) + "px";
                 placeholderImage.style.left = "0px";
                 if (document.getElementById(tiles[c]).getAttribute("pieceType") == "text") {
                     placeholderImage.src = "assets/trasnparent.png"
                 } else {
+                    //placeholderImage.src = document.getElementById(tiles[c]).src;
                     placeholderImage.src = document.getElementById(tiles[c]).getAttribute("src");
                 }
 
@@ -315,17 +320,21 @@ function triggerMouseEvent(node, e) {//retrigger the mouse click event, for tile
 
 function rotateElement(elmnt) {
     if (elmnt.getAttribute("orientation") == 0) {
-        elmnt.src = elmnt.getAttribute("src").substr(0, elmnt.getAttribute("src").lastIndexOf('_')) + "_090.png";
+        //elmnt.src = elmnt.src.substr(0, elmnt.src.lastIndexOf('_')) + "_090.png";
         elmnt.setAttribute("orientation", "90")
+        setImage(elmnt)
     } else if (elmnt.getAttribute("orientation") == 90) {
-        elmnt.src = elmnt.getAttribute("src").substr(0, elmnt.getAttribute("src").lastIndexOf('_')) + "_180.png";
+        //elmnt.src = elmnt.src.substr(0, elmnt.src.lastIndexOf('_')) + "_180.png";
         elmnt.setAttribute("orientation", "180")
+        setImage(elmnt)
     } else if (elmnt.getAttribute("orientation") == 180) {
-        elmnt.src = elmnt.getAttribute("src").substr(0, elmnt.getAttribute("src").lastIndexOf('_')) + "_270.png";
+        //elmnt.src = elmnt.src.substr(0, elmnt.src.lastIndexOf('_')) + "_270.png";
         elmnt.setAttribute("orientation", "270")
+        setImage(elmnt)
     } else if (elmnt.getAttribute("orientation") == 270) {
-        elmnt.src = elmnt.getAttribute("src").substr(0, elmnt.getAttribute("src").lastIndexOf('_')) + "_000.png";
+        //elmnt.src = elmnt.src.substr(0, elmnt.src.lastIndexOf('_')) + "_000.png";
         elmnt.setAttribute("orientation", "0")
+        setImage(elmnt)
     }
 }
 
@@ -380,6 +389,7 @@ function endMoveElement(pieces, multipleElementsDragging) {
             if (elmnt.getAttribute("single") == "yes") {//updating visibility of other side tiles
                 var placeholderImage = document.getElementById("placeholder_" + elmnt.id);
                 elmnt.setAttribute("onMap", "no");
+                elmnt.setAttribute("orientation", "0");
                 //elmnt.src = placeholderImage.src;
                 elmnt.src = placeholderImage.getAttribute("src");
                 document.getElementById(elmnt.getAttribute("set")).appendChild(elmnt);
@@ -427,7 +437,7 @@ function endMoveElement(pieces, multipleElementsDragging) {
 }
 
 function dragElement(elmnt) {//setup the callbacks
-    elmnt.setAttribute("orientation", "0");
+    
     tiles[count] = elmnt.getAttribute("id");
     count++;
 
@@ -459,7 +469,7 @@ function dragElement(elmnt) {//setup the callbacks
         var toDrag = true;
         if (elmnt.getAttribute("onMap") == "yes") {
             if (elmnt.getAttribute("pieceType") == "tile") {
-
+                
                 let canvas = document.createElement("canvas");
 
                 canvas.width = elmnt.offsetWidth;
@@ -468,6 +478,7 @@ function dragElement(elmnt) {//setup the callbacks
                 canvas.style.top = 0 + "px";
                 canvas.style.left = 0 + "px";
                 canvas.getContext('2d').drawImage(elmnt, 0, 0);
+                
 
                 let x = e.clientX - elmnt.offsetLeft + document.getElementById("map").scrollLeft - document.getElementById("map").offsetLeft;
                 let y = e.clientY - elmnt.offsetTop  + (document.getElementById("map").scrollTop) - document.getElementById("map").offsetTop;
@@ -639,6 +650,5 @@ function startDragMultiElements(e) {
         if (e.clientX < document.getElementById(activeSet).offsetWidth) {
             deselectAllPieces();
         }
-
     }
 }

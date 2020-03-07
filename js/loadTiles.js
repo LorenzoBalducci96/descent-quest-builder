@@ -42,13 +42,13 @@ function loadBaseSetOutside() {
         activeSet = "baseSetOutside";
 }
 
-function loadTextAreas(){
+function loadMiscellaneous(){
     document.getElementById(activeSet).style.visibility = "hidden"
-    document.getElementById("textAreas").style.visibility = ""
+    document.getElementById("miscellaneous").style.visibility = ""
     
     document.getElementById('insideButton').style.display = "none"
     document.getElementById('miscellaneousButton').style.display = "none"
-    activeSet = "textAreas";
+    activeSet = "miscellaneous";
 }
 
 function loadMonsters(){

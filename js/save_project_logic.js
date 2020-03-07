@@ -144,7 +144,20 @@ function savePage() {
             tilesOnMap[i].childNodes[3].childNodes[1].innerHTML = tilesOnMap[i].childNodes[3].childNodes[1].value;
         }
     }
-    documentToSave = document.documentElement.innerHTML;
+    if(appType == "web"){
+        var pieces = document.querySelectorAll("[pieceType='tile']");
+        pieces.forEach(element => {
+            element.src = "";
+        });
+        var pieces = document.querySelectorAll("[pieceType='ghost']");
+        pieces.forEach(element => {
+            element.src = "";
+        });
+        documentToSave = document.documentElement.innerHTML;
+        bootstrap_page();
+    }else{
+        documentToSave = document.documentElement.innerHTML;
+    }
     try {
         let fs = require('fs');
         createOutputDivForPrint();

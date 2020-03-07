@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Descent quest builder</title>
+</head>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="css/general.css">
+<link rel="stylesheet" type="text/css" href="css/scrollbar.css">
+
+<script type="text/javascript" src="js/otherBase64Assets.js"></script>
+<script type="text/javascript" src="js/draggable.js"></script>
+<script type="text/javascript" src="js/PDF_logic.js"></script>
+<script type="text/javascript" src="js/save_project_logic.js"></script>
+<script type="text/javascript" src="js/text_script.js"></script>
+<script type="text/javascript" src="js/loadTiles.js"></script>
+<script type="text/javascript" src="js/bootstrap_page.js"></script>
+
+<script type="text/javascript" src="base64Tiles/base.js"></script>
+<script type="text/javascript" src="base64Tiles/labyrinth_of_ruin.js"></script>
+<script type="text/javascript" src="base64Tiles/lair_of_the_wyrm.js"></script>
+<script type="text/javascript" src="base64Tiles/miscellaneous.js"></script>
+<script type="text/javascript" src="base64Tiles/monsters.js"></script>
+<script type="text/javascript" src="base64Tiles/shadows_of_nerekhall.js"></script>
+<script type="text/javascript" src="base64Tiles/tokens.js"></script>
+<script type="text/javascript" src="base64Tiles/trollfens.js"></script>
+
+<script type="text/javascript" src="js/tilesGenerator.js"></script>
+
+<script>
+var appType = "web";
+window.onload = function () {
+    bootstrap_page();
+};
+</script>
+
+
+<script>if (typeof module === 'object') { window.module = module; module = undefined; }</script>
+<script src="js/jquery/jquery-3.4.1.min.js"></script>
+<script src="js/jquery/jquery-ui.js"></script>
+<script type="text/javascript" src="js/bootstrap/bootstrap.js"></script>
+<script src="js/html2canvas/html2canvas.js"></script>
+<script src="js/html2canvas/jspdf.debug.js"></script>
+<script src="js/fileSaver/FileSaver.js"></script>
+<script>if (window.module) module = window.module;</script>
+
+
+<body>
+
+    <input type="file" id="restorePageInputFile" accept="text/html" style="display:none" />
+
+    <div class="modal fade" id="loadProjectModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-full" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">select one of the saved missions to reload</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <h1 aria-hidden="true">×</h1>
+                    </button>
+                </div>
+                <div class="modal-body p-4 funny_scrollbar_blue" id="result">
+                    <div class="row">
+                        <div class="col-8">
+                            <table class="bigtable table table-hover">
+                                <thead class="thead-inverse">
+                                    <tr>
+                                        <th>load</th>
+                                        <th>cancel</th>
+                                        <th>mission name</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="save_list">
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-4">
+                            <img class="full_width_window_image" id="previewLoading"></image>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="saveProjectModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-near-full" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">configure save</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <h1 aria-hidden="true">×</h1>
+                    </button>
+                </div>
+                <div class="modal-body p-4 funny_scrollbar_blue" id="result">
+                    <div class="row">
+                        <div class="col-7">
+                            <label class="labelBig">mission name :</label>
+                            <input class="labelBig" style="width: 100%" id="projectSaveName" type="text"
+                                class="form-control" placeholder="enter mission name">
+                            <br>
+                            <br>
+                            <label class="labelBig">description or notes :</label>
+                            <textarea class="labelBig" style="width: 100%" id="projectSaveNotes"
+                                style="resize: none;"></textarea>
+                        </div>
+                        <div class="col-5">
+                            <img class="full_width_window_image" id="previewSaving"></image>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="saveButton" onclick="saveProject()">save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <div class="modal fade" id="outputModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-full" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">review output on a4 before exporting on pdf</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <h1 aria-hidden="true">×</h1>
+                    </button>
+                </div>
+                <div class="modal-body p-4 funny_scrollbar_blue" id="result">
+                    <div class="row">
+                        <div class="col-6">
+                            <h2>settings</h2>
+                            <h3>background color</h3>
+                            <input id="black_checkbox" onclick="setBlackBackground()" class="checkmark" type="radio"
+                                name="background_color"> <label class="labelBig">black (improve readability)</label><br>
+                            <input id="white_checkbox" onclick="setWhiteBackground()" class="checkmark" type="radio"
+                                name="background_color"><label class="labelBig">white (save ink when
+                                printing)</label><br>
+                            <input id="smoky_checkbox" onclick="setSmokyBackground()" class="checkmark" type="radio"
+                                checked="checked" name="background_color"> <label class="labelBig">smoky (as original
+                                questbook)</label><br>
+                            <button class="exportPDFButton" onclick="exportPDF()">export to PDF</button>
+
+                            <br>
+                            <br>
+                            <div class="form-group">
+                                <h3 class="labelBig">ZOOM (adapt the dungeon to fit A4 printable page)</h3>
+                                <br>
+                                <input style="width: 80%" class="rounded_range" type="range" max="2.0" min="0.5"
+                                    step="0.5" value="1.5" id="zoomScaling" onchange="scaleRes()"></input>
+
+                            </div>
+                            <div class="form-group">
+                                <h3 class="labelBig">margin left</h3>
+                                <br>
+                                <input style="width: 80%" class="rounded_range" type="range" max="200" min="-200"
+                                    step="20" value="0" id="marginLeft" onmouseup="setMarginLeft()"
+                                    ontouchend="setMarginLeft()"></input>
+
+                            </div>
+                            <div class="form-group">
+                                <h3 class="labelBig">margin top</h3>
+                                <br>
+                                <input style="width: 80%" class="rounded_range" type="range" max="200" min="-200"
+                                    step="20" value="0" id="marginTop" onmouseup="setMarginTop()"
+                                    ontouchend="setMarginTop()"></input>
+
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <img class="half_window_image" id="mapRendered"></img>
+                        </div>
+                    </div>
+                </div>
+                <!--
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+                        </div>
+                        -->
+            </div>
+        </div>
+    </div>
+    <div id="output" style="display: none;"></div>
+
+    <div class="sidebar-container">
+        <div id="tilesSelectorBar">
+            <button class="blueButton" id="miscellaneousButton" onclick="loadBaseSetMiscellaneous()">extra</button>
+            <button class="blueButton" id="insideButton" onclick="loadBaseSetInside()">change side</button>
+            <!--<img src="assets/flip-icon.png"  style="border-radius: 0.5vw; border:2px solid #fff; width:50%; height: 95%;" id="insideButton" onclick="loadBaseSetInside()"></img>-->
+        </div>
+        <div class="sidenav funny_scrollbar_blue" id="baseSetOutside" style="visibility: ''">
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="01A" image="01A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 20px; left: 0px;" onmap="no">
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="02A" image="02A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 235px; left: 0px;" onmap="no">
+
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="03A" image="03A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 510px; left: 0px;" onmap="no">
+
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="04A" image="04A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 707px; left: 0px;" onmap="no">
+
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="05A" image="05A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 982px; left: 0px;" onmap="no">
+
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="06A" image="06A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 1179px; left: 0px;" onmap="no">
+
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="07A" image="07A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 1376px; left: 0px;" onmap="no">
+
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="08A" image="08A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 1573px; left: 0px;" onmap="no">
+
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="09A" image="09A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 1848px; left: 0px;" onmap="no">
+
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="10A" image="10A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 2123px; left: 0px;" onmap="no">
+
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="11A" image="11A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 2398px; left: 0px;" onmap="no">
+
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="12A" image="12A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 2673px; left: 0px;" onmap="no">
+
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="13A" image="13A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 2948px; left: 0px;" onmap="no">
+
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="14A" image="14A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 3220px; left: 0px;" onmap="no">
+
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="15A" image="15A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 3495px; left: 0px;" onmap="no">
+
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="16A" image="16A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 3724px; left: 0px;" onmap="no">
+
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="17A" image="17A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 3999px; left: 0px;" onmap="no">
+
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="18A" image="18A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 4274px; left: 0px;" onmap="no">
+
+            <img set="baseSetOutside" set="baseSetOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="19A" image="19A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 4549px; left: 0px;" onmap="no">
+
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="20A" image="20A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 4708px; left: 0px;" onmap="no">
+
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="21A" image="21A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 4835px; left: 0px;" onmap="no">
+
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="22A" image="22A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 4994px; left: 0px;" onmap="no">
+
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="23A" image="23A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 5114px; left: 0px;" onmap="no">
+
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="24A" image="24A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 5234px; left: 0px;" onmap="no">
+
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="25A" image="25A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 5354px; left: 0px;" onmap="no">
+
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="26A" image="26A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 5474px; left: 0px;" onmap="no">
+
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="27A" image="27A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 5693px; left: 0px;" onmap="no">
+
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="28A" image="28A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 6166px; left: 0px;" onmap="no">
+
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="29A" image="29A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 6330px; left: 0px;" onmap="no">
+
+            <img set="baseSetOutside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="30A" image="30A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 6494px; left: 0px;" onmap="no">
+
+            <label piecetype="placeholder" style="position: absolute; top: 6660px;">.</label>
+        </div>
+
+        <div class="sidenav funny_scrollbar_blue" id="baseSetInside" style="visibility: hidden;">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="01B" image="01B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 20px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="02B" image="02B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 235px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="03B" image="03B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 508px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="04B" image="04B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 705px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="05B" image="05B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 980px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="06B" image="06B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 1177px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="07B" image="07B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 1374px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="08B" image="08B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 1571px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="09B" image="09B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 1846px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="10B" image="10B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 2121px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="11B" image="11B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 2396px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="12B" image="12B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 2671px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="13B" image="13B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 2946px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="14B" image="14B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 3219px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="15B" image="15B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 3494px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="16B" image="16B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 3723px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="17B" image="17B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 3998px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="18B" image="18B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 4273px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="19B" image="19B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 4548px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="20B" image="20B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 4707px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="21B" image="21B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 4834px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="22B" image="22B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 4993px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="23B" image="23B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 5113px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="24B" image="24B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 5233px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="25B" image="25B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 5353px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="26B" image="26B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 5473px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="27B" image="27B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 5692px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="28B" image="28B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 6165px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="29B" image="29B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 6329px; left: 0px;" onmap="no">
+            <img set="baseSetInside" orientation="0" single="yes" pieceType="tile"
+                oncontextmenu="return false;" id="30B" image="30B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 6493px; left: 0px;" onmap="no">
+            <label piecetype="placeholder" style="position: absolute; top: 6660px;">.</label>
+        </div>
+
+        <div class="sidenav funny_scrollbar_blue" id="baseSetMiscellaneous" style="visibility: hidden;">
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="CLOSE1B" image="CLOSEB"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="CLOSE2B" image="CLOSEB"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="CLOSE3B" image="CLOSEB"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="CLOSE4B" image="CLOSEB"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="CLOSE5B" image="CLOSEB"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="CLOSE6B" image="CLOSEB"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="CLOSE7B" image="CLOSEB"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="CLOSE8B" image="CLOSEB"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="CLOSE1A" image="CLOSEA"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="CLOSE2A" image="CLOSEA"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="CLOSE3A" image="CLOSEA"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="CLOSE4A" image="CLOSEA"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="CLOSE5A" image="CLOSEA"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="CLOSE6A" image="CLOSEA"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="CLOSE7A" image="CLOSEA"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="CLOSE8A" image="CLOSEA"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="CONNECT1A" image="CONNECTA"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="CONNECT2A" image="CONNECTA"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="CONNECT3A" image="CONNECTA"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="CONNECT4A" image="CONNECTA"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="CONNECT5A" image="CONNECTA"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="CONNECT6A" image="CONNECTA"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="CONNECT1B" image="CONNECTB"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="CONNECT2B" image="CONNECTB"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="CONNECT3B" image="CONNECTB"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="CONNECT4B" image="CONNECTB"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="CONNECT5B" image="CONNECTB"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="CONNECT6B" image="CONNECTB"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="ENI" image="ENI"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="ENO" image="ENO"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="EXA" image="EXI"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="EXB" image="EXO"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="TR1A" image="TI"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="TR2A" image="TI"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="TR1B" image="TO"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <img set="baseSetMiscellaneous" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="TR2B" image="TO"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"></image>
+            <label pieceType="placeholder" style="position: absolute; top: 7400px;">.</label>
+        </div>
+
+        <div class="sidenav funny_scrollbar_blue" id="shadowOfNerekhallOutside" style="visibility: hidden;">
+            <img set="shadowOfNerekhallOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="50A" image="50A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="51A" image="51A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="52A" image="52A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="53A" image="53A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="54A" image="54A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="55A" image="55A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="56A" image="56A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="57A" image="57A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="58A" image="58A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="59A" image="59A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="60A" image="60A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="61A" image="61A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="62A" image="62A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="63A" image="63A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="64A" image="64A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="65A" image="65A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="66A" image="66A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="67A" image="67A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="68A" image="68A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="69A" image="69A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <label pieceType="placeholder" style="position: absolute; top: 4800px;">.</label>
+        </div>
+
+
+        <div class="sidenav funny_scrollbar_blue" id="shadowOfNerekhallInside" style="visibility: hidden;">
+            <img set="shadowOfNerekhallInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="50B" image="50B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="51B" image="51B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="52B" image="52B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="53B" image="53B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="54B" image="54B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="55B" image="55B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="56B" image="56B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="57B" image="57B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="58B" image="58B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="59B" image="59B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="60B" image="60B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="61B" image="61B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="62B" image="62B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="63B" image="63B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="64B" image="64B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="65B" image="65B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="66B" image="66B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="67B" image="67B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="68B" image="68B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="69B" image="69B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <label pieceType="placeholder" style="position: absolute; top: 4800px;">.</label>
+        </div>
+
+
+        <div class="sidenav funny_scrollbar_blue" id="shadowOfNerekhallMiscellaneous" style="visibility: hidden;">
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="ExitA" image="Exit"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="ExitB" image="Entrance"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="EndSH-1A" image="EndCap-1"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set= "shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="EndSH-2A" image="EndCap-1"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="EndSH-3A" image="EndCap-1"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="EndSH-4A" image="EndCap-1"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="EndSH-5A" image="EndCap-1"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="EndSH-6A" image="EndCap-1"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="EndSH-7A" image="EndCap-1"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="EndSH-1B" image="EndCap-2"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="EndSH-2B" image="EndCap-2"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="EndSH-3B" image="EndCap-2"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="EndSH-4B" image="EndCap-2"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="EndSH-5B" image="EndCap-2"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="EndSH-6B" image="EndCap-2"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="EndSH-7B" image="EndCap-2"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="CON_TR-1B" image="Connector-2"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="CON_TR-2B" image="Connector-2"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="CON_TR-3B" image="Connector-2"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="CON_TR-4B" image="Connector-2"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="CON_TR-5B" image="Connector-2"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="CON_TR-1A" image="Connector-5"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="CON_TR-2A" image="Connector-5"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="CON_TR-3A" image="Connector-5"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="CON_TR-4A" image="Connector-5"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="CON_TR-5A" image="Connector-5"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+
+
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="Connector-1A" image="Connector"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="Connector-2A" image="Connector"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="Connector-3A" image="Connector"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="Connector-4A" image="Connector"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="Connector-5A" image="Connector"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="Connector-6A" image="Connector"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="Connector-1B" image="Connector-6"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="Connector-2B" image="Connector-6"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="Connector-3B" image="Connector-6"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="Connector-4B" image="Connector-6"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="Connector-5B" image="Connector-6"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="Connector-6B" image="Connector-6"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+
+
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="CON_TG1A" image="Connector-1"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="CON_TG1B" image="Connector-3"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="CON_TG2A" image="Connector-1"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="shadowOfNerekhallMiscellaneous"
+                orientation="0" single="yes" pieceType="tile" oncontextmenu="return false;" id="CON_TG2B" image="Connector-3"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+
+
+            <label pieceType="placeholder" style="position: absolute; top: 8000px;">.</label>
+        </div>
+
+        <div class="sidenav funny_scrollbar_blue" id="labyrinthOfRuinOutside" style="visibility: hidden;">
+            <img set="labyrinthOfRuinOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="36A" image="36A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="labyrinthOfRuinOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="37A" image="37A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="labyrinthOfRuinOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="38A" image="38A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="labyrinthOfRuinOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="39A" image="39A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="labyrinthOfRuinOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="40A" image="40A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="labyrinthOfRuinOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="41A" image="41A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="labyrinthOfRuinOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="42A" image="42A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+
+            <img set="labyrinthOfRuinOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="43A" image="43A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <label pieceType="placeholder" style="position: absolute; top: 2400px;">.</label>
+        </div>
+
+        <div class="sidenav funny_scrollbar_blue" id="labyrinthOfRuinInside" style="visibility: hidden;">
+            <img set="labyrinthOfRuinInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="36B" image="36B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="labyrinthOfRuinInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="37B" image="37B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="labyrinthOfRuinInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="38B" image="38B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="labyrinthOfRuinInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="39B" image="39B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="labyrinthOfRuinInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="40B" image="40B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="labyrinthOfRuinInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="41B" image="41B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="labyrinthOfRuinInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="42B" image="42B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="labyrinthOfRuinInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="43B" image="43B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <label pieceType="placeholder" style="position: absolute; top: 2400px;">.</label>
+        </div>
+
+        <div class="sidenav funny_scrollbar_blue" id="trollfensOutside" style="visibility: hidden;">
+            <img set="trollfensOutside" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="44A" image="44A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="trollfensOutside" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="45A" image="45A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="trollfensOutside" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="46A" image="46A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="trollfensOutside" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="47A" image="47A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="trollfensOutside" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="48A" image="48A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="trollfensOutside" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="49A" image="49A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="trollfensOutside" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="S2A" image="S2A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        </div>
+
+        <div class="sidenav funny_scrollbar_blue" id="trollfensInside" style="visibility: hidden;">
+            <img set="trollfensInside" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="44B" image="44B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="trollfensInside" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="45B" image="45B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="trollfensInside" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="46B" image="46B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="trollfensInside" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="47B" image="47B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="trollfensInside" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="48B" image="48B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="trollfensInside" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="49B" image="49B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="trollfensInside" orientation="0" single="yes"
+                pieceType="tile" oncontextmenu="return false;" id="S2B" image="S2B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+
+        </div>
+
+        <div class="sidenav funny_scrollbar_blue" id="lairOfTheWyrmOutside" style="visibility: hidden;">
+            <img set="lairOfTheWyrmOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="31A" image="31A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="lairOfTheWyrmOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="32A" image="32A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="lairOfTheWyrmOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="33A" image="33A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="lairOfTheWyrmOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="34A" image="34A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="lairOfTheWyrmOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="35A" image="35A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="lairOfTheWyrmOutside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="S1A" image="S1A"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <label pieceType="placeholder" style="position: absolute; top: 2400px;">.</label>
+        </div>
+
+        <div class="sidenav funny_scrollbar_blue" id="lairOfTheWyrmInside" style="visibility: hidden;">
+            <img set="lairOfTheWyrmInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="31B" image="31B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="lairOfTheWyrmInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="32B" image="32B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="lairOfTheWyrmInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="33B" image="33B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="lairOfTheWyrmInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="34B" image="34B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="lairOfTheWyrmInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="35B" image="35B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="lairOfTheWyrmInside" orientation="0"
+                single="yes" pieceType="tile" oncontextmenu="return false;" id="S1B" image="S1B"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <label pieceType="placeholder" style="position: absolute; top: 2400px;">.</label>
+        </div>
+
+        <div class="sidenav funny_scrollbar_blue" id="miscellaneous" style="visibility: hidden;">
+            <div class="card" set="miscellaneous" orientation="0" oncontextmenu="return false;" single="no" pieceType="text"
+                onMap="no" id="textConfig_1" style="position: absolute; cursor: move; z-index: -1;">
+                <div class="card-header" single="no" pieceType="text" draggable_trigger="true">
+
+                    <button class="bottomButton" single="no" pieceType="text" draggable_trigger="false"
+                        onclick="incFont(this.parentNode.parentNode.childNodes[3].childNodes[1])">+</button>
+                    <button class="bottomButton" single="no" pieceType="text" draggable_trigger="false"
+                        onclick="decFont(this.parentNode.parentNode.childNodes[3].childNodes[1])">-</button>
+                    <button class="bottomButton" single="no" pieceType="text" draggable_trigger="false"
+                        onclick="boldFont(this.parentNode.parentNode.childNodes[3].childNodes[1])">b</button>
+                    <br>
+                    <button class="bottomButton" style="background-color: black; " single="no" pieceType="text"
+                        draggable_trigger="false"
+                        onclick="colorBlack(this.parentNode.parentNode.childNodes[3].childNodes[1])"></button>
+                    <button class="bottomButton" style="background-color: red; " single="no" pieceType="text"
+                        draggable_trigger="false"
+                        onclick="colorRed(this.parentNode.parentNode.childNodes[3].childNodes[1])"></button>
+                    <button class="bottomButton" style="background-color: green; " single="no" pieceType="text"
+                        draggable_trigger="false"
+                        onclick="colorGreen(this.parentNode.parentNode.childNodes[3].childNodes[1])"></button>
+                    <button class="bottomButton" style="background-color: blue; " single="no" pieceType="text"
+                        draggable_trigger="false"
+                        onclick="colorBlue(this.parentNode.parentNode.childNodes[3].childNodes[1])"></button>
+                    <button class="bottomButton" style="background-color: white; " single="no" pieceType="text"
+                        draggable_trigger="false"
+                        onclick="colorWhite(this.parentNode.parentNode.childNodes[3].childNodes[1])"></button>
+                </div>
+
+                <div class="card-body" single="no" pieceType="text">
+                    <textarea id="text_1" style="font-size: 22px; font-weight: bold;" single="no" pieceType="text"
+                        draggable_trigger="false">spider's cave</textarea>
+                </div>
+            </div>
+
+            <img set="miscellaneous" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="GND_1" image="Green-Door"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+
+            <img set="miscellaneous" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="GYD_1" image="Grey-Door"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+
+            <img set="miscellaneous" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="YD_1" image="Yellow-Door"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+
+            <img set="miscellaneous" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="RD_1" image="Red-Door"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+
+
+            <img set="miscellaneous" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="XB_1" image="Red-X-Big"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+
+            <img set="miscellaneous" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="XS_1" image="Red-X-Small"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+
+            <label pieceType="placeholder" style="position: absolute; top: 2400px;">.</label>
+        </div>
+
+        <div class="sidenav funny_scrollbar_blue" id="tokens" style="visibility: hidden;">
+            <img set="tokens" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="TOKENBLACK_1" image="Objective-Token-Black"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="tokens" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="TOKENRED_1" image="Objective-Token-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="tokens" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="TOKEN_BLUE_1" image="Objective-Token-Blue"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="tokens" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="TOKEN_GREEN_1" image="Objective-Token-Green"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="tokens" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="TOKEN_WHITE_1" image="Objective-Token-White"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+
+            <img set="tokens" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="TOKEN_SEARCH1_1" image="Search-Token-1"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="tokens" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="TOKEN_SEARCH2_1" image="Search-Token-2"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="tokens" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="TOKEN_SEARCH3_1" image="Search-Token-3"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="tokens" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="TOKEN_SEARCH4_1" image="Search-Token-4"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="tokens" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="TOKEN_SPECIAL_1" image="Search-Token-Special"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+
+            <img set="tokens" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="TOKEN_VIL_MAN_1" image="Villager-Token-Man"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="tokens" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="TOKEN_VIL_WOMAN_1" image="Villager-Token-Woman"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+
+            <label pieceType="placeholder" style="position: absolute; top: 3600px;">.</label>
+        </div>
+
+        <div class="sidenav funny_scrollbar_blue" id="monsters" style="visibility: hidden;" style="visibility: hidden;">
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Arachyura-Red_1" image="Arachyura-Red" image="Arachyura-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Arachyura-Tan_1" image="Arachyura-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="AriadQueen_1" image="AriadQueen"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no" pieceType="tile"
+                oncontextmenu="return false;" id="Ariad_1" image="Ariad"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Bandit-Red_1" image="Bandit-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Bandit-Tan_1" image="Bandit-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="BaneSpider-Red_1" image="BaneSpider-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="BaneSpider-Tan_1" image="BaneSpider-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Barghest-Red_1" image="Barghest-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Barghest-Tan_1" image="Barghest-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Beastman-Red_1" image="Beastman-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Beastman-Tan_1" image="Beastman-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="BloodApe-Red_1" image="BloodApe-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="BloodApe-Tan_1" image="BloodApe-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="BoneHorror-Red_1" image="BoneHorror-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="BoneHorror-Tan_1" image="BoneHorror-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Broodwalker-Red_1" image="Broodwalker-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Broodwalker-Tan_1" image="Broodwalker-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="CarrionDrake-Red_1" image="CarrionDrake-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="CarrionDrake-Tan_1" image="CarrionDrake-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="CaveSpider-Red_1" image="CaveSpider-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="CaveSpider-Tan_1" image="CaveSpider-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Changeling-Red_1" image="Changeling-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Changeling-Tan_1" image="Changeling-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="ChaosBeast-Red_1" image="ChaosBeast-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="ChaosBeast-Tan_1" image="ChaosBeast-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="CryptDragon-Red_1" image="CryptDragon-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="CryptDragon-Tan_1" image="CryptDragon-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="DarkPriest-Red_1" image="DarkPriest-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="DarkPriest-Tan_1" image="DarkPriest-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="DeepElf-Red_1" image="DeepElf-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="DeepElf-Tan_1" image="DeepElf-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="DemonLord-Red_1" image="DemonLord-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="DemonLord-Tan_1" image="DemonLord-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Elemental-Red_1" image="Elemental-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Elemental-Tan_1" image="Elemental-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Ettin-Red_1" image="Ettin-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Ettin-Tan_1" image="Ettin-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Ferrox-Red_1" image="Ferrox-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Ferrox-Tan_1" image="Ferrox-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="FireImp-Red_1" image="FireImp-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="FireImp-Tan_1" image="FireImp-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="FleshMoulder-Red_1" image="FleshMoulder-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="FleshMoulder-Tan_1" image="FleshMoulder-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Giant-Red_1" image="Giant-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Giant-Tan_1" image="Giant-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="GoblinArcher-Red_1" image="GoblinArcher-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="GoblinArcher-Tan_1" image="GoblinArcher-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="GoblinWitcher-Red_1" image="GoblinWitcher-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="GoblinWitcher-Tan_1" image="GoblinWitcher-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Golem-Red_1" image="Golem-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Golem-Tan_1" image="Golem-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Harpy-Red_1" image="Harpy-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Harpy-Tan_1" image="Harpy-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Hellhound-Red_1" image="Hellhound-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Hellhound-Tan_1" image="Hellhound-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="HybridSentinel-Red_1" image="HybridSentinel-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="HybridSentinel-Tan_1" image="HybridSentinel-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="IceWyrm-Red_1" image="IceWyrm-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="IceWyrm-Tan_1" image="IceWyrm-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Ironbound-Red_1" image="Ironbound-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Ironbound-Tan_1" image="Ironbound-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Kobold-Red_1" image="Kobold-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Kobold-Tan_1" image="Kobold-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="LavaBeetle-Red_1" image="LavaBeetle-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="LavaBeetle-Tan_1" image="LavaBeetle-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Manticore-Red_1" image="Manticore-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Manticore-Tan_1" image="Manticore-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="MarrowPriest-Red_1" image="MarrowPriest-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="MarrowPriest-Tan_1" image="MarrowPriest-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Medusa-Red_1" image="Medusa-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Medusa-Tan_1" image="Medusa-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Merriod-Red_1" image="Merriod-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Merriod-Tan_1" image="Merriod-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Naga-Red_1" image="Naga-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Naga-Tan_1" image="Naga-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Ogre-Red_1" image="Ogre-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Ogre-Tan_1" image="Ogre-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="PlagueWorm-Red_1" image="PlagueWorm-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="PlagueWorm-Tan_1" image="PlagueWorm-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="RatSwarm-Red_1" image="RatSwarm-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="RatSwarm-Tan_1" image="RatSwarm-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="RazorWing-Red_1" image="RazorWing-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="RazorWing-Tan_1" image="RazorWing-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Reanimate-Red_1" image="Reanimate-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Reanimate-Tan_1" image="Reanimate-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Shade-Red_1" image="Shade-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Shade-Tan_1" image="Shade-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Shadow-Dragon-Red_1" image="Shadow-Dragon-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Shadow-Dragon-Tan_1" image="Shadow-Dragon-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="ShamblingColossus-Red_1" image="ShamblingColossus-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="ShamblingColossus-Tan_1" image="ShamblingColossus-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="SkeletonArcher-Red_1" image="SkeletonArcher-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="SkeletonArcher-Tan_1" image="SkeletonArcher-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Sorcerer-Red_1" image="Sorcerer-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Sorcerer-Tan_1" image="Sorcerer-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="TheDispossessed-Red_1" image="TheDispossessed-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="TheDispossessed-Tan_1" image="TheDispossessed-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Troll-Red_1" image="Troll-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Troll-Tan_1" image="Troll-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="VolucrixReaver-Red_1" image="VolucrixReaver-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="VolucrixReaver-Tan_1" image="VolucrixReaver-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Wendigo-Red_1" image="Wendigo-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Wendigo-Tan_1" image="Wendigo-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Wraith-Red_1" image="Wraith-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Wraith-Tan_1" image="Wraith-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="YnfernaelHulk-Red_1" image="YnfernaelHulk-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="YnfernaelHulk-Tan_1" image="YnfernaelHulk-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Zombie-Red_1" image="Zombie-Red"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <img set="monsters" orientation="0" single="no"
+                pieceType="tile" oncontextmenu="return false;" id="Zombie-Tan_1" image="Zombie-Tan"
+                style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+
+            <label pieceType="placeholder" style="position: absolute; top: 8000px;">.</label>
+        </div>
+    </div>
+
+
+    <div class="menuExportBar">
+        <button class="blueButton" onclick="goToExport()">export PDF</button>
+        <button class="blueButton" onclick="savePage()">save project</button>
+        <button class="blueButton" onclick="loadSaveList()">load project</button>
+    </div>
+
+
+    <!--width="4096" height="3084"-->
+    <div id="canvasContainer" class="canvasContainer">
+        <canvas id="canvasDragShower" width="4096" height="3084"></canvas>
+        </canvas>
+    </div>
+
+
+    <div id="map" class="map funny_scrollbar_blue" onscroll="adjustCanvasScroll()">
+        <label style="position: absolute; top: 3024px;" pieceType="placeholder" id="placeholder">.</label>
+    </div>
+
+    <div class="control_bar_container">
+
+            <div class="control_bar" id="control_bar" style="z-index: 0;">
+                <!--<button class="craeteTextBoxButton" onclick="createTextBox()">insert text</button>-->
+
+                <img id="startButton" class="imageButton" src="./assets/expansionImages/base.jpg" onclick="loadBaseSetOutside()"></img>
+                <img class="imageButton" src="./assets/expansionImages/labirinth_of_ruin.jpg"
+                    onclick="LoadLabyrinthOfRuinOutside()"></img>
+                <img class="imageButton" src="./assets/expansionImages/shadow_of_nerekhall.jpg"
+                    onclick="LoadShadowOfNerekhallOutside()"></img>
+                <img class="imageButton" src="./assets/expansionImages/lair_of_the wyrm.jpg"
+                    onclick="LoadLairOfTheWyrmOutside()"></img>
+                <img class="imageButton" src="./assets/expansionImages/trollfens.jpg"
+                    onclick="LoadTrollfensOutside()"></img>
+                <img class="imageButton" src="./assets/expansionImages/search_tokens.png" onclick="loadTokens()"></img>
+                <img class="imageButton" src="./assets/expansionImages/monsters.png" onclick="loadMonsters()"></img>
+                <img class="imageButton" src="./assets/expansionImages/miscellaneous.png"
+                    onclick="loadMiscellaneous()"></img>
+
+            </div>
+
+    </div>
+
+
+    <script>
+        (function () {
+            const classes = document.body.classList;
+            let timer = 0;
+            window.addEventListener('resize', function () {
+                if (timer) {
+                    clearTimeout(timer);
+                    timer = null;
+                }
+                else
+                    classes.add('stop-transitions');
+
+                timer = setTimeout(() => {
+                    classes.remove('stop-transitions');
+                    timer = null;
+                }, 100);
+            });
+        })();
+    </script>
+
+</body>
+
+</html>
