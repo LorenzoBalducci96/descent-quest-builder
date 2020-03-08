@@ -29,6 +29,7 @@
 <script type="text/javascript" src="base64Tiles/shadows_of_nerekhall.js"></script>
 <script type="text/javascript" src="base64Tiles/tokens.js"></script>
 <script type="text/javascript" src="base64Tiles/trollfens.js"></script>
+<script type="text/javascript" src="base64Tiles/lieutenants.js"></script>
 
 <script type="text/javascript" src="js/tilesGenerator.js"></script>
 
@@ -178,7 +179,8 @@ window.onload = function () {
                             </div>
                         </div>
                         <div class="col-6">
-                            <img class="half_window_image" id="mapRendered"></img>
+                           
+                            <img class="half_window_image" id="mapRendered" src="assets/loading.gif"></img>
                         </div>
                     </div>
                 </div>
@@ -1053,7 +1055,7 @@ window.onload = function () {
             <label pieceType="placeholder" style="position: absolute; top: 3600px;">.</label>
         </div>
 
-        <div class="sidenav funny_scrollbar_blue" id="monsters" style="visibility: hidden;" style="visibility: hidden;">
+        <div class="sidenav funny_scrollbar_blue" id="monsters" style="visibility: hidden;">
             <img set="monsters" orientation="0" single="no"
                 pieceType="tile" oncontextmenu="return false;" id="Arachyura-Red_1" image="Arachyura-Red" image="Arachyura-Red"
                 style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
@@ -1387,6 +1389,27 @@ window.onload = function () {
 
             <label pieceType="placeholder" style="position: absolute; top: 8000px;">.</label>
         </div>
+
+        <div class="sidenav funny_scrollbar_blue" id="lieutenants" style="visibility: hidden;">
+            <image set="lieutenants" image="Ardus-IxErebus" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="Ardus-IxErebus_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <image set="lieutenants" image="Baron-Zachareth" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="Baron-Zachareth_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <image set="lieutenants" image="Belthir" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="Belthir_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <image set="lieutenants" image="Bol'Goreth" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="Bol'Goreth_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <image set="lieutenants" image="Kyndrithul" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="Kyndrithul_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <image set="lieutenants" image="Lady-Eliza-Farrow" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="Lady-Eliza-Farrow_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <image set="lieutenants" image="Lord-Merick-Farrow" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="Lord-Merick-Farrow_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <image set="lieutenants" image="Mirklace" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="Mirklace_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <image set="lieutenants" image="Raythen" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="Raythen_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <image set="lieutenants" image="Rylan-Olliven" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="Rylan-Olliven_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <image set="lieutenants" image="Serena" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="Serena_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <image set="lieutenants" image="Sir-Alric-Farrow" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="Sir-Alric-Farrow_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <image set="lieutenants" image="Skarn" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="Skarn_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <image set="lieutenants" image="Splig" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="Splig_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <image set="lieutenants" image="Tristayne-Olliven" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="Tristayne-Olliven_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <image set="lieutenants" image="Valyndra" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="Valyndra_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <image set="lieutenants" image="Verminous" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="Verminous_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <image set="lieutenants" image="Zarihell" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="Zarihell_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        </div>
     </div>
 
 
@@ -1415,15 +1438,16 @@ window.onload = function () {
 
                 <img id="startButton" class="imageButton" src="./assets/expansionImages/base.jpg" onclick="loadBaseSetOutside()"></img>
                 <img class="imageButton" src="./assets/expansionImages/labirinth_of_ruin.jpg"
-                    onclick="LoadLabyrinthOfRuinOutside()"></img>
+                    onclick="loadLabyrinthOfRuinOutside()"></img>
                 <img class="imageButton" src="./assets/expansionImages/shadow_of_nerekhall.jpg"
-                    onclick="LoadShadowOfNerekhallOutside()"></img>
+                    onclick="loadShadowOfNerekhallOutside()"></img>
                 <img class="imageButton" src="./assets/expansionImages/lair_of_the wyrm.jpg"
-                    onclick="LoadLairOfTheWyrmOutside()"></img>
+                    onclick="loadLairOfTheWyrmOutside()"></img>
                 <img class="imageButton" src="./assets/expansionImages/trollfens.jpg"
-                    onclick="LoadTrollfensOutside()"></img>
+                    onclick="loadTrollfensOutside()"></img>
                 <img class="imageButton" src="./assets/expansionImages/search_tokens.png" onclick="loadTokens()"></img>
                 <img class="imageButton" src="./assets/expansionImages/monsters.png" onclick="loadMonsters()"></img>
+                <img class="imageButton" src="./assets/expansionImages/liutenants.png" onclick="loadLieutenants()"></img>
                 <img class="imageButton" src="./assets/expansionImages/miscellaneous.png"
                     onclick="loadMiscellaneous()"></img>
 

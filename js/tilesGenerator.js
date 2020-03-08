@@ -51,6 +51,7 @@ function getTileSrcPath(setName, imageName, orientation){
         case "miscellaneous" : return "assets/tiles/miscellaneous/" + imageName + orientation + ".png";
         case "tokens" : return "assets/tiles/tokens/" + imageName + orientation + ".png";
         case "monsters" : return "assets/tiles/monsters/" + imageName + orientation + ".png";
+        case "lieutenants" : return "assets/tiles/lieutenants/" + imageName + orientation + ".png";
     }
 }
 
@@ -125,12 +126,11 @@ function router(setName, id, orientation){
         case "labyrinthOfRuinInside" : return labyrinth_of_ruin(id, orientation); break;
         case "trollfensOutside" : return trollfens(id, orientation); break;
         case "trollfensInside" : return trollfens(id, orientation); break;
-
         case "lairOfTheWyrmOutside" : return lair_of_the_wyrm(id, orientation); break;
         case "lairOfTheWyrmInside" : return lair_of_the_wyrm(id, orientation); break;
-
         case "miscellaneous" : return miscellaneous(id, orientation); break;
         case "tokens" : return tokens(id, orientation); break;
         case "monsters" : return monsters(id, orientation); break;
+        case "lieutenants" : return lieutenants(id, orientation); break;
     }
 }

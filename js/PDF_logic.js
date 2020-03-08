@@ -12,32 +12,18 @@ function exportPDF() {
 }
 
 async function createImg(imgOutput) {
-    
-    
-    html2canvas(document.getElementById("output"), {
-        onrendered: function (canvas) {
-            document.getElementById(imgOutput).src = canvas.toDataURL("image/png");
-            canvas = null;
-            
-            
-            document.getElementById("canvasDragShower").width = 0
-            document.getElementById("canvasDragShower").height = 0
-            document.getElementById("canvasDragShower").width = 4096
-            document.getElementById("canvasDragShower").height = 3084
-
-            ctx = document.getElementById("canvasDragShower").getContext('2d');
-            ctx.strokeStyle = 'rgba(255, 0, 0, 2)';
-            ctx.lineWidth = 10;
-            
-        }
-    });
-    
-    /*
     html2canvas(document.getElementById("output")).then(function (canvas) {
         document.getElementById(imgOutput).src = canvas.toDataURL("image/png");
+        //document.getElementById('mapRendered').style.display = "inherit";
+        //document.getElementById('loadingPDFRotatingSVG').style.display = "none";
+        document.getElementById("canvasDragShower").width = 0
+        document.getElementById("canvasDragShower").height = 0
+        document.getElementById("canvasDragShower").width = 4096
+        document.getElementById("canvasDragShower").height = 3084
+        ctx = document.getElementById("canvasDragShower").getContext('2d');
+        ctx.strokeStyle = 'rgba(255, 0, 0, 2)';
+        ctx.lineWidth = 10;
     });
-    */
-
 }
 
 function createOutputDivForPrint() {
@@ -116,13 +102,19 @@ function createOutputDivForPrint() {
     });
 }
 
-function goToExport() {
-    //basing on pdfPageWidth and pdfPageHeight the output div if prepared for printing on canvas
-    createOutputDivForPrint();
-    $("#outputModal").modal('show')
-
-    createImg('mapRendered');
-
+async function goToExport() {
+    //document.getElementById('mapRendered').style.display = "none";
+    //document.getElementById('loadingPDFRotatingSVG').style.display = "inherit";
+    document.getElementById("mapRendered").src="assets/loading.gif"
+    $("#outputModal").modal('show');
+//    $('#outputModal').on('show.bs.modal', function (e) {
+        setTimeout(() => {  
+            createOutputDivForPrint();
+            createImg('mapRendered'); 
+        }, 200);
+//    });
+    
+    
 }
 
 function scaleRes() {
@@ -161,7 +153,7 @@ function setWhiteBackground() {
     if (document.getElementById("output").style.backgroundColor != "white") {
         document.getElementById("output").style.backgroundImage = "none";
         document.getElementById("output").style.backgroundColor = "white";
-        createImg('mapRendered');
+        goToExport('mapRendered');
     }
 }
 
@@ -169,15 +161,15 @@ function setBlackBackground() {
     if (document.getElementById("output").style.backgroundColor != "black") {
         document.getElementById("output").style.backgroundImage = "none";
         document.getElementById("output").style.backgroundColor = "black";
-        createImg('mapRendered');
+        goToExport('mapRendered');
     }
 }
 
 function setSmokyBackground() {
-    if (document.getElementById("output").style.backgroundImage != "url('assets/pdf_background.jpg')") {
+    //if (document.getElementById("output").style.backgroundImage != "url('assets/pdf_background.jpg')") {
         document.getElementById("output").style.backgroundColor = "none";
         //document.getElementById("output").style.backgroundImage = "url('assets/pdf_background.jpg')";
         document.getElementById("output").style.backgroundImage = getSmokyBackground();
-        createImg('mapRendered');
-    }
+        goToExport('mapRendered');
+    //}
 }

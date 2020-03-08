@@ -63,29 +63,29 @@ function loadMonsters(){
 
 
 
-function LoadShadowOfNerekhallOutside() {
+function loadShadowOfNerekhallOutside() {
     document.getElementById(activeSet).style.visibility = "hidden"
     document.getElementById("shadowOfNerekhallOutside").style.visibility = ""
     
     document.getElementById('insideButton').style.display = ""
-    document.getElementById('insideButton').onclick = LoadShadowOfNerekhallInside
-    document.getElementById('miscellaneousButton').onclick = LoadShadowOfNerekhallMiscellaneous;
+    document.getElementById('insideButton').onclick = loadShadowOfNerekhallInside
+    document.getElementById('miscellaneousButton').onclick = loadShadowOfNerekhallMiscellaneous;
     document.getElementById('miscellaneousButton').style.display = ""
     activeSet = "shadowOfNerekhallOutside";
 }
 
-function LoadShadowOfNerekhallInside() {
+function loadShadowOfNerekhallInside() {
     document.getElementById(activeSet).style.visibility = "hidden"
     document.getElementById("shadowOfNerekhallInside").style.visibility = ""
 
     document.getElementById('insideButton').style.display = ""
-    document.getElementById('insideButton').onclick = LoadShadowOfNerekhallOutside
-    document.getElementById('miscellaneousButton').onclick = LoadShadowOfNerekhallMiscellaneous;
+    document.getElementById('insideButton').onclick = loadShadowOfNerekhallOutside
+    document.getElementById('miscellaneousButton').onclick = loadShadowOfNerekhallMiscellaneous;
     document.getElementById('miscellaneousButton').style.display = ""
     activeSet = "shadowOfNerekhallInside";
 }
 
-function LoadShadowOfNerekhallMiscellaneous() {
+function loadShadowOfNerekhallMiscellaneous() {
     document.getElementById(activeSet).style.visibility = "hidden"
     document.getElementById("shadowOfNerekhallMiscellaneous").style.visibility = ""
 
@@ -94,63 +94,71 @@ function LoadShadowOfNerekhallMiscellaneous() {
     activeSet = "shadowOfNerekhallMiscellaneous";
 }
 
-function LoadLabyrinthOfRuinOutside() {
+function loadLabyrinthOfRuinOutside() {
     document.getElementById(activeSet).style.visibility = "hidden"
     document.getElementById("labyrinthOfRuinOutside").style.visibility = ""
 
-    document.getElementById('insideButton').onclick = LoadLabyrinthOfRuinInside
+    document.getElementById('insideButton').onclick = loadLabyrinthOfRuinInside
     document.getElementById('insideButton').style.display = ""
     document.getElementById('miscellaneousButton').style.display = "none"
     activeSet = "labyrinthOfRuinOutside";
 
 }
 
-function LoadLabyrinthOfRuinInside() {
+function loadLabyrinthOfRuinInside() {
     document.getElementById(activeSet).style.visibility = "hidden"
     document.getElementById("labyrinthOfRuinInside").style.visibility = ""
 
-    document.getElementById('insideButton').onclick = LoadLabyrinthOfRuinOutside
+    document.getElementById('insideButton').onclick = loadLabyrinthOfRuinOutside
     document.getElementById('insideButton').style.display = ""
     document.getElementById('miscellaneousButton').style.display = "none"
     activeSet = "labyrinthOfRuinInside";
 }
 
-function LoadLairOfTheWyrmOutside(){
+function loadLairOfTheWyrmOutside(){
     document.getElementById(activeSet).style.visibility = "hidden"
     document.getElementById("lairOfTheWyrmOutside").style.visibility = ""
 
-    document.getElementById('insideButton').onclick = LoadLairOfTheWyrmInside
+    document.getElementById('insideButton').onclick = loadLairOfTheWyrmInside
     document.getElementById('insideButton').style.display = ""
     document.getElementById('miscellaneousButton').style.display = "none"
     activeSet = "lairOfTheWyrmOutside";
 }
 
-function LoadLairOfTheWyrmInside(){
+function loadLairOfTheWyrmInside(){
     document.getElementById(activeSet).style.visibility = "hidden"
     document.getElementById("lairOfTheWyrmInside").style.visibility = ""
 
-    document.getElementById('insideButton').onclick = LoadLairOfTheWyrmOutside
+    document.getElementById('insideButton').onclick = loadLairOfTheWyrmOutside
     document.getElementById('insideButton').style.display = ""
     document.getElementById('miscellaneousButton').style.display = "none"
     activeSet = "lairOfTheWyrmInside";
 }
 
-function LoadTrollfensOutside(){
+function loadTrollfensOutside(){
     document.getElementById(activeSet).style.visibility = "hidden"
     document.getElementById("trollfensOutside").style.visibility = ""
 
-    document.getElementById('insideButton').onclick = LoadTrollfensInside
+    document.getElementById('insideButton').onclick = loadTrollfensInside
     document.getElementById('insideButton').style.display = ""
     document.getElementById('miscellaneousButton').style.display = "none"
     activeSet = "trollfensOutside";
 }
 
-function LoadTrollfensInside(){
+function loadTrollfensInside(){
     document.getElementById(activeSet).style.visibility = "hidden"
     document.getElementById("trollfensInside").style.visibility = ""
 
-    document.getElementById('insideButton').onclick = LoadTrollfensOutside
+    document.getElementById('insideButton').onclick = loadTrollfensOutside
     document.getElementById('insideButton').style.display = ""
     document.getElementById('miscellaneousButton').style.display = "none"
     activeSet = "trollfensInside";
+}
+
+function loadLieutenants(){
+    document.getElementById(activeSet).style.visibility = "hidden"
+    document.getElementById("lieutenants").style.visibility = ""
+    document.getElementById('insideButton').style.display = "none"
+    document.getElementById('miscellaneousButton').style.display = "none"
+    activeSet = "lieutenants";
 }

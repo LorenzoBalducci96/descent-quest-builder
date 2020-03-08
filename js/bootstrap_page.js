@@ -1,4 +1,5 @@
 function bootstrap_page() {
+
     var pieces = document.querySelectorAll("[pieceType='tile']");
     pieces.forEach(element => {
         startapImage(element);
@@ -7,8 +8,8 @@ function bootstrap_page() {
     pieces.forEach(element => {
         startapImage(element);
     });
-
-    //loadAndArrange decide the position of each tile in his bar
+    setTimeout(() => {
+            //loadAndArrange decide the position of each tile in his bar
     this.loadAndArrangeTiles("baseSetOutside");
     this.loadAndArrangeTiles("baseSetInside");
     this.loadAndArrangeTiles("baseSetMiscellaneous");
@@ -23,7 +24,9 @@ function bootstrap_page() {
     this.loadAndArrangeTiles("trollfensInside");
     this.loadAndArrangeTiles("tokens");
     this.loadAndArrangeTiles("monsters");
+    this.loadAndArrangeTiles("lieutenants");
     this.loadAndArrangeTiles("miscellaneous");
+    }, 200);
 
     window.addEventListener("resize", rearrangeAllTiles);//we want to rearrange all tiles on zoom change
 
@@ -47,6 +50,7 @@ function bootstrap_page() {
             });
     });
     $('#startButton').click();
+    document.getElementById("output").style.backgroundImage = getSmokyBackground();
     /*
     document.getElementById("canvasDragShower").width = window.innerWidth;
     document.getElementById("canvasDragShower").height = window.innerHeight;
@@ -69,6 +73,7 @@ function rearrangeAllTiles(){
     this.rearrangeTilesAfterResize("trollfensInside");
     this.rearrangeTilesAfterResize("tokens");
     this.rearrangeTilesAfterResize("monsters");
+    this.rearrangeTilesAfterResize("lieutenants");
     this.rearrangeTilesAfterResize("miscellaneous");
 }
 

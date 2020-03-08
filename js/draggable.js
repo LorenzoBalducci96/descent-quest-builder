@@ -437,6 +437,14 @@ function endMoveElement(pieces, multipleElementsDragging) {
 }
 
 function dragElement(elmnt) {//setup the callbacks
+    /*
+    if(elmnt.offsetHeight === 0){//if image is not loaded yet (often occur if appType=web and we are using base64 images)
+        setTimeout(() => {
+            dragElement(elmnt)
+        }, 200);
+        return;
+    }
+    */
     
     tiles[count] = elmnt.getAttribute("id");
     count++;

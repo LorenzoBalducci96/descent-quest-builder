@@ -1,0 +1,49 @@
+@keyframes rotatingSVG {
+    0% { transform: rotate(0deg) }
+   50% { transform: rotate(30deg) }
+  100% { transform: rotate(60deg) }
+}
+.rotatingSVG > div {
+  transform-origin: 100px 100px;
+  animation: rotatingSVG 0.33222591362126247s infinite linear;
+}
+.rotatingSVG > div div {
+    position: absolute;
+    width: 22px;
+    height: 132px;
+    background: #1d3f72;
+    left: 100px;
+    top: 100px;
+    transform: translate(-50%,-50%);
+}
+.rotatingSVG > div div:nth-child(1) {
+    width: 104px;
+    height: 104px;
+    border-radius: 50%;
+}
+.rotatingSVG > div div:nth-child(5) {
+    width: 68px;
+    height: 68px;
+    background: #f1f2f3;
+    border-radius: 50%;
+}.rotatingSVG > div div:nth-child(3) {
+  transform: translate(-50%,-50%) rotate(60deg)
+}.rotatingSVG > div div:nth-child(4) {
+  transform: translate(-50%,-50%) rotate(120deg)
+}
+.loadingio-spinner-gear-cj048legoin {
+  width: 200px;
+  height: 200px;
+  display: inline-block;
+  overflow: hidden;
+  background: #f1f2f3;
+}
+.rotatingSVG {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform: translateZ(0) scale(1);
+  backface-visibility: hidden;
+  transform-origin: 0 0; /* see note above */
+}
+.rotatingSVG div { box-sizing: content-box; }
