@@ -29,6 +29,7 @@ function bootstrap_page() {
     }, 200);
 
     window.addEventListener("resize", rearrangeAllTiles);//we want to rearrange all tiles on zoom change
+    window.addEventListener("resize", trickForCorrectGoogleChromeResizeBug);
 
     multiDragOnMapSelect(document.getElementById('map'))
     //used for restoring save point
@@ -77,3 +78,9 @@ function rearrangeAllTiles(){
     this.rearrangeTilesAfterResize("miscellaneous");
 }
 
+function trickForCorrectGoogleChromeResizeBug(){
+    document.getElementById("placeholder").style.left = "5000px"
+    setTimeout(() => {
+        document.getElementById("placeholder").style.left = "0px"
+    }, 20);
+}
