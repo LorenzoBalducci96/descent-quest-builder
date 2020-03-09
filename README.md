@@ -5,6 +5,10 @@ Due to the end of the official descent quest vault i decided to create this proj
 
 download releases here: https://github.com/LorenzoBalducci96/descent-quest-builder/releases
 
+if you want to have a quick look you can test the github web page:
+https://lorenzobalducci96.github.io/descent-quest-builder/index_web.html
+Take into account that using the loading of the page from the internet will require a LOOOOOOOOOONG TIME :) so consider to pick one of the distributions
+
 ![watch the demo image on the repository](/doc_images/demo.gif?raw=true "UI_DEMO")
 
 run:
