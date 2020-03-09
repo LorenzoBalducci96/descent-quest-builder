@@ -1,30 +1,40 @@
 function searchItems(){
     searchedElement = document.getElementById("searchBar").value//.replace(/\ /g, "-");
-    
-    //search all images that contains what-user-inserted case insensitive
-    var pieces = document.querySelectorAll("[piecetype='ghost'][tags*='" + searchedElement + "' i]");
-    var tableSearch = document.getElementById('search_list')
-    tableSearch.innerHTML = "";
-    pieces.forEach(element => {
-        let elementRow = tableSearch.insertRow()
-        let imageCell = elementRow.insertCell(0);
-       
-        image = document.createElement("img");
-        image.style.width = "calc(var(--search-bar-lenght) / 4)"
-        image.src = element.getAttribute("src");
-        imageCell.appendChild(image)
-
-
-        let name = elementRow.insertCell(1);
-        name.innerHTML = element.getAttribute("tags");
-
-       
-
-        elementRow.onclick = function () {
-            document.getElementById('search_list').innerHTML = "";
-            selectSearchedElement(element)
+    searchedWords = searchedElement.split(" ");
+    let searchQuery = "";
+    searchedWords.forEach(word => {
+        if(word != ""){
+            searchQuery += "[piecetype='ghost'][tags*='" + word + "' i]";
         }
     });
+    
+    
+    let tableSearch = document.getElementById('search_list')
+    tableSearch.innerHTML = "";
+    if(searchQuery != ""){
+        let pieces = document.querySelectorAll(searchQuery);
+        
+        pieces.forEach(element => {
+            let elementRow = tableSearch.insertRow()
+            let imageCell = elementRow.insertCell(0);
+        
+            image = document.createElement("img");
+            image.style.width = "calc(var(--search-bar-lenght) / 4)"
+            image.src = element.getAttribute("src");
+            imageCell.appendChild(image)
+
+
+            let name = elementRow.insertCell(1);
+            name.innerHTML = element.getAttribute("tags");
+
+        
+
+            elementRow.onclick = function () {
+                document.getElementById('search_list').innerHTML = "";
+                selectSearchedElement(element)
+            }
+        });
+    }
 }
 
 function selectSearchedElement(piece){
