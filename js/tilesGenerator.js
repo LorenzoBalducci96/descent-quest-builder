@@ -55,6 +55,27 @@ function getTileSrcPath(setName, imageName, orientation){
     }
 }
 
+function router(setName, id, orientation){
+    switch(setName){
+        case "baseSetOutside" : return base(id, orientation); break;
+        case "baseSetInside" : return base(id, orientation); break;
+        case "baseSetMiscellaneous" : return base(id, orientation); break;
+        case "shadowOfNerekhallOutside" : return shadows_of_nerekhall(id, orientation); break;
+        case "shadowOfNerekhallInside" : return shadows_of_nerekhall(id, orientation); break;
+        case "shadowOfNerekhallMiscellaneous" : return shadows_of_nerekhall(id, orientation); break;
+        case "labyrinthOfRuinOutside" : return labyrinth_of_ruin(id, orientation); break;
+        case "labyrinthOfRuinInside" : return labyrinth_of_ruin(id, orientation); break;
+        case "trollfensOutside" : return trollfens(id, orientation); break;
+        case "trollfensInside" : return trollfens(id, orientation); break;
+        case "lairOfTheWyrmOutside" : return lair_of_the_wyrm(id, orientation); break;
+        case "lairOfTheWyrmInside" : return lair_of_the_wyrm(id, orientation); break;
+        case "miscellaneous" : return miscellaneous(id, orientation); break;
+        case "tokens" : return tokens(id, orientation); break;
+        case "monsters" : return monsters(id, orientation); break;
+        case "lieutenants" : return lieutenants(id, orientation); break;
+    }
+}
+
 function rotateBase64Image180deg(base64Image) {
     // create an off-screen canvas
     var offScreenCanvas = document.createElement('canvas');
@@ -103,34 +124,4 @@ function rotateBase64Image90deg(base64Image, isClockwise) {
 
     // encode image to data-uri with base64
     return offScreenCanvas.toDataURL("image/png");
-}
-
-/**
-function miscellaneous(id, orientation){
-    image = id + '_' + orientation;
-    switch(image){
-        case "Green-Door_0": return "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgA";
-    } 
-}
-*/
-
-function router(setName, id, orientation){
-    switch(setName){
-        case "baseSetOutside" : return base(id, orientation); break;
-        case "baseSetInside" : return base(id, orientation); break;
-        case "baseSetMiscellaneous" : return base(id, orientation); break;
-        case "shadowOfNerekhallOutside" : return shadows_of_nerekhall(id, orientation); break;
-        case "shadowOfNerekhallInside" : return shadows_of_nerekhall(id, orientation); break;
-        case "shadowOfNerekhallMiscellaneous" : return shadows_of_nerekhall(id, orientation); break;
-        case "labyrinthOfRuinOutside" : return labyrinth_of_ruin(id, orientation); break;
-        case "labyrinthOfRuinInside" : return labyrinth_of_ruin(id, orientation); break;
-        case "trollfensOutside" : return trollfens(id, orientation); break;
-        case "trollfensInside" : return trollfens(id, orientation); break;
-        case "lairOfTheWyrmOutside" : return lair_of_the_wyrm(id, orientation); break;
-        case "lairOfTheWyrmInside" : return lair_of_the_wyrm(id, orientation); break;
-        case "miscellaneous" : return miscellaneous(id, orientation); break;
-        case "tokens" : return tokens(id, orientation); break;
-        case "monsters" : return monsters(id, orientation); break;
-        case "lieutenants" : return lieutenants(id, orientation); break;
-    }
 }

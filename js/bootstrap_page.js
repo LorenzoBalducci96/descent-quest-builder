@@ -49,7 +49,7 @@ function bootstrap_page() {
                 $(element).toggleClass('clicked');
             });
     });
-    $('#startButton').click();
+    $('#baseLoadButton').click();
     document.getElementById("output").style.backgroundImage = getSmokyBackground();
     /*
     document.getElementById("canvasDragShower").width = window.innerWidth;

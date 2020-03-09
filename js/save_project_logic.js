@@ -160,10 +160,12 @@ function savePage() {
     }
     try {
         let fs = require('fs');
-        createOutputDivForPrint();
-        createImg('previewSaving');
-
+        document.getElementById("previewSaving").src="assets/loading.gif"
         $('#saveProjectModal').modal('show');
+        setTimeout(() => {
+            createOutputDivForPrint();
+            createImg('previewSaving');
+        }, 200);
     } catch (e) {
         alert("you are going to download a backup file")
         var blob = new Blob([documentToSave],

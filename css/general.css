@@ -5,11 +5,13 @@
     --sidenav-width: 11vw;
     --bottom-canvas-margin: 0px;
     --bottom-map-margin: 0px;
+    --search-bar-lenght: 16vw;
 }
 
 body {
     height: 100%;
     width: 100%;
+    font-size: 1px; /*adjust margin independent to scaling*/
     user-select: none; /* supported by Chrome and Opera */
     -webkit-user-select: none; /* Safari */
     -khtml-user-select: none; /* Konqueror HTML */
@@ -89,6 +91,32 @@ img{
     height: var(--top-bar-height);
     background-color: black;
     z-index: 1;
+}
+
+.drop-down-search-list{
+    position: absolute;
+    left: var(--sidenav-width);
+    top: var(--top-bar-height);
+    width: var(--search-bar-lenght);
+    z-index: 99;
+    max-height: 50vh;
+    overflow-x: auto;
+    background-color: white;
+}
+
+.drop-down-search-list .table{
+    margin: 0px;
+}
+
+.searchBar{
+    height: 100%;
+    font-size: 2vh;
+    width: var(--search-bar-lenght);
+}
+
+.searchButton{
+    height: 100%;
+    font-size: 2vh;
 }
 
 #canvasDragShower{

@@ -241,12 +241,12 @@ function rearrangeTilesAfterResize(blockId) {
 
     tiles.forEach(elmnt => {
         if (elmnt.getAttribute("single") == "yes") {//updating visibility of other side tiles
-            let placeholderImage = document.getElementById("placeholder_" + elmnt.id);
+            let placeholderImage = document.getElementById("placeholder_" + elmnt.getAttribute("image"));//elmnt.id);
             elmnt.style.top = placeholderImage.offsetTop + "px";
             elmnt.style.left = placeholderImage.offsetLeft + "px";
             elmnt.style.width = "100%"//placeholderImage.offsetWidth + "px";
         } else {
-            let placeholderImage = document.getElementById("placeholder_" + elmnt.id.substr(0, elmnt.id.lastIndexOf("_") + 1) + "1");
+            let placeholderImage = document.getElementById("placeholder_" + elmnt.getAttribute("image"));//elmnt.id.substr(0, elmnt.id.lastIndexOf("_") + 1) + "1");
             elmnt.style.top = placeholderImage.offsetTop + "px";
             elmnt.style.left = placeholderImage.offsetLeft + "px";
             elmnt.style.width = "100%"//placeholderImage.offsetWidth + "px";
@@ -259,27 +259,30 @@ function arrangeTiles(blockId) {
     //arrange position
     offsetTopTiles[0] = margin_of_tiles_on_sidenav;
 
-    var c = 1;
-    for (c = 1; c < count; c++) {
-        offsetTopTiles[c] = offsetTopTiles[c - 1] + document.getElementById(tiles[c - 1]).offsetHeight + margin_of_tiles_on_sidenav;
-    }
+    var c = 0;
+    
     for (c = 0; c < count; c++) {
         //put the tile
         //now put the background placeholder
-        if (document.getElementById("placeholder_" + document.getElementById(tiles[c]).getAttribute("id")) == null) {
-            let toPut = true;
+        if (document.getElementById("placeholder_" + document.getElementById(tiles[c]).getAttribute("image")) == null) {
+            if(c > 0){
+                offsetTopTiles[c] = offsetTopTiles[c - 1] + document.getElementById(tiles[c - 1]).offsetHeight + margin_of_tiles_on_sidenav;
+            }
+            /*
             if (document.getElementById(tiles[c]).getAttribute("single") == "no") {
                 if (document.getElementById("placeholder_" + document.getElementById(tiles[c]).id.substr(0,
                     document.getElementById(tiles[c]).id.lastIndexOf("_") + 1) + "1") != null)
                     toPut = false;
             }
+            */
 
-            if (toPut) {
+            
 
                 let placeholderImage = document.createElement("img");
                 placeholderImage.setAttribute("pieceType", "ghost");
                 placeholderImage.setAttribute("set", document.getElementById(tiles[c]).getAttribute("set"));
                 placeholderImage.setAttribute("image", document.getElementById(tiles[c]).getAttribute("image"));
+                placeholderImage.setAttribute("tags", document.getElementById(tiles[c]).getAttribute("tags"));
                 placeholderImage.setAttribute("orientation", "0");
                 placeholderImage.style.position = "absolute";
                 placeholderImage.style.top = (offsetTopTiles[c]) + "px";
@@ -291,7 +294,7 @@ function arrangeTiles(blockId) {
                     placeholderImage.src = document.getElementById(tiles[c]).getAttribute("src");
                 }
 
-                placeholderImage.id = "placeholder_" + document.getElementById(tiles[c]).getAttribute("id");
+                placeholderImage.id = "placeholder_" + document.getElementById(tiles[c]).getAttribute("image");
 
                 placeholderImage.style.zIndex = "-2"
                 placeholderImage.style.opacity = "0.4"
@@ -300,11 +303,12 @@ function arrangeTiles(blockId) {
                 document.getElementById(blockId).appendChild(placeholderImage);
                 document.getElementById(tiles[c]).style.top = (offsetTopTiles[c]) + "px"
                 document.getElementById(tiles[c]).style.left = "0px"
-            }
+            
 
         } else {
+            offsetTopTiles[c] = offsetTopTiles[c - 1];
             document.getElementById(tiles[c]).style.top = document.getElementById(
-                "placeholder_" + document.getElementById(tiles[c]).getAttribute("id")).style.top;
+                "placeholder_" + document.getElementById(tiles[c]).getAttribute("image")).style.top;
             document.getElementById(tiles[c]).style.left = "0px"
         }
     }
@@ -387,7 +391,7 @@ function endMoveElement(pieces, multipleElementsDragging) {
         var end_left = elmnt.style.offsetLeft;
         if (elmnt.getAttribute("onMap") == "no") {
             if (elmnt.getAttribute("single") == "yes") {//updating visibility of other side tiles
-                var placeholderImage = document.getElementById("placeholder_" + elmnt.id);
+                var placeholderImage = document.getElementById("placeholder_" + elmnt.getAttribute("image"));
                 elmnt.setAttribute("onMap", "no");
                 elmnt.setAttribute("orientation", "0");
                 //elmnt.src = placeholderImage.src;
@@ -406,7 +410,7 @@ function endMoveElement(pieces, multipleElementsDragging) {
                 var placeholderOtherSide = document.getElementById(elmnt.id.substring(0, elmnt.id.length - 1) + tileFace);
                 placeholderOtherSide.style.visibility = "";
             } else {
-                var placeholderImage = document.getElementById("placeholder_" + elmnt.id.substr(0, elmnt.id.lastIndexOf("_") + 1) + "1");
+                var placeholderImage = document.getElementById("placeholder_" + elmnt.getAttribute("image"));//elmnt.id.substr(0, elmnt.id.lastIndexOf("_") + 1) + "1");
                 elmnt.parentNode.removeChild(elmnt);
             }
         } else if (elmnt.getAttribute("onMap") == "yes") {
@@ -537,7 +541,7 @@ function dragElement(elmnt) {//setup the callbacks
         }
         if (e.clientX < document.getElementById(activeSet).offsetWidth) {
             if (elmnt.getAttribute("single") == "no") {
-                var placeholderImage = document.getElementById("placeholder_" + elmnt.id.substr(0, elmnt.id.lastIndexOf("_") + 1) + "1");
+                var placeholderImage = document.getElementById("placeholder_" + elmnt.getAttribute("image"));//elmnt.id.substr(0, elmnt.id.lastIndexOf("_") + 1) + "1");
                 var backup = elmnt.cloneNode(true);
                 document.getElementById(elmnt.getAttribute("set")).appendChild(backup);
                 backup.style.top = placeholderImage.offsetTop + "px";
