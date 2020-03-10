@@ -8,6 +8,8 @@
     --search-bar-lenght: 16vw;
 }
 
+
+
 body {
     height: 100%;
     width: 100%;
@@ -135,6 +137,7 @@ img{
     top: var(--top-bar-height); /* Stay at the top */
     left: var(--sidenav-width);
     opacity: 1;
+    
 
     background-image: url('../assets/background.jpg');
     background-attachment:local;

@@ -4,10 +4,9 @@
 <head>
     <meta charset="utf-8">
     <title>Descent quest builder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-
-
-
+<link rel="icon" href="assets/icon.png">
 
 <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="css/general.css">
@@ -21,6 +20,8 @@
 <script type="text/javascript" src="js/loadTiles.js"></script>
 <script type="text/javascript" src="js/bootstrap_page.js"></script>
 <script type="text/javascript" src="js/searchItems.js"></script>
+<script type="text/javascript" src="js/touchDevicesRedirectLogic.js"></script>
+
 
 <script type="text/javascript" src="base64Tiles/base.js"></script>
 <script type="text/javascript" src="base64Tiles/labyrinth_of_ruin.js"></script>
@@ -32,15 +33,8 @@
 <script type="text/javascript" src="base64Tiles/trollfens.js"></script>
 <script type="text/javascript" src="base64Tiles/lieutenants.js"></script>
 
+
 <script type="text/javascript" src="js/tilesGenerator.js"></script>
-
-<script>
-var appType = "web";
-window.onload = function () {
-    bootstrap_page();
-};
-</script>
-
 
 <script>if (typeof module === 'object') { window.module = module; module = undefined; }</script>
 <script src="js/jquery/jquery-3.4.1.min.js"></script>
@@ -50,6 +44,52 @@ window.onload = function () {
 <script src="js/html2canvas/jspdf.debug.js"></script>
 <script src="js/fileSaver/FileSaver.js"></script>
 <script>if (window.module) module = window.module;</script>
+
+<script>
+    var appType = "web";
+    mapTouchEvents();
+    window.onload = function () {
+        bootstrap_page();
+    };
+    /*
+    window.onload = function (){
+        var downloaded = 0;
+        var assetsJsToDownload = ["base64Tiles/base.js","base64Tiles/labyrinth_of_ruin.js",
+        "base64Tiles/lair_of_the_wyrm.js","base64Tiles/miscellaneous.js",
+        "base64Tiles/monsters.js","base64Tiles/shadows_of_nerekhall.js","base64Tiles/tokens.js",
+        "base64Tiles/trollfens.js","base64Tiles/lieutenants.js"]
+        let count = 0;
+        while(count < assetsJsToDownload.length){
+            let req = new XMLHttpRequest();
+            req.addEventListener("progress", function(event) {
+                if (event.lengthComputable) {
+                    var percentComplete = event.loaded / event.total;
+                    //TODO graphic update
+                } else {
+
+                }
+            }, false);
+
+            req.addEventListener("load", function(event) {
+                var e = event.target;
+                var s = document.createElement("script");
+                s.innerHTML = e.responseText;
+                // or: s[s.innerText!=undefined?"innerText":"textContent"] = e.responseText
+                document.documentElement.appendChild(s);
+
+                downloaded++;
+                    if(downloaded >= assetsJsToDownload.length){
+                        bootstrap_page();
+                    }
+            }, false);
+
+            req.open("GET", assetsJsToDownload[count]);
+            req.send();
+            count++;
+        }
+    }
+    */
+</script>
 
 
 <body>
@@ -210,7 +250,7 @@ window.onload = function () {
     <div id="output" style="display: none;"></div>
 
     
-    <div id="loadingOverlay" style="visibility: '';">
+    <div id="loadingOverlay">
         <img style="position: absolute; left:40vw; top:20vh; width:20vw; z-index: 99;" src="assets/loading.gif">
         <label style="position: absolute; left:20vw; top:60vh; width:60vw; z-index: 99; font-size: 32px;" id="progressLoad">please, wait the download of all the assets, this is going to take a very long time, the best way to use this app is to download the desktop application (you can find in the distribution section of the github page).</label>
     </div>
@@ -1609,7 +1649,7 @@ window.onload = function () {
 
 
     <div id="map" class="map funny_scrollbar_blue" onscroll="adjustCanvasScroll()">
-        <label style="position: absolute; top: 3024px;" pieceType="placeholder" id="placeholder">.</label>
+        <label style="position: absolute; top: 3024px;" pieceType="placeholder" id="placeholder">Created by Lorenzo Balducci</label>
     </div>
 
     <div class="control_bar_container">

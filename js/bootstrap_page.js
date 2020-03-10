@@ -28,7 +28,6 @@ function bootstrap_page() {
     this.loadAndArrangeTiles("monsters");
     this.loadAndArrangeTiles("lieutenants");
     this.loadAndArrangeTiles("miscellaneous");
-    }, 200);
 
     window.addEventListener("resize", rearrangeAllTiles);//we want to rearrange all tiles on zoom change
     window.addEventListener("resize", trickForCorrectGoogleChromeResizeBug);
@@ -54,8 +53,11 @@ function bootstrap_page() {
     });
     $('#baseLoadButton').click();
     document.getElementById("output").style.backgroundImage = getSmokyBackground();
-    document.getElementById("loadingOverlay").style.visibility = "hidden"
-    document.getElementById("application").style.visibility = ""
+    document.getElementById("loadingOverlay").style.display = "none";
+    document.getElementById("application").style.visibility = "";
+    }, 200);
+
+    
     
     /*
     document.getElementById("canvasDragShower").width = window.innerWidth;
