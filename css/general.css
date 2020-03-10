@@ -130,7 +130,7 @@ img{
     height: calc(100vh - var(--bottom-map-margin) - var(--top-bar-height));
     width: calc(100vw - var(--sidenav-width)); /* Set the width of the sidebar */
     overflow-y : auto;
-    overflow-x : clip;
+    overflow-x : auto;
     position: fixed; /* Fixed Sidebar (stay in place on scroll) */
     top: var(--top-bar-height); /* Stay at the top */
     left: var(--sidenav-width);

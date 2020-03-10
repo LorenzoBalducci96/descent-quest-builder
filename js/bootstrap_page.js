@@ -1,5 +1,7 @@
-function bootstrap_page() {
+var completedImages = 0;
 
+function bootstrap_page() {
+    
     var pieces = document.querySelectorAll("[pieceType='tile']");
     pieces.forEach(element => {
         startapImage(element);
@@ -52,6 +54,9 @@ function bootstrap_page() {
     });
     $('#baseLoadButton').click();
     document.getElementById("output").style.backgroundImage = getSmokyBackground();
+    document.getElementById("loadingOverlay").style.visibility = "hidden"
+    document.getElementById("application").style.visibility = ""
+    
     /*
     document.getElementById("canvasDragShower").width = window.innerWidth;
     document.getElementById("canvasDragShower").height = window.innerHeight;
