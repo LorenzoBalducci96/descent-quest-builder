@@ -23,7 +23,7 @@ function createWindow () {
 	  width: 900, 
     height: 600, icon : "assets/icon.ico",
 	  webPreferences:{
-    zoomFactor: 0.5,
+    zoomFactor: 1.0,
     nodeIntegration: true
   }
   

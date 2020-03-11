@@ -345,8 +345,8 @@ function rotateElement(elmnt) {
 function snap(end_top, end_left, elmnt) {
     var end_top = parseInt(elmnt.style.top, 10)
     var end_left = parseInt(elmnt.style.left, 10)
-    end_top = (Math.round(end_top / 72) * 72) - 21;
-    end_left = (Math.round(end_left / 72) * 72) - 21;
+    end_top = (Math.round((end_top + 21*scale) / (72*scale)) * (72*scale)) - 21*scale;
+    end_left = (Math.round((end_left + 21*scale) / (72*scale)) * (72*scale)) - 21*scale;
     elmnt.style.top = end_top + "px";
     elmnt.style.left = end_left + "px";
 }
@@ -356,9 +356,9 @@ function moveElement(oldPosX, oldPosY, clientX, clientY, elmnt) {
     elmnt.style.left = (elmnt.offsetLeft - oldPosX) + "px";
     if (clientX < document.getElementById(activeSet).offsetWidth) {
         var oldLeft = elmnt.offsetLeft - document.getElementById("map").scrollLeft + document.getElementById("map").offsetLeft;
-        var oldWidth = elmnt.offsetWidth;
+        var oldWidth = elmnt.offsetWidth*scale;
         var oldTop = elmnt.offsetTop - document.getElementById("map").scrollTop + document.getElementById("map").offsetTop;
-        var oldHeigth = elmnt.offsetHeight;
+        var oldHeigth = elmnt.offsetHeight*scale;
 
         document.getElementById(activeSet).appendChild(elmnt);
         elmnt.style.width = "100%";
@@ -377,9 +377,8 @@ function moveElement(oldPosX, oldPosY, clientX, clientY, elmnt) {
         document.getElementById("map").appendChild(elmnt);
         elmnt.style.width = 'auto';
         if (elmnt.getAttribute("onMap") == "no") {
-            elmnt.style.left = (clientX - (((clientX - oldLeft) * elmnt.offsetWidth) / oldWidth) - document.getElementById("map").offsetLeft + document.getElementById("map").scrollLeft) + "px";
-            elmnt.style.top = (clientY - (((clientY - oldTop) * elmnt.offsetHeight) / oldHeigth) - document.getElementById("map").offsetTop + document.getElementById("map").scrollTop) + "px";
-
+            elmnt.style.left = (clientX - (((clientX - oldLeft) * elmnt.offsetWidth*scale) / oldWidth) - document.getElementById("map").offsetLeft + document.getElementById("map").scrollLeft) + "px";
+            elmnt.style.top = (clientY - (((clientY - oldTop) * elmnt.offsetHeight*scale) / oldHeigth) - document.getElementById("map").offsetTop + document.getElementById("map").scrollTop) + "px";
             elmnt.setAttribute("onMap", "yes")
         }
     }
@@ -608,8 +607,8 @@ function returnOnMap(piecesToReadjust) {
     let translationTop = 0;
     piecesToReadjust.forEach(elmnt => {
         if (elmnt.getAttribute("onMap") == "yes") {
-            if ((elmnt.offsetLeft - document.getElementById(activeSet).offsetWidth + document.getElementById("map").offsetLeft) < translationRight) {
-                translationRight = (elmnt.offsetLeft - document.getElementById(activeSet).offsetWidth + document.getElementById("map").offsetLeft);
+            if ((elmnt.offsetLeft) < translationRight) {
+                translationRight = (elmnt.offsetLeft);
             }
             if ((elmnt.offsetTop) < translationTop) {
                 translationTop = (elmnt.offsetTop);
@@ -619,8 +618,8 @@ function returnOnMap(piecesToReadjust) {
 
     translationRight = Math.abs(translationRight)
     translationTop = Math.abs(translationTop)
-    translationRight = (Math.round(translationRight / 72) * 72);
-    translationTop = (Math.round(translationTop / 72) * 72);
+    translationRight = (Math.round(translationRight / (72*scale)) * (72*scale));
+    translationTop = (Math.round(translationTop / (72*scale)) * (72*scale));
     piecesToReadjust.forEach(elmnt => {
         elmnt.style.left = elmnt.offsetLeft + translationRight + "px"
         elmnt.style.top = elmnt.offsetTop + translationTop + "px"

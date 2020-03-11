@@ -1,6 +1,8 @@
 var completedImages = 0;
+var scale = 1;
 
 function bootstrap_page() {
+    scale = getComputedStyle(document.documentElement).getPropertyValue('--scale');
     
     var pieces = document.querySelectorAll("[pieceType='tile']");
     pieces.forEach(element => {
@@ -56,8 +58,6 @@ function bootstrap_page() {
     document.getElementById("loadingOverlay").style.display = "none";
     document.getElementById("application").style.visibility = "";
     }, 200);
-
-    
     
     /*
     document.getElementById("canvasDragShower").width = window.innerWidth;

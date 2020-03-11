@@ -72,19 +72,19 @@ function createOutputDivForPrint() {
             var copyTile = tile.cloneNode(true);
             copyTile.style.width = tile.offsetWidth;
             copyTile.style.height = tile.offsetHeight;
-            copyTile.style.left = (tile.offsetLeft - minX + marginLeft) + "px";
-            copyTile.style.top = (tile.offsetTop - minY + marginTop) + "px";
+            copyTile.style.left = (tile.offsetLeft - minX + marginLeft)/scale + "px";
+            copyTile.style.top = (tile.offsetTop - minY + marginTop)/scale + "px";
             document.getElementById("output").appendChild(copyTile);
         }
         if (tile.getAttribute("pieceType") == "text") {//for the text just print the text and adjust offset height
             //we have to convert to label because html2canvas has a bug for textarea
             var label = document.createElement('label');
             label.style.position = "absolute";
-            label.style.top = (tile.offsetTop + tile.childNodes[3].childNodes[1].offsetTop - minY + marginTop) + "px";
-            label.style.left = (tile.offsetLeft + tile.childNodes[3].childNodes[1].offsetLeft - minX + marginLeft) + "px";
-            label.style.width = tile.childNodes[3].childNodes[1].offsetWidth + "px";
-            label.style.height = tile.childNodes[3].childNodes[1].offsetHeight + "px";
-            label.style.fontSize = tile.childNodes[3].childNodes[1].style.fontSize;
+            label.style.top = (tile.offsetTop + tile.childNodes[3].childNodes[1].offsetTop - minY + marginTop)/scale + "px";
+            label.style.left = (tile.offsetLeft + tile.childNodes[3].childNodes[1].offsetLeft - minX + marginLeft)/scale + "px";
+            label.style.width = tile.childNodes[3].childNodes[1].offsetWidth/scale + "px";
+            label.style.height = tile.childNodes[3].childNodes[1].offsetHeight/scale + "px";
+            label.style.fontSize = parseInt(tile.childNodes[3].childNodes[1].style.fontSize)/scale + "px";
             /*
             var style = window.getComputedStyle(tile.childNodes[3].childNodes[1], null).getPropertyValue('font-size');
             var fontSize = parseFloat(style);

@@ -16,7 +16,11 @@ function loadSave(backupFile) {
         let backup = fs.readFileSync(backupFile, "UTF-8")
         $("#loadProjectModal").modal("hide");
         document.documentElement.innerHTML = backup;
-        bootstrap_page();
+        setTimeout(() => {
+            bootstrap_page();
+            rearrangeAllTiles();
+        }, 200);
+        
     } catch (e) {
         alert('function not available in web application, please install the desktop application');
     }
