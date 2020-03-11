@@ -33,7 +33,7 @@ function initCanvasDragShower(elmnt) {
     canvas = elmnt
     ctx = canvas.getContext('2d');
     ctx.strokeStyle = 'rgba(255, 0, 0, 2)';
-    ctx.lineWidth = 10;
+    ctx.lineWidth = 4;
     rect = {};
     drag = false;
     
@@ -116,10 +116,10 @@ function multiDragOnMapSelect(map) {
         deselectAllPieces();
         var pieces = [].slice.call(map.children);//get all the elements on the map
         pieces.forEach(piece => {
-            if (piece.offsetTop + (piece.offsetHeight / 2) > topY &&
-                piece.offsetTop + (piece.offsetHeight / 2) < bottomY &&
-                piece.offsetLeft + (piece.offsetWidth / 2) > topX &&
-                piece.offsetLeft + (piece.offsetWidth / 2) < bottomX) {
+            if (piece.offsetTop + (piece.offsetHeight*scale / 2) > topY &&
+                piece.offsetTop + (piece.offsetHeight*scale / 2) < bottomY &&
+                piece.offsetLeft + (piece.offsetWidth*scale / 2) > topX &&
+                piece.offsetLeft + (piece.offsetWidth*scale / 2) < bottomX) {
                 selectPiece(piece);
             }
         });
@@ -536,7 +536,11 @@ function dragElement(elmnt) {//setup the callbacks
 
         if (toDrag) {
             document.onmousemove = elementDrag;
+            document.ontouchmove = elementDrag;//MOBILE
             document.onmouseup = closeDragElement;
+            document.ontouchend = closeDragElement;//MOBILE
+            
+
         }
         if (e.clientX < document.getElementById(activeSet).offsetWidth) {
             if (elmnt.getAttribute("single") == "no") {
@@ -572,7 +576,9 @@ function dragElement(elmnt) {//setup the callbacks
     function closeDragElement() {
         /* stop moving when mouse button is released:*/
         document.onmouseup = null;
+        document.ontouchend = null;//MOBILE
         document.onmousemove = null;
+        document.ontouchmove = null;//MOBILE
 
 
         endMoveElement([elmnt], "no");
@@ -656,7 +662,9 @@ function startDragMultiElements(e) {
     function multipleElementCloseDragElement(e) {
 
         document.onmouseup = null;
+        document.ontouchend = null;//MOBILE
         document.onmousemove = null;
+        document.ontouchend = null;//MOBILE
         endMoveElement(selectedPieces, "yes");
         if (e.clientX < document.getElementById(activeSet).offsetWidth) {
             deselectAllPieces();
