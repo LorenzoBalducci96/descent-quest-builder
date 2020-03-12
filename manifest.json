@@ -1,0 +1,16 @@
+{
+  "name": "Descent quest builder",
+  "short_name": "Descent",
+  "start_url": "./index_web.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "description": "A custom mission editor for descent board game",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "./assets/icon_512x512.jpg",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

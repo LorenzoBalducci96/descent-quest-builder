@@ -4,16 +4,16 @@
 <head>
     <meta charset="utf-8">
     <title>Descent quest builder</title>
-
+    <link rel="manifest" href="./manifest.json">
 </head>
 <link rel="icon" href="assets/icon.png">
 
 <div id="loadingOverlay">
-    <img style="position: absolute; left:40vw; top:5vh; width:20vw; z-index: 99;" src="assets/loading.gif">
-    <div id="myProgress" style="background-color:black; position: absolute; left:20vw; top:45vh; width:60vw; height:5vh; border-radius: 8px; z-index: 99;">
+    <img style="position: absolute; margin: auto; top: 10vh; left: 0; right: 0; height:35vh; z-index: 99;" src="assets/loading.gif">
+    <div id="myProgress" style="background-color:black; position: absolute; margin: auto; top: 45vh; left: 0; right: 0; width:60vw; height:5vh; border-radius: 8px; z-index: 99;">
         <div id="myBar" style="background-color: blue; border-radius: 8px; height: 100%; width:1%"></div>
     </div>
-    <label style="position: absolute; left:10vw; top:60vh; width:80vw; z-index: 99; font-size: 18px;" id="progressLoad">please, wait the download of all the assets, this is going to take a very long time, the best way to use this app is to download the desktop application (you can find in the distribution section of the github page).</label>
+    <label style="position: absolute; text-align: center; left:10vw; top:60vh; width:80vw; z-index: 99; font-size: 22px;" id="progressLoad">please, wait the download of all the assets, this is going to take a very long time, the best way to use this app is to download the desktop application (you can find in the distribution section of the github page). If you won't, at least, once this page will load, install the pwa</label>
 </div>
 
 <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css">
@@ -60,13 +60,23 @@
 <script>if (window.module) module = window.module;</script>
 
 <script>
+    async function registerSW() {
+        if ('serviceWorker' in navigator) {
+            try {
+                await navigator.serviceWorker.register('./sw.js');
+            } catch (e) {
+                console.log(`SW registration failed`);
+            }
+        }
+    }
+
     var appType = "web";
     window.onload = function () {
         setTimeout(() => {
             document.getElementById("myBar").style.width = "95%"
             bootstrap_page();
+            registerSW();
         }, 200);
-        
     };
     /*
     window.onload = function (){

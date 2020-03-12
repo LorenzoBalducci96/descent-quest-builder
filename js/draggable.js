@@ -622,8 +622,8 @@ function startRotateMultipleElements() {
             (selectedPieces[i].offsetLeft - selectedPieces[0].offsetLeft)) + "px";
 
         let newLeft = (selectedPieces[0].offsetLeft +
-            (selectedPieces[0].offsetTop + selectedPieces[0].offsetHeight -
-                (selectedPieces[i].offsetTop + selectedPieces[i].offsetHeight))
+            (selectedPieces[0].offsetTop + selectedPieces[0].offsetHeight*scale -
+                (selectedPieces[i].offsetTop + selectedPieces[i].offsetHeight*scale))
         ) + "px";
 
         selectedPieces[i].style.top = newTop;
