@@ -26,10 +26,37 @@ function touchHandler(event)
     
 }
 
+var tapedTwice = false;
+
+function doubleTapHandler(event) {
+    if(!tapedTwice) {
+        tapedTwice = true;
+        setTimeout( function() { tapedTwice = false; }, 300 );
+        touchHandler(event)
+    }else{
+        event.preventDefault();
+        alert("found 3")
+        var ev3 = new MouseEvent("contextmenu", {
+            bubbles: true,
+            cancelable: false,
+            view: window,
+            button: 2,
+            buttons: 0,
+            clientX: event.clientX,
+            clientY: event.clientY
+        });
+        document.dispatchEvent(ev3);
+    }
+ }
+
+
 function mapTouchEvents() 
 {
-    document.addEventListener("touchstart", touchHandler, true);
-    document.addEventListener("touchmove", touchHandler, true);
-    document.addEventListener("touchend", touchHandler, true);
-    document.addEventListener("touchcancel", touchHandler, true);    
+    //document.addEventListener("touchstart", touchHandler, true);
+    //document.addEventListener("touchmove", touchHandler, true);
+    //document.addEventListener("touchend", touchHandler, true);
+    //document.addEventListener("touchcancel", touchHandler, true);  
+    //document.addEventListener("touchstart", doubleTapHandler);
+
+  
 }

@@ -1,11 +1,12 @@
 :root {
-    --top-bar-height: 32px;
+    --top-bar-height: 36px;
+    --tiles-selector-bar-height: 36px;
     --bottom-bar-height: 4vw;
     --bottom-bar-zoomed-height: 8vw;
     --sidenav-width: 12vw;
     --bottom-canvas-margin: 0px;
     --bottom-map-margin: 0px;
-    --search-bar-lenght: 16vw;
+    --search-bar-lenght: 20vw;
     --scale: 0.5;
 }
 
@@ -50,8 +51,8 @@ img{
 }
 
 .sidenav {
-    margin-top : 8vh;
-    height: 92%;
+    margin-top : var(--tiles-selector-bar-height);
+    height: calc(100% - var(--tiles-selector-bar-height));
     width:inherit;
     overflow-y : auto;
     overflow-x : hidden;
@@ -63,7 +64,7 @@ img{
 }
 
 #tilesSelectorBar{
-    height: 8vh; /* Full-height: remove this if you want "auto" height */
+    height: var(--tiles-selector-bar-height); /* Full-height: remove this if you want "auto" height */
     width:inherit;
     position: fixed; /* Fixed Sidebar (stay in place on scroll) */
     z-index: 5; /* Stay on top */
@@ -87,6 +88,7 @@ img{
 }
 
 .menuExportBar{
+    display: flex;
     top: 0px;
     margin-left: var(--sidenav-width);
     height: var(--top-bar-height);
@@ -100,7 +102,7 @@ img{
     top: var(--top-bar-height);
     width: var(--search-bar-lenght);
     z-index: 99;
-    max-height: 50vh;
+    max-height: 60vh;
     overflow-x: auto;
     background-color: white;
 }
@@ -111,7 +113,7 @@ img{
 
 .searchBar{
     height: 100%;
-    font-size: 2vh;
+    font-size: 22px;
     width: var(--search-bar-lenght);
 }
 
@@ -193,19 +195,16 @@ img{
  }
 
 .blueButton {
-    height: 90%;
+    height: 100%;
 	box-shadow:inset 0px -3px 7px 0px #0000cc;
 	background:linear-gradient(to bottom, #000000 5%, #350b8f 100%);
 	background-color:#000000;
-	border-radius:10px;
+	border-radius:8px;
 	border:2px solid #0020c2;
 	cursor:pointer;
 	color:#ffffff;
 	font-family:Arial;
-	font-size:1vw;
-    padding:0px 0.5vw;
-    margin-top: 4px;
-
+    font-size:12px;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #000000;
 }
@@ -214,7 +213,7 @@ img{
 	background-color:#350b8f;
 }
 .blueButton:active {
-	margin-top: 8px;
+	background:linear-gradient(to bottom,#660b8f  5%, #000000 100%);
 }
 
 .craeteTextBoxButton{
@@ -331,9 +330,17 @@ img{
     font-family:"Comic Sans MS", cursive, sans-serif;
 }
 
+.card[onmap = "no"] button{
+    visibility: hidden;
+}
+
 .card button{
+    font-size: 16px;
+    height:32px; width:32px; 
+    /*
     font-size: 1vw;
     height:3vh; width:3vh; 
+    */
 }
 
 .bigtable{

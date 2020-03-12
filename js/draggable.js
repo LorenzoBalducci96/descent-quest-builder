@@ -438,6 +438,7 @@ function endMoveElement(pieces, multipleElementsDragging) {
     });
     returnOnMap(pieces);
 }
+tapedTwice = false;
 
 function dragElement(elmnt) {//setup the callbacks
     /*
@@ -463,15 +464,30 @@ function dragElement(elmnt) {//setup the callbacks
     }, false);
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
     elmnt.onmousedown = dragMouseDown;
+    elmnt.ontouchstart = dragMouseDown;//MOBILE
 
     function dragMouseDown(e) {
+        //redirect touch coordinates to mouse
+        if(e.type == "touchstart"){
+            e.clientX = e.touches[0].pageX;
+            e.clientY = e.touches[0].pageY;
+            if(!tapedTwice) {
+                tapedTwice = true;
+                setTimeout( function() { tapedTwice = false; }, 300 );
+                touchHandler(event)
+            }else{
+                event.preventDefault();
+                rotateElement(elmnt);
+                return;
+            }
+        }
         if (document.elementFromPoint(e.clientX, e.clientY).getAttribute("pieceType") == "text") {
             if (document.elementFromPoint(e.clientX, e.clientY).getAttribute("draggable_trigger") == "false") {
                 return;
             }
         }
         elmnt.style.zIndex = "1";
-        e = e || window.event;
+        //e = e || window.event;
         e.preventDefault();
         // get the mouse cursor position at startup:
         pos3 = e.clientX;
@@ -490,11 +506,11 @@ function dragElement(elmnt) {//setup the callbacks
                 canvas.style.left = 0 + "px";
                 canvas.getContext('2d').drawImage(elmnt, 0, 0);
                 
-
                 let x = e.clientX - elmnt.offsetLeft + document.getElementById("map").scrollLeft - document.getElementById("map").offsetLeft;
-                let y = e.clientY - elmnt.offsetTop  + (document.getElementById("map").scrollTop) - document.getElementById("map").offsetTop;
+                let y = e.clientY - elmnt.offsetTop + document.getElementById("map").scrollTop - document.getElementById("map").offsetTop;
 
-                let point = canvas.getContext('2d').getImageData(x, y, 1, 1).data
+                
+                let point = canvas.getContext('2d').getImageData(x/scale, y/scale, 1, 1).data
 
                 //if i clicked on the transparent area let's trigger click behind
                 if (point[3] == 0) {
@@ -561,16 +577,31 @@ function dragElement(elmnt) {//setup the callbacks
     }
 
     function elementDrag(e) {
-        e = e || window.event;
-        e.preventDefault();
-        // calculate the new cursor position:
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        // set the element's new position:
-        //elmnt.style.top = ((elmnt.offsetTop - pos2)) + "px"
-        moveElement(pos1, pos2, pos3, pos4, elmnt);
+        if(e.type == "touchmove"){
+            e.clientX = e.touches[0].pageX;
+            e.clientY = e.touches[0].pageY;
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            if(elmnt.getAttribute("onmap")=="no" && Math.abs(pos1) < Math.abs(pos2)){
+                document.getElementById(activeSet).scrollBy(0, pos2);
+                return;
+            }else{
+                moveElement(pos1, pos2, pos3, pos4, elmnt);
+            }
+        }else{
+            //e = e || window.event;
+            //e.preventDefault();
+            // calculate the new cursor position:
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            // set the element's new position:
+            //elmnt.style.top = ((elmnt.offsetTop - pos2)) + "px"
+            moveElement(pos1, pos2, pos3, pos4, elmnt);
+        }
     }
 
     function closeDragElement() {
@@ -662,9 +693,9 @@ function startDragMultiElements(e) {
     function multipleElementCloseDragElement(e) {
 
         document.onmouseup = null;
-        document.ontouchend = null;//MOBILE
+        //document.ontouchend = null;//MOBILE
         document.onmousemove = null;
-        document.ontouchend = null;//MOBILE
+        //document.ontouchend = null;//MOBILE
         endMoveElement(selectedPieces, "yes");
         if (e.clientX < document.getElementById(activeSet).offsetWidth) {
             deselectAllPieces();

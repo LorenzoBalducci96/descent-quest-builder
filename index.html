@@ -7,6 +7,15 @@
 </head>
 <link rel="icon" href="assets/icon.png">
 
+<div id="loadingOverlay">
+    <img style="position: absolute; left:40vw; top:5vh; width:20vw; z-index: 99;" src="assets/loading.gif">
+    <div id="myProgress" style="position: absolute; left:20vw; top:5vh; width:40vw; z-index: 99;">
+        <div id="myBar" style="height: 100%; width:20%"></div>
+    </div>
+    <label style="position: absolute; left:10vw; top:60vh; width:80vw; z-index: 99; font-size: 16px;" id="progressLoad">please, wait the download of all the assets, this is going to take a very long time, the best way to use this app is to download the desktop application (you can find in the distribution section of the github page).</label>
+
+</div>
+
 <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="css/general.css">
 <link rel="stylesheet" type="text/css" href="css/scrollbar.css">
@@ -147,8 +156,8 @@
                 <div class="modal-body p-4 funny_scrollbar_blue" id="result">
                     <div class="row">
                         <div class="col-6">
-                            <h2>settings</h2>
-                            <h3>background color</h3>
+                            <h4>settings</h4>
+                            <h5>background color</h5>
                             <input id="black_checkbox" onclick="setBlackBackground()" class="checkmark" type="radio"
                                 name="background_color"> <label class="labelBig">black (improve readability)</label><br>
                             <input id="white_checkbox" onclick="setWhiteBackground()" class="checkmark" type="radio"
@@ -200,11 +209,6 @@
         </div>
     </div>
     <div id="output" style="display: none;"></div>
-
-    <div id="loadingOverlay">
-        <img style="position: absolute; left:40vw; top:15vh; width:20vw; z-index: 99;" src="assets/loading.gif">
-        <label style="position: absolute; left:10vw; top:50vh; width:80vw; z-index: 99; font-size: 2vh;" id="progressLoad">please, wait the download of all the assets, this is going to take a very long time, the best way to use this app is to download the desktop application (you can find in the distribution section of the github page).</label>
-    </div>
 
     <div id="application" style="visibility: hidden;">
     <div class="sidebar-container">
@@ -363,7 +367,7 @@
                 style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 6494px; left: 0px;" onMap="no"
                 src="assets/tiles/base/30A_000.png">
 
-            <label piecetype="placeholder" style="position: absolute; top: 6660px;">.</label>
+            <label piecetype="placeholder" style="position: absolute; top: 3330px;">.</label>
         </div>
 
         <div class="sidenav funny_scrollbar_blue" id="baseSetInside" style="visibility: hidden;">
@@ -487,7 +491,7 @@
                 id="30B" image="30B" tags="30B"
                 style="position: absolute; cursor: move; width: 100%; z-index: -1; top: 6493px; left: 0px;" onMap="no"
                 src="assets/tiles/base/30B_000.png">
-            <label piecetype="placeholder" style="position: absolute; top: 6660px;">.</label>
+
         </div>
 
         <div class="sidenav funny_scrollbar_blue" id="baseSetMiscellaneous" style="visibility: hidden;">
@@ -599,7 +603,7 @@
             <img set="baseSetMiscellaneous" orientation="0" single="yes" piecetype="tile" oncontextmenu="return false;"
                 id="TR2B" image="TO" style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no" tags="connector male / female 1 base game" style="position: absolute; cursor: move; width: 100%; z-index: -1;" onMap="no"
                 src="assets/tiles/base/TO_000.png">
-            <label pieceType="placeholder" style="position: absolute; top: 7400px;">.</label>
+
         </div>
 
         <div class="sidenav funny_scrollbar_blue" id="shadowOfNerekhallOutside" style="visibility: hidden;">
@@ -683,7 +687,7 @@
                 oncontextmenu="return false;" id="69A" image="69A" tags="69A"
                 style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"
                 src="assets/tiles/shadowOfNerekhall/69A_000.png">
-            <label pieceType="placeholder" style="position: absolute; top: 4800px;">.</label>
+
         </div>
 
 
@@ -768,7 +772,7 @@
                 oncontextmenu="return false;" id="69B" image="69B" tags="69B"
                 style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"
                 src="assets/tiles/shadowOfNerekhall/69B_000.png">
-            <label pieceType="placeholder" style="position: absolute; top: 4800px;">.</label>
+
         </div>
 
 
@@ -951,7 +955,6 @@
                 src="assets/tiles/shadowOfNerekhall/Connector-3_000.png">
 
 
-            <label pieceType="placeholder" style="position: absolute; top: 8000px;">.</label>
         </div>
 
         <div class="sidenav funny_scrollbar_blue" id="labyrinthOfRuinOutside" style="visibility: hidden;">
@@ -987,7 +990,6 @@
                 oncontextmenu="return false;" id="43A" image="43A" tags="43A"
                 style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"
                 src="assets/tiles/labyrinthOfRuin/43A_000.png">
-            <label pieceType="placeholder" style="position: absolute; top: 2400px;">.</label>
         </div>
 
         <div class="sidenav funny_scrollbar_blue" id="labyrinthOfRuinInside" style="visibility: hidden;">
@@ -1015,7 +1017,6 @@
             <img set="labyrinthOfRuinInside" orientation="0" single="yes" piecetype="tile" oncontextmenu="return false;"
                 id="43B" image="43B" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no" tags="43B" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"
                 src="assets/tiles/labyrinthOfRuin/43B_000.png">
-            <label pieceType="placeholder" style="position: absolute; top: 2400px;">.</label>
         </div>
 
         <div class="sidenav funny_scrollbar_blue" id="trollfensOutside" style="visibility: hidden;">
@@ -1085,7 +1086,6 @@
             <img set="lairOfTheWyrmOutside" orientation="0" single="yes" piecetype="tile" oncontextmenu="return false;"
                 id="S1A" image="S1A" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no" tags="S1A" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"
                 src="assets/tiles/lairOfTheWyrm/S1A_000.png">
-            <label pieceType="placeholder" style="position: absolute; top: 2400px;">.</label>
         </div>
 
         <div class="sidenav funny_scrollbar_blue" id="lairOfTheWyrmInside" style="visibility: hidden;">
@@ -1107,7 +1107,6 @@
             <img set="lairOfTheWyrmInside" orientation="0" single="yes" piecetype="tile" oncontextmenu="return false;"
                 id="S1B" image="S1B" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no" tags="S1B" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"
                 src="assets/tiles/lairOfTheWyrm/S1B_000.png">
-            <label pieceType="placeholder" style="position: absolute; top: 2400px;">.</label>
         </div>
 
         <div class="sidenav funny_scrollbar_blue" id="miscellaneous" style="visibility: hidden;">
@@ -1141,7 +1140,7 @@
 
                 <div class="card-body" single="no" pieceType="text">
                     <textarea id="text_1" style="font-size: 22px; font-weight: bold;" single="no" pieceType="text"
-                        draggable_trigger="false">spider's cave</textarea>
+                        draggable_trigger="false"></textarea>
                 </div>
             </div>
 
@@ -1163,8 +1162,6 @@
             <img set="miscellaneous" orientation="0" single="no" piecetype="tile" oncontextmenu="return false;"
                 id="XS_1" image="Red-X-Small" style="position: absolute; cursor: move; width: 100%; z-index: -1" tags="Red X Small" style="position: absolute; cursor: move; width: 100%; z-index: -1"
                 onMap="no" src="assets/tiles/miscellaneous/Red-X-Small_000.png">
-
-            <label pieceType="placeholder" style="position: absolute; top: 2400px;">.</label>
         </div>
 
         <div class="sidenav funny_scrollbar_blue" id="tokens" style="visibility: hidden;">
@@ -1215,8 +1212,6 @@
                 id="TOKEN_VIL_WOMAN_1" image="Villager-Token-Woman" tags="Villager Token Woman"
                 style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"
                 src="assets/tiles/tokens/Villager-Token-Woman_000.png">
-
-            <label pieceType="placeholder" style="position: absolute; top: 3600px;">.</label>
         </div>
 
         <div class="sidenav funny_scrollbar_blue" id="monsters" style="visibility: hidden;">
@@ -1630,9 +1625,6 @@
             <img set="monsters" orientation="0" single="no" piecetype="tile" oncontextmenu="return false;"
                 id="Zombie-Tan_1" image="Zombie-Tan" style="position: absolute; cursor: move; width: 100%; z-index: -1" tags="Zombie Tan" style="position: absolute; cursor: move; width: 100%; z-index: -1"
                 onMap="no" src="assets/tiles/monsters/Zombie-Tan_000.png">
-
-
-            <label pieceType="placeholder" style="position: absolute; top: 8000px;">.</label>
         </div>
 
         <div class="sidenav funny_scrollbar_blue" id="lieutenants" style="visibility: hidden;">

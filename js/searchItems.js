@@ -1,3 +1,12 @@
+
+function resetSearch(){
+    document.getElementById('search_list').innerHTML = "";
+    document.getElementById("map").removeEventListener("mousedown", resetSearch);
+    document.getElementById("map").removeEventListener("touchstart", resetSearch);
+}
+
+var listnerCloseSearch;
+
 function searchItems(){
     searchedElement = document.getElementById("searchBar").value//.replace(/\ /g, "-");
     searchedWords = searchedElement.split(" ");
@@ -7,7 +16,6 @@ function searchItems(){
             searchQuery += "[piecetype='ghost'][tags*='" + word + "' i]";
         }
     });
-    
     
     let tableSearch = document.getElementById('search_list')
     tableSearch.innerHTML = "";
@@ -23,11 +31,8 @@ function searchItems(){
             image.src = element.getAttribute("src");
             imageCell.appendChild(image)
 
-
             let name = elementRow.insertCell(1);
             name.innerHTML = element.getAttribute("tags");
-
-        
 
             elementRow.onclick = function () {
                 document.getElementById('search_list').innerHTML = "";
@@ -35,7 +40,10 @@ function searchItems(){
             }
         });
     }
+    document.getElementById("map").addEventListener("mousedown", resetSearch);
+    document.getElementById("map").addEventListener("touchstart", resetSearch);
 }
+
 
 function selectSearchedElement(piece){
     switch(piece.getAttribute("set")){
