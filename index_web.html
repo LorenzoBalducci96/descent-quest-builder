@@ -217,7 +217,7 @@
                 <div class="modal-body p-4 funny_scrollbar_blue" id="result">
                     <div class="row">
                         <div class="col-6">
-                            <h4>settings</h4>
+                            
                             <h5>background color</h5>
                             <input id="black_checkbox" onclick="setBlackBackground()" class="checkmark" type="radio"
                                 name="background_color"> <label class="labelBig">black (improve readability)</label><br>
@@ -227,36 +227,42 @@
                             <input id="smoky_checkbox" onclick="setSmokyBackground()" class="checkmark" type="radio"
                                 checked="checked" name="background_color"> <label class="labelBig">smoky (as original
                                 questbook)</label><br>
-                            <button class="exportPDFButton" onclick="exportPDF()">export to PDF</button>
-
                             <br>
                             <br>
-                            <div class="form-group">
-                                <h3 class="labelBig">ZOOM (adapt the dungeon to fit A4 printable page)</h3>
-                                <br>
-                                <input style="width: 80%" class="rounded_range" type="range" max="2.0" min="0.5"
+                            <h2 class="labelBig">adapt the dungeon to fit A4 page</h2>
+                            <div class="row">
+                                <div class="col-4">
+                                    <label class="labelBig">zoom</label>
+                                </div>    
+                                <div class="col-8">
+                                    <input class="rounded_range" type="range" max="2.0" min="0.5"
                                     step="0.5" value="1.5" id="zoomScaling" onchange="scaleRes()"></input>
-
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <h3 class="labelBig">margin left</h3>
-                                <br>
-                                <input style="width: 80%" class="rounded_range" type="range" max="200" min="-200"
+                            <div class="row">
+                                <div class="col-4">
+                                    <label class="labelBig">margin left</label>
+                                </div> 
+                                <div class="col-8">
+                                    <input class="rounded_range" type="range" max="200" min="-200"
                                     step="20" value="0" id="marginLeft" onmouseup="setMarginLeft()"
                                     ontouchend="setMarginLeft()"></input>
-
+                                </div>   
                             </div>
-                            <div class="form-group">
-                                <h3 class="labelBig">margin top</h3>
-                                <br>
-                                <input style="width: 80%" class="rounded_range" type="range" max="200" min="-200"
+                            <div class="row">
+                                <div class="col-4">
+                                    <label class="labelBig">margin top</label>
+                                </div> 
+                                <div class="col-8">
+                                    <input class="rounded_range" type="range" max="200" min="-200"
                                     step="20" value="0" id="marginTop" onmouseup="setMarginTop()"
                                     ontouchend="setMarginTop()"></input>
-
+                                </div>   
                             </div>
+                            <button class="exportPDFButton" onclick="exportPDF()">export to PDF</button>
+                                
                         </div>
                         <div class="col-6">
-                           
                             <img class="half_window_image" id="mapRendered" src="assets/loading.gif"></img>
                         </div>
                     </div>
@@ -274,8 +280,8 @@
     <div id="application" style="visibility: hidden;">
     <div class="sidebar-container">
         <div id="tilesSelectorBar">
-            <button class="blueButton" id="miscellaneousButton" onclick="loadBaseSetMiscellaneous()">extra</button>
-            <button class="blueButton" id="insideButton" onclick="loadBaseSetInside()">change side</button>
+            <button style="width:49%;" class="blueButton" id="miscellaneousButton" onclick="loadBaseSetMiscellaneous()">misc</button>
+            <button style="width:49%;" class="blueButton" id="insideButton" onclick="loadBaseSetInside()">flip</button>
             <!--<img src="assets/flip-icon.png"  style="border-radius: 0.5vw; border:2px solid #fff; width:50%; height: 95%;" id="insideButton" onclick="loadBaseSetInside()"></img>-->
         </div>
         <div class="sidenav funny_scrollbar_blue" id="baseSetOutside" style="visibility: ''">

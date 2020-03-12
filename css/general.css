@@ -1,6 +1,6 @@
 :root {
     --top-bar-height: 36px;
-    --tiles-selector-bar-height: 36px;
+    --tiles-selector-bar-height: 42px;
     --bottom-bar-height: 4vw;
     --bottom-bar-zoomed-height: 8vw;
     --sidenav-width: 12vw;
@@ -290,12 +290,16 @@ img{
 /*end of save project modal*/
 
 .labelBig{
-    font-size: 16px;
+    font-size: 20px;
 }
 
 .checkmark {
-    height: 16px;
-    width: 16px;
+    height: 20px;
+    width: 20px;
+}
+
+.rounded_range{
+    width:100%;
 }
 
 .exportPDFButton{
