@@ -474,7 +474,6 @@ function dragElement(elmnt) {//setup the callbacks
             if(!tapedTwice) {
                 tapedTwice = true;
                 setTimeout( function() { tapedTwice = false; }, 300 );
-                touchHandler(event)
             }else{
                 event.preventDefault();
                 rotateElement(elmnt);
@@ -508,7 +507,6 @@ function dragElement(elmnt) {//setup the callbacks
                 
                 let x = e.clientX - elmnt.offsetLeft + document.getElementById("map").scrollLeft - document.getElementById("map").offsetLeft;
                 let y = e.clientY - elmnt.offsetTop + document.getElementById("map").scrollTop - document.getElementById("map").offsetTop;
-
                 
                 let point = canvas.getContext('2d').getImageData(x/scale, y/scale, 1, 1).data
 
