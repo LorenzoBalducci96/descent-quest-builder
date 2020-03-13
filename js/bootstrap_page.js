@@ -2,8 +2,9 @@ var completedImages = 0;
 var scale = 1;
 
 function bootstrap_page() {
-    scale = getComputedStyle(document.documentElement).getPropertyValue('--scale');
-    
+    //scale = getComputedStyle(document.documentElement).getPropertyValue('--scale');
+    applyUiZoom();
+
     var pieces = document.querySelectorAll("[pieceType='tile']");
     pieces.forEach(element => {
         startapImage(element);

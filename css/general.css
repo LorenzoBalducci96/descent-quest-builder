@@ -11,6 +11,7 @@
 }
 
 body {
+    overscroll-behavior: contain;
     height: 100%;
     width: 100%;
     font-size: 1px; /*adjust margin independent to scaling*/
@@ -139,8 +140,24 @@ img{
     left: var(--sidenav-width);
     opacity: 1;
     
-    background-image: url('../assets/background_050.jpg');
+    
     background-attachment:local;
+}
+
+.map[scale='0.25']{
+    background-image: url('../assets/background_025.jpg');
+}
+
+.map[scale='0.5']{
+    background-image: url('../assets/background_050.jpg');
+}
+
+.map[scale='0.75']{
+    background-image: url('../assets/background_075.jpg');
+}
+
+.map[scale='1']{
+    background-image: url('../assets/background.jpg');
 }
 
 .map img{

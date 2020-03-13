@@ -57,9 +57,9 @@ function getTileSrcPath(setName, imageName, orientation){
 
 function router(setName, id, orientation){
     switch(setName){
-        case "baseSetOutside" : return base(id, orientation); break;
-        case "baseSetInside" : return base(id, orientation); break;
-        case "baseSetMiscellaneous" : return base(id, orientation); break;
+        case "baseSetOutside" : return baseSetOutside(id, orientation); break;
+        case "baseSetInside" : return baseSetInside(id, orientation); break;
+        case "baseSetMiscellaneous" : return baseSetOutside(id, orientation); break;
         case "shadowOfNerekhallOutside" : return shadows_of_nerekhall(id, orientation); break;
         case "shadowOfNerekhallInside" : return shadows_of_nerekhall(id, orientation); break;
         case "shadowOfNerekhallMiscellaneous" : return shadows_of_nerekhall(id, orientation); break;

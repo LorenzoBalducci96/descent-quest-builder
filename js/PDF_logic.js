@@ -22,7 +22,7 @@ async function createImg(imgOutput) {
         document.getElementById("canvasDragShower").height = 3084
         ctx = document.getElementById("canvasDragShower").getContext('2d');
         ctx.strokeStyle = 'rgba(255, 0, 0, 2)';
-        ctx.lineWidth = 10;
+        ctx.lineWidth = 4;
     });
 }
 

@@ -28,6 +28,7 @@
 <script type="text/javascript" src="js/loadTiles.js"></script>
 <script type="text/javascript" src="js/bootstrap_page.js"></script>
 <script type="text/javascript" src="js/searchItems.js"></script>
+<script type="text/javascript" src="js/scaleUi.js"></script>
 
 <!--not importend in electron app-->
 <!--
@@ -1705,6 +1706,11 @@
         <button class="blueButton" onclick="goToExport()">export PDF</button>
         <button class="blueButton" onclick="savePage()">save project</button>
         <button class="blueButton" onclick="loadSaveList()">load project</button>
+        <label id="zoomDescr">zoom:</label>
+        <label id="zoom">0.5</label>
+        <button class="blueButton" onclick="increaseUiZoom()">map zoom +</button>
+        <button class="blueButton" onclick="decreaseUiZoom()">map zoom -</button>
+        
     </div>
 
 

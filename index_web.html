@@ -11,9 +11,9 @@
 <div id="loadingOverlay">
     <img style="position: absolute; margin: auto; top: 10vh; left: 0; right: 0; height:35vh; z-index: 99;" src="assets/loading.gif">
     <div id="myProgress" style="background-color:black; position: absolute; margin: auto; top: 45vh; left: 0; right: 0; width:60vw; height:5vh; border-radius: 8px; z-index: 99;">
-        <div id="myBar" style="background-color: blue; border-radius: 8px; height: 100%; width:1%"></div>
+        <div id="myBar" style="background-color: blue; border-radius: 8px; height: 100%; width:0%"></div>
     </div>
-    <label style="position: absolute; text-align: center; left:10vw; top:60vh; width:80vw; z-index: 99; font-size: 22px;" id="progressLoad">please, wait the download of all the assets, this is going to take a very long time, the best way to use this app is to download the desktop application (you can find in the distribution section of the github page). If you won't, at least, once this page will load, install the pwa</label>
+    <label style="position: absolute; text-align: center; left:10vw; top:60vh; width:80vw; z-index: 99; font-size: 22px;" id="progressLoad">please, wait the download of all the assets (~ 60 MB), this is going to take a very long time, the best way to use this app is to download the desktop application (you can find in the distribution section of the github page). If you won't, at least, once this page will load, install the pwa</label>
 </div>
 
 <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css">
@@ -28,25 +28,29 @@
 <script type="text/javascript" src="js/loadTiles.js"></script>
 <script type="text/javascript" src="js/bootstrap_page.js"></script>
 <script type="text/javascript" src="js/searchItems.js"></script>
+<script type="text/javascript" src="js/scaleUi.js"></script>
+<script>document.getElementById("myBar").style.width = "3%"</script>
 
 <script type="text/javascript" src="base64Tiles/miscellaneous.js"></script>
-<script>document.getElementById("myBar").style.width = "8%"</script>
-<script type="text/javascript" src="base64Tiles/base.js"></script>
-<script>document.getElementById("myBar").style.width = "22%"</script>
+<script>document.getElementById("myBar").style.width = "7%"</script>
+<script type="text/javascript" src="base64Tiles/baseSetOutside.js"></script>
+<script>document.getElementById("myBar").style.width = "19%"</script>
+<script type="text/javascript" src="base64Tiles/baseSetInside.js"></script>
+<script>document.getElementById("myBar").style.width = "37%"</script>
 <script type="text/javascript" src="base64Tiles/labyrinth_of_ruin.js"></script>
-<script>document.getElementById("myBar").style.width = "32%"</script>
+<script>document.getElementById("myBar").style.width = "49%"</script>
 <script type="text/javascript" src="base64Tiles/lair_of_the_wyrm.js"></script>
-<script>document.getElementById("myBar").style.width = "38%"</script>
+<script>document.getElementById("myBar").style.width = "57%"</script>
 <script type="text/javascript" src="base64Tiles/monsters.js"></script>
-<script>document.getElementById("myBar").style.width = "50%"</script>
+<script>document.getElementById("myBar").style.width = "63%"</script>
 <script type="text/javascript" src="base64Tiles/shadows_of_nerekhall.js"></script>
-<script>document.getElementById("myBar").style.width = "68%"</script>
+<script>document.getElementById("myBar").style.width = "82%"</script>
 <script type="text/javascript" src="base64Tiles/tokens.js"></script>
-<script>document.getElementById("myBar").style.width = "72%"</script>
+<script>document.getElementById("myBar").style.width = "83%"</script>
 <script type="text/javascript" src="base64Tiles/trollfens.js"></script>
-<script>document.getElementById("myBar").style.width = "78%"</script>
+<script>document.getElementById("myBar").style.width = "93%"</script>
 <script type="text/javascript" src="base64Tiles/lieutenants.js"></script>
-<script>document.getElementById("myBar").style.width = "88%"</script>
+<script>document.getElementById("myBar").style.width = "94%"</script>
 
 <script type="text/javascript" src="js/tilesGenerator.js"></script>
 
@@ -73,7 +77,7 @@
     var appType = "web";
     window.onload = function () {
         setTimeout(() => {
-            document.getElementById("myBar").style.width = "95%"
+            document.getElementById("myBar").style.width = "98%"
             bootstrap_page();
             registerSW();
         }, 200);
@@ -1655,6 +1659,11 @@
         <button class="blueButton" onclick="goToExport()">export PDF</button>
         <button class="blueButton" onclick="savePage()">save project</button>
         <button class="blueButton" onclick="loadSaveList()">load project</button>
+        <label id="zoomDescr">zoom:</label>
+        <label id="zoom">0.5</label>
+        <button class="blueButton" onclick="increaseUiZoom()">map zoom +</button>
+        <button class="blueButton" onclick="decreaseUiZoom()">map zoom -</button>
+        
     </div>
 
 

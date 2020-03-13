@@ -16,23 +16,25 @@ function setBase64Image(id, orientation){
 
 inputDir = "C:/Users/Lorenzo/Desktop/descent/descent_quest_builder/assets/tiles/"
 #outputDir = "C:/Users/Lorenzo/Desktop/descent/descent_desktop_app/descent_quest_builder-win32-x64/resources/app/assets/tiles/shadows_of_nerekhall/"
-output_path = "C:/Users/Lorenzo/Desktop/descent/descent_quest_builder/developerUtility/outputs/"
+output_path = "C:/Users/Lorenzo/Desktop/descent/descent_quest_builder/developerUtility/outputs/baseOutsideAndMiscellaneous"
 
 for directory in os.listdir(inputDir):
-    file = open(output_path + directory + ".js","w+")
-    file.write("function " + directory + "(id, orientation){\n\
-    image = id + '_' + orientation;\n\
-    switch(image){\n")
-    actualDirectoryPath = inputDir + directory + "/"
-    for filename in os.listdir(actualDirectoryPath):
-        if filename.endswith('_000.png'):
-            image = open(actualDirectoryPath + filename, "rb")
-            base64encoded = base64.b64encode(image.read())
-            trimmed = str(base64encoded).split("b'")[1]
-            trimmed = trimmed.split("'")[0]
-            #file.write("[id='" + filename.split("_")[0] + "'] [orientation='0'] {content:url(\"data:image/png;base64," + str(base64encoded) + "\"}\n")
-            file.write("case \"" + filename.split("_")[0] + "_0\": return \"data:image/png;base64," + trimmed + "\";\n")
-    file.write("\n}\n}")
+    if(directory == "base"):
+        file = open(output_path + directory + ".js","w+")
+        file.write("function " + directory + "(id, orientation){\n\
+        image = id + '_' + orientation;\n\
+        switch(image){\n")
+        actualDirectoryPath = inputDir + directory + "/"
+        for filename in os.listdir(actualDirectoryPath):
+            if ( filename.endswith('_000.png') and (not filename.endswith('B_000.png'))):
+                image = open(actualDirectoryPath + filename, "rb")
+                base64encoded = base64.b64encode(image.read())
+                trimmed = str(base64encoded).split("b'")[1]
+                trimmed = trimmed.split("'")[0]
+                #file.write("[id='" + filename.split("_")[0] + "'] [orientation='0'] {content:url(\"data:image/png;base64," + str(base64encoded) + "\"}\n")
+                file.write("case \"" + filename.split("_")[0] + "_0\": return \"data:image/png;base64," + trimmed + "\";\n")
+        file.write("\n}\n}")
+
 
 """
         if filename.endswith('_090.png'):

@@ -342,7 +342,7 @@ function rotateElement(elmnt) {
     }
 }
 
-function snap(end_top, end_left, elmnt) {
+function snap(elmnt) {
     var end_top = parseInt(elmnt.style.top, 10)
     var end_left = parseInt(elmnt.style.left, 10)
     end_top = (Math.round((end_top + 21*scale) / (72*scale)) * (72*scale)) - 21*scale;
@@ -427,7 +427,7 @@ function endMoveElement(pieces, multipleElementsDragging) {
                 }
             }
             if (multipleElementsDragging == "yes" || elmnt.getAttribute("pieceType") == "tile") {
-                snap(end_top, end_left, elmnt)
+                snap(elmnt)
             }
 
             if (elmnt.getAttribute("single") == "yes")
