@@ -1097,11 +1097,13 @@
                     <button class="bottomButton" style="background-color: white; " single="no" pieceType="text"
                         draggable_trigger="false"
                         onclick="colorWhite(this.parentNode.parentNode.childNodes[3].childNodes[1])"></button>
+                
                 </div>
 
-                <div class="card-body" single="no" pieceType="text">
-                    <textarea id="text_1" style="font-size: 22px; font-weight: bold;" single="no" pieceType="text"
-                        draggable_trigger="false"></textarea>
+                <div class="card-body funny_scrollbar_blue" single="no" pieceType="text">
+
+                    <textarea ontouchend="endResize()" ontouchmove="resizeTextArea(event, this)" id="text_1" style="font-size: 22px; font-weight: bold;" single="no" pieceType="text"
+                        draggable_trigger="false">Notes</textarea>
                 </div>
             </div>
 

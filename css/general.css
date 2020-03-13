@@ -346,11 +346,20 @@ img{
 .card textarea{
     width:100%; 
     max-width: 100%;
-    resize: both; 
+    min-height: 64px;
+    resize: both;
     background-color: #fff8;
     font-family:"Comic Sans MS", cursive, sans-serif;
 }
 
+::-webkit-resizer{ border: 12px solid rgba(0,0,0,.1); border-bottom-color: rgba(0,0,0,.5); border-right-color: rgba(0,0,0,.5); outline: 30px solid rgba(0,0,0,.2); }
+
+/*
+::-webkit-resizer {
+    border: 4px solid black;
+    background: red;
+}
+*/
 .card[onmap = "no"] button{
     visibility: hidden;
 }
@@ -362,6 +371,10 @@ img{
     font-size: 1vw;
     height:3vh; width:3vh; 
     */
+}
+
+.card img{
+    height:32px; width:32px; 
 }
 
 .bigtable{
