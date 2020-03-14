@@ -97,6 +97,17 @@ img{
     z-index: 1;
 }
 
+.dice-rolling-div{
+    position: absolute;
+    left: calc(100vw - var(--search-bar-lenght));
+    top: var(--top-bar-height);
+    width: var(--search-bar-lenght);
+    z-index: 99;
+    height: 0vh;
+    overflow-x: auto;
+    background-color: white;
+}
+
 .drop-down-search-list{
     position: absolute;
     left: var(--sidenav-width);

@@ -155,21 +155,25 @@ function selectPiece(piece) {
     if (!selectedPieces.includes(piece)) {
         piece.style.filter = "brightness(2.0)";
         selectedPieces.push(piece);
+        sendLightOn(piece);
     }
 }
 function deselectPiece(piece) {
     piece.style.filter = "brightness(1.0)";
     var pieceIndex = selectedPieces.indexOf(piece);
     selectedPieces.splice(pieceIndex, 1);
+    sendLightOff(piece);
 }
 function selectPieces() {
     selectedPieces.forEach(piece => {
         piece.style.filter = "brightness(2.0)";
+        sendLightOn(piece);
     });
 }
 function deselectAllPieces() {
     selectedPieces.forEach(piece => {
         piece.style.filter = "brightness(1.0)";
+        sendLightOff(piece);
     });
     selectedPieces = [];
 }
@@ -434,9 +438,14 @@ function endMoveElement(pieces, multipleElementsDragging) {
                 elmnt.style.zIndex = "-1";
             else
                 elmnt.style.zIndex = "2";
+            
         }
     });
     returnOnMap(pieces);
+
+    pieces.forEach(elmnt => {
+        sendSocketUpdate(elmnt);
+    });
 }
 tapedTwice = false;
 
@@ -495,7 +504,6 @@ function dragElement(elmnt) {//setup the callbacks
         var toDrag = true;
         if (elmnt.getAttribute("onMap") == "yes") {
             if (elmnt.getAttribute("pieceType") == "tile") {
-                
                 let canvas = document.createElement("canvas");
 
                 canvas.width = elmnt.offsetWidth;
@@ -582,7 +590,7 @@ function dragElement(elmnt) {//setup the callbacks
             pos2 = pos4 - e.clientY;
             pos3 = e.clientX;
             pos4 = e.clientY;
-            if(elmnt.getAttribute("onmap")=="no" && Math.abs(pos1) < Math.abs(pos2)){
+            if(elmnt.getAttribute("onMap")=="no" && Math.abs(pos1) < Math.abs(pos2)){
                 document.getElementById(activeSet).scrollBy(0, pos2);
                 return;
             }else{

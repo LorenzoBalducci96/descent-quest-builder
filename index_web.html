@@ -29,6 +29,7 @@
 <script type="text/javascript" src="js/bootstrap_page.js"></script>
 <script type="text/javascript" src="js/searchItems.js"></script>
 <script type="text/javascript" src="js/scaleUi.js"></script>
+<script type="text/javascript" src="js/dices.js"></script>
 <script>document.getElementById("myBar").style.width = "3%"</script>
 
 <script type="text/javascript" src="base64Tiles/miscellaneous.js"></script>
@@ -137,6 +138,25 @@
                 -->
             </tbody>
         </table>
+    </div>
+
+    <div id="dicesDiv" class="dice-rolling-div funny_scrollbar_blue">
+       <img id="dice_blue" style="margin: 4px; width: 90%" src="assets/dices/blue.png" onclick="roll(this)">
+       <canvas id="canvas_dice_blue" height=0 width=0></canvas>
+       <img id="dice_red" style="margin: 4px; width: 90%" src="assets/dices/red.png"  onclick="roll(this)">
+       <canvas id="canvas_dice_red" height=0 width=0></canvas>
+       <img id="dice_green" style="margin: 4px; width: 90%" src="assets/dices/green.png"  onclick="roll(this)">
+       <canvas id="canvas_dice_green" height=0 width=0></canvas>
+       <img id="dice_yellow" style="margin: 4px; width: 90%" src="assets/dices/yellow.png"  onclick="roll(this)">
+       <canvas id="canvas_dice_yellow" height=0 width=0></canvas>
+       <img id="dice_brown" style="margin: 4px; width: 90%" src="assets/dices/brown.png"  onclick="roll(this)">
+       <canvas id="canvas_dice_brown" height=0 width=0></canvas>
+       <img id="dice_grey" style="margin: 4px; width: 90%" src="assets/dices/grey.png"  onclick="roll(this)">
+       <canvas id="canvas_dice_grey" height=0 width=0></canvas>
+       <img id="dice_black" style="margin: 4px; width: 90%" src="assets/dices/black.png"  onclick="roll(this)">
+       <canvas id="canvas_dice_black" height=0 width=0></canvas>
+
+       <button style="font-size: 16px;" onclick="clearDiceCanvas()">clear</button>
     </div>
 
     <input type="file" id="restorePageInputFile" accept="text/html" style="display:none" />
@@ -1097,7 +1117,6 @@
                     <button class="bottomButton" style="background-color: white; " single="no" pieceType="text"
                         draggable_trigger="false"
                         onclick="colorWhite(this.parentNode.parentNode.childNodes[3].childNodes[1])"></button>
-                
                 </div>
 
                 <div class="card-body funny_scrollbar_blue" single="no" pieceType="text">
@@ -1665,7 +1684,9 @@
         <label id="zoom">0.5</label>
         <button class="blueButton" onclick="increaseUiZoom()">map zoom +</button>
         <button class="blueButton" onclick="decreaseUiZoom()">map zoom -</button>
-        
+        <input id="socketId" class="searchBar" placeholder="socket connection" value="ws://localhost:8080/descent/websocketendpoint">
+        <button onclick="initializeSocket()" style="font-size: 12px;">initialize socket</button>
+        <button onclick="openDiceRoller()" style="font-size: 12px;">open dice roller</button>
     </div>
 
 
