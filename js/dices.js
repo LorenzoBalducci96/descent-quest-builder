@@ -27,7 +27,11 @@ function runRoll(elmnt, num){
 
     //ctx.fillRect(canvas.width/6 * num, 0, canvas.height, canvas.width/6);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.strokeStyle = "#FF0000";
+    if(elmnt.getAttribute("id") == "dice_red"){
+        ctx.strokeStyle = "#0000FF";
+    }else{
+        ctx.strokeStyle = "#FF0000";
+    }
     ctx.lineWidth = 5;
     ctx.beginPath();
     ctx.moveTo(canvas.width/6 * num, 0);
