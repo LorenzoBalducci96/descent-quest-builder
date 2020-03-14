@@ -64,6 +64,9 @@ function initializeSocket(){
                 document.getElementById(message.pieceId).style.top = message.top;
                 document.getElementById(message.pieceId).style.left = message.left;
                 document.getElementById(message.pieceId).style.zIndex = message.zIndex;
+            }if(message.messageType == 'MOVE'){
+                document.getElementById(message.pieceId).setAttribute("orientation", message.orientation);
+                setImage(document.getElementById(message.pieceId));
             }
             if(message.messageType == 'TEXT'){
                 document.getElementById(message.pieceId).childNodes[3].childNodes[1].value = message.text;
@@ -127,7 +130,8 @@ function sendSocketUpdate(elmnt){
                 top: elmnt.style.top,
                 left: elmnt.style.left,
                 zIndex: elmnt.style.zIndex,
-                onMap: elmnt.getAttribute("onMap")
+                onMap: elmnt.getAttribute("onMap"),
+                orientation: elmnt.getAttribute("orientation")
             };
         }else if(elmnt.getAttribute("pieceType") == "text"){
             message = { 
