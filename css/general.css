@@ -347,6 +347,7 @@ img{
     width:100%; 
     max-width: 100%;
     min-height: 64px;
+    min-width: 64px;
     resize: both;
     background-color: #fff8;
     font-family:"Comic Sans MS", cursive, sans-serif;
