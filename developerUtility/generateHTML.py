@@ -3,12 +3,12 @@ import cv2
 import matplotlib.pyplot as plt
 import os
 
-baseFolder = "assets/tiles/lieutenants/"
-setName = "lieutenants"
+baseFolder = "assets/tiles/heroes/"
+setName = "heroes"
 pieceType = "tile"
 single = "no"
-input_path = 'C:/Users/Lorenzo/Desktop/descent/descent_quest_builder/assets/tiles/lieutenants/'
-output_path = 'C:/Users/Lorenzo/Desktop/descent/descent_quest_builder/developerUtility/outputs/output.txt'
+input_path = 'C:/xampp/htdocs/descent_quest_builder/assets/tiles/heroes'
+output_path = 'C:/xampp/htdocs/descent_quest_builder/developerUtility/outputs/output.txt'
 file = open(output_path,"w+") 
 for filename in os.listdir(input_path):
     if filename.endswith('_000.png'):

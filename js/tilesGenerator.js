@@ -52,6 +52,7 @@ function getTileSrcPath(setName, imageName, orientation){
         case "tokens" : return "assets/tiles/tokens/" + imageName + orientation + ".png";
         case "monsters" : return "assets/tiles/monsters/" + imageName + orientation + ".png";
         case "lieutenants" : return "assets/tiles/lieutenants/" + imageName + orientation + ".png";
+        case "heroes" : return "assets/tiles/heroes/" + imageName + orientation + ".png";
     }
 }
 
@@ -73,6 +74,7 @@ function router(setName, id, orientation){
         case "tokens" : return tokens(id, orientation); break;
         case "monsters" : return monsters(id, orientation); break;
         case "lieutenants" : return lieutenants(id, orientation); break;
+        case "heroes" : return heroes(id, orientation); break;
     }
 }
 

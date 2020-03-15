@@ -64,9 +64,6 @@ function initializeSocket(){
                 document.getElementById(message.pieceId).style.top = message.top;
                 document.getElementById(message.pieceId).style.left = message.left;
                 document.getElementById(message.pieceId).style.zIndex = message.zIndex;
-            }if(message.messageType == 'MOVE'){
-                document.getElementById(message.pieceId).setAttribute("orientation", message.orientation);
-                setImage(document.getElementById(message.pieceId));
             }
             if(message.messageType == 'TEXT'){
                 document.getElementById(message.pieceId).childNodes[3].childNodes[1].value = message.text;
@@ -79,6 +76,9 @@ function initializeSocket(){
             }
         }else if (message.messageType == "ROLL"){
             runRoll(document.getElementById(message.pieceId), message.num);
+        }else if(message.messageType == 'ROTATION'){
+            document.getElementById(message.pieceId).setAttribute("orientation", message.orientation);
+            setImage(document.getElementById(message.pieceId));
         }
     }
     socketInitialized = true;
@@ -115,6 +115,18 @@ function sendLightOff(elmnt){
             messageType: 'LIGHT',
             pieceId: elmnt.getAttribute("id"),
             light: "off"
+        };
+        webSocket.send(JSON.stringify(message));
+    }
+}
+
+function sendRotation(elmnt){
+    if(socketInitialized){
+        let message;
+        message = {
+            messageType: 'ROTATION',
+            pieceId: elmnt.getAttribute("id"),
+            orientation: elmnt.getAttribute("orientation")
         };
         webSocket.send(JSON.stringify(message));
     }
@@ -179,6 +191,7 @@ function bootstrap_page() {
     this.loadAndArrangeTiles("monsters");
     this.loadAndArrangeTiles("lieutenants");
     this.loadAndArrangeTiles("miscellaneous");
+    this.loadAndArrangeTiles("heroes");
 
     window.addEventListener("resize", rearrangeAllTiles);//we want to rearrange all tiles on zoom change
     window.addEventListener("resize", trickForCorrectGoogleChromeResizeBug);
@@ -232,6 +245,7 @@ function rearrangeAllTiles(){
     this.rearrangeTilesAfterResize("monsters");
     this.rearrangeTilesAfterResize("lieutenants");
     this.rearrangeTilesAfterResize("miscellaneous");
+    this.rearrangeTilesAfterResize("heroes");
 }
 
 function trickForCorrectGoogleChromeResizeBug(){

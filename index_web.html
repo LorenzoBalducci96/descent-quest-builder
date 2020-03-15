@@ -13,7 +13,7 @@
     <div id="myProgress" style="background-color:black; position: absolute; margin: auto; top: 45vh; left: 0; right: 0; width:60vw; height:5vh; border-radius: 8px; z-index: 99;">
         <div id="myBar" style="background-color: blue; border-radius: 8px; height: 100%; width:0%"></div>
     </div>
-    <label style="position: absolute; text-align: center; left:10vw; top:60vh; width:80vw; z-index: 99; font-size: 22px;" id="progressLoad">please, wait the download of all the assets (~ 60 MB), this is going to take a very long time, the best way to use this app is to download the desktop application (you can find in the distribution section of the github page). If you won't, at least, once this page will load, install the pwa</label>
+    <label style="position: absolute; text-align: center; left:10vw; top:60vh; width:80vw; z-index: 99; font-size: 22px;" id="progressLoad">rev4.1, <br>please, wait the download of all the assets (~ 60 MB), this is going to take a very long time, the best way to use this app is to download the desktop application (you can find in the distribution section of the github page). If you won't, at least, once this page will load, install the pwa</label>
 </div>
 
 <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css">
@@ -31,8 +31,7 @@
 <script type="text/javascript" src="js/scaleUi.js"></script>
 <script type="text/javascript" src="js/dices.js"></script>
 <script>document.getElementById("myBar").style.width = "3%"</script>
-
-<script type="text/javascript" src="base64Tiles/miscellaneous.js"></script>
+<script type="text/javascript" src="base64Tiles/lieutenants.js"></script>
 <script>document.getElementById("myBar").style.width = "7%"</script>
 <script type="text/javascript" src="base64Tiles/baseSetOutside.js"></script>
 <script>document.getElementById("myBar").style.width = "19%"</script>
@@ -50,7 +49,8 @@
 <script>document.getElementById("myBar").style.width = "83%"</script>
 <script type="text/javascript" src="base64Tiles/trollfens.js"></script>
 <script>document.getElementById("myBar").style.width = "93%"</script>
-<script type="text/javascript" src="base64Tiles/lieutenants.js"></script>
+<script type="text/javascript" src="base64Tiles/miscellaneous.js"></script>
+<script type="text/javascript" src="base64Tiles/heroes.js"></script>
 <script>document.getElementById("myBar").style.width = "94%"</script>
 
 <script type="text/javascript" src="js/tilesGenerator.js"></script>
@@ -1672,6 +1672,23 @@
                 orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="Zarihell_1"
                 style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
         </div>
+
+        <div class="sidenav funny_scrollbar_blue" id="heroes" style="visibility: hidden;">
+            <image set="heroes" image="ashian" tags="ashian ashrian arian" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="ashian_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <image set="heroes" image="avric" tags="avric albright" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="avric_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <image set="heroes" image="grisban" tags="grisban thirsty" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="grisban_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <image set="heroes" image="jain" tags="jain fairwook" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="jain_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <image set="heroes" image="leoric" tags="leoric books" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="leoric_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <image set="heroes" image="sindrael" tags="sindrael" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="sindrael_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <image set="heroes" image="tarha" tags="tarha thara widow" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="tarha_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <image set="heroes" image="tinashi" tags="tinashi" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="tinashi_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <image set="heroes" image="tomble" tags="tomble burrowell" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="tomble_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <image set="heroes" image="heart" tags="heart" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="heart_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            <image set="heroes" image="heart5" tags="heart5" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="heart5_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+            
+            <image set="heroes" image="fatigue" tags="fatigue" orientation="0" single="no" pieceType="tile" oncontextmenu="return false;" id="fatigue_1" style="position: absolute; cursor: move; width: 100%; z-index: -1" onMap="no"></image>
+        
+        </div>
     </div>
 
 
@@ -1719,6 +1736,8 @@
             <img id="tokensLoadButton" class="imageButton" src="./assets/expansionImages/search_tokens.png" onclick="loadTokens()"></img>
             <img id="monstersLoadButton" class="imageButton" src="./assets/expansionImages/monsters.png" onclick="loadMonsters()"></img>
             <img id="lieutenantsLoadButton" class="imageButton" src="./assets/expansionImages/liutenants.png" onclick="loadLieutenants()"></img>
+            <img id="miscellaneousLoadButton" class="imageButton" src="./assets/expansionImages/heroes.png"
+                onclick="loadHeroes()"></img>
             <img id="miscellaneousLoadButton" class="imageButton" src="./assets/expansionImages/miscellaneous.png"
                 onclick="loadMiscellaneous()"></img>
 

@@ -344,6 +344,7 @@ function rotateElement(elmnt) {
         elmnt.setAttribute("orientation", "0")
         setImage(elmnt)
     }
+    sendRotation(elmnt);
 }
 
 function snap(elmnt) {

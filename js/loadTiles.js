@@ -60,6 +60,15 @@ function loadMonsters(){
     activeSet = "monsters";
 }
 
+function loadHeroes(){
+    document.getElementById(activeSet).style.visibility = "hidden"
+    document.getElementById("heroes").style.visibility = ""
+    
+    document.getElementById('insideButton').style.display = "none"
+    document.getElementById('miscellaneousButton').style.display = "none"
+    activeSet = "heroes";
+}
+
 
 
 
