@@ -1,4 +1,4 @@
-const cacheName = 'descent-quest-builder-007';
+const cacheName = 'descent-quest-builder-010';
 
 
 const staticAssets = [

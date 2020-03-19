@@ -75,7 +75,7 @@ function initializeSocket(){
                 document.getElementById(message.pieceId).style.filter = "brightness(1.0)";
             }
         }else if (message.messageType == "ROLL"){
-            runRoll(document.getElementById(message.pieceId), message.num);
+            executeRollDice(document.getElementById(message.pieceId), message.num);
         }else if(message.messageType == 'ROTATION'){
             document.getElementById(message.pieceId).setAttribute("orientation", message.orientation);
             setImage(document.getElementById(message.pieceId));

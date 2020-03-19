@@ -13,12 +13,13 @@
     <div id="myProgress" style="background-color:black; position: absolute; margin: auto; top: 45vh; left: 0; right: 0; width:60vw; height:5vh; border-radius: 8px; z-index: 99;">
         <div id="myBar" style="background-color: blue; border-radius: 8px; height: 100%; width:0%"></div>
     </div>
-    <label style="position: absolute; text-align: center; left:10vw; top:60vh; width:80vw; z-index: 99; font-size: 22px;" id="progressLoad">rev4.1, <br>please, wait the download of all the assets (~ 60 MB), this is going to take a very long time, the best way to use this app is to download the desktop application (you can find in the distribution section of the github page). If you won't, at least, once this page will load, install the pwa</label>
+    <label style="position: absolute; text-align: center; left:10vw; top:60vh; width:80vw; z-index: 99; font-size: 22px;" id="progressLoad">rev4.2, <br>please, wait the download of all the assets (~ 60 MB), this is going to take a very long time, the best way to use this app is to download the desktop application (you can find in the distribution section of the github page). If you won't, at least, once this page will load, install the pwa</label>
 </div>
 
 <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="css/general.css">
 <link rel="stylesheet" type="text/css" href="css/scrollbar.css">
+<link rel="stylesheet" type="text/css" href="css/dices.css">
 
 <script type="text/javascript" src="js/otherBase64Assets.js"></script>
 <script type="text/javascript" src="js/draggable.js"></script>
@@ -140,24 +141,130 @@
         </table>
     </div>
 
-    <div id="dicesDiv" class="dice-rolling-div funny_scrollbar_blue">
-       <img id="dice_blue" style="margin: 4px; width: 90%" src="assets/dices/blue.png" onclick="roll(this)">
-       <canvas id="canvas_dice_blue" height=0 width=0></canvas>
-       <img id="dice_red" style="margin: 4px; width: 90%" src="assets/dices/red.png"  onclick="roll(this)">
-       <canvas id="canvas_dice_red" height=0 width=0></canvas>
-       <img id="dice_green" style="margin: 4px; width: 90%" src="assets/dices/green.png"  onclick="roll(this)">
-       <canvas id="canvas_dice_green" height=0 width=0></canvas>
-       <img id="dice_yellow" style="margin: 4px; width: 90%" src="assets/dices/yellow.png"  onclick="roll(this)">
-       <canvas id="canvas_dice_yellow" height=0 width=0></canvas>
-       <img id="dice_brown" style="margin: 4px; width: 90%" src="assets/dices/brown.png"  onclick="roll(this)">
-       <canvas id="canvas_dice_brown" height=0 width=0></canvas>
-       <img id="dice_grey" style="margin: 4px; width: 90%" src="assets/dices/grey.png"  onclick="roll(this)">
-       <canvas id="canvas_dice_grey" height=0 width=0></canvas>
-       <img id="dice_black" style="margin: 4px; width: 90%" src="assets/dices/black.png"  onclick="roll(this)">
-       <canvas id="canvas_dice_black" height=0 width=0></canvas>
 
-       <button style="font-size: 16px;" onclick="clearDiceCanvas()">clear</button>
+
+    <div class="card dice-rolling-div funny_scrollbar_blue" 
+        style="display: none;" id="dicesDiv">
+        <div onmousedown="startDragDices(event)" class="card-header"><label style="font-weight: bold; font-size: 22px;">dices</label>></div>
+        <div class="card-body">
+                <div class="container funny_scrollbar_blue">
+                <div style="margin-left: 32px; margin-top: 40px; display: flex; justify-content: center; text-align: center;" class="row">
+                    <div class="dice_container">
+                        <div id="dice_blue" class='dice' onclick="rollDice(this)">
+                            <div class='dice-face' style="background-image: url('assets/dices/blueFaces/blue1.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/blueFaces/blue2.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/blueFaces/blue3.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/blueFaces/blue4.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/blueFaces/blue5.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/blueFaces/blue6.png')"></div>
+                        </div>
+                    </div>
+                
+                    <div class="dice_container">
+                        <div id="dice_red" class='dice' onclick="rollDice(this)">
+                            <div class='dice-face' style="background-image: url('assets/dices/redFaces/red1.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/redFaces/red2.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/redFaces/red3.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/redFaces/red4.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/redFaces/red5.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/redFaces/red6.png')"></div>
+                        </div>
+                    </div>
+
+                    <div class="dice_container">
+                        <div id="dice_red2" class='dice' onclick="rollDice(this)">
+                            <div class='dice-face' style="background-image: url('assets/dices/redFaces/red1.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/redFaces/red2.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/redFaces/red3.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/redFaces/red4.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/redFaces/red5.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/redFaces/red6.png')"></div>
+                        </div>
+                    </div>
+                
+
+                    <div class="dice_container">
+                        <div id="dice_yellow" class='dice' onclick="rollDice(this)">
+                            <div class='dice-face' style="background-image: url('assets/dices/yellowFaces/yellow1.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/yellowFaces/yellow2.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/yellowFaces/yellow3.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/yellowFaces/yellow4.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/yellowFaces/yellow5.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/yellowFaces/yellow6.png')"></div>
+                        </div>
+                    </div>
+
+                    <div class="dice_container">
+                        <div id="dice_green" class='dice' onclick="rollDice(this)">
+                            <div class='dice-face' style="background-image: url('assets/dices/greenFaces/green1.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/greenFaces/green2.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/greenFaces/green3.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/greenFaces/green4.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/greenFaces/green5.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/greenFaces/green6.png')"></div>
+                        </div>
+                    </div>
+
+                    <div class="dice_container">
+                        <div id="dice_green2" class='dice' onclick="rollDice(this)">
+                            <div class='dice-face' style="background-image: url('assets/dices/greenFaces/green1.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/greenFaces/green2.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/greenFaces/green3.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/greenFaces/green4.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/greenFaces/green5.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/greenFaces/green6.png')"></div>
+                        </div>
+                    </div>
+
+                    <div class="dice_container">
+                        <div id="dice_brown" class='dice' onclick="rollDice(this)">
+                            <div class='dice-face' style="background-image: url('assets/dices/brownFaces/brown1.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/brownFaces/brown2.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/brownFaces/brown3.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/brownFaces/brown4.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/brownFaces/brown5.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/brownFaces/brown6.png')"></div>
+                        </div>
+                    </div>
+
+                    <div class="dice_container">
+                        <div id="dice_grey" class='dice' onclick="rollDice(this)">
+                            <div class='dice-face' style="background-image: url('assets/dices/greyFaces/grey1.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/greyFaces/grey2.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/greyFaces/grey3.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/greyFaces/grey4.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/greyFaces/grey5.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/greyFaces/grey6.png')"></div>
+                        </div>
+                    </div>
+
+                    <div class="dice_container">
+                        <div id="dice_grey2" class='dice' onclick="rollDice(this)">
+                            <div class='dice-face' style="background-image: url('assets/dices/greyFaces/grey1.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/greyFaces/grey2.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/greyFaces/grey3.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/greyFaces/grey4.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/greyFaces/grey5.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/greyFaces/grey6.png')"></div>
+                        </div>
+                    </div>
+
+                    <div class="dice_container">
+                        <div id="dice_black" class='dice' onclick="rollDice(this)">
+                            <div class='dice-face' style="background-image: url('assets/dices/blackFaces/black1.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/blackFaces/black2.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/blackFaces/black3.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/blackFaces/black4.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/blackFaces/black5.png')"></div>
+                            <div class='dice-face' style="background-image: url('assets/dices/blackFaces/black6.png')"></div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
     </div>
+
 
     <input type="file" id="restorePageInputFile" accept="text/html" style="display:none" />
 
@@ -1723,7 +1830,7 @@
             <div class="control_bar" id="control_bar" style="z-index: 0;">
                 <!--<button class="craeteTextBoxButton" onclick="createTextBox()">insert text</button>-->
 
-                <img id="baseLoadButton" class="imageButton" src="./assets/expansionImages/base.jpg"
+            <img id="baseLoadButton" class="imageButton" src="./assets/expansionImages/base.jpg"
                 onclick="loadBaseSetOutside()"></img>
             <img id="labirinthOfRuinLoadButton" class="imageButton" src="./assets/expansionImages/labirinth_of_ruin.jpg"
                 onclick="loadLabyrinthOfRuinOutside()"></img>

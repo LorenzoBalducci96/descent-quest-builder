@@ -7,6 +7,10 @@
     --bottom-canvas-margin: 0px;
     --bottom-map-margin: 0px;
     --search-bar-lenght: 20vw;
+    --dice-div-height: 372px;
+    --dice-div-width: 290px;
+    --dice-face-size: 72px;
+
     --scale: 0.5;
 }
 
@@ -95,17 +99,6 @@ img{
     height: var(--top-bar-height);
     background-color: black;
     z-index: 1;
-}
-
-.dice-rolling-div{
-    position: absolute;
-    left: calc(100vw - var(--search-bar-lenght));
-    top: var(--top-bar-height);
-    width: var(--search-bar-lenght);
-    z-index: 99;
-    height: 0vh;
-    overflow-x: auto;
-    background-color: white;
 }
 
 .drop-down-search-list{

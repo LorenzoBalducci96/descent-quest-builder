@@ -1,0 +1,109 @@
+.dice-rolling-div{
+    position: absolute;
+    left: calc(100vw - var(--dice-div-width));
+    top: calc(var(--top-bar-height));
+    height: var(--dice-div-height);
+	width: var(--dice-div-width);
+	overflow: auto;
+	resize:both;
+    z-index: 99;
+}
+
+.dice-rolling-div:hover{
+	background-color: #ffff !important;
+}
+
+.dice_container{
+	display: block;
+	width: var(--dice-face-size);
+	height: var(--dice-face-size);
+}
+
+.dice, .dice *, .dice *:before {
+	position: absolute;
+	transform-style: preserve-3d;
+	transition: all 1s;
+  }
+  
+  /*
+  .dice {
+	transform: rotateY(0deg);
+	animation: ani 19s linear infinite;
+  }
+  
+  @keyframes ani {
+	to { 
+	  transform: rotateY(360deg);
+	}
+  }
+  */
+  @keyframes faceOne {
+	to {
+	  transform: rotateX(0deg) rotateY(90deg) rotateZ(0deg);
+	}
+  }
+  @keyframes faceTwo {
+	to {
+	  transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+	}
+  }
+  @keyframes faceThree {
+	to {
+	  transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+	}
+  }
+  @keyframes faceFour {
+	to {
+	  transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+	}
+  }
+  @keyframes faceFive {
+	to {
+	  transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+	}
+  }
+  @keyframes faceSix {
+	to {
+	  transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+	}
+  }
+  .dice-face {
+	position: fixed;
+	border: solid rgba(255, 255, 255, 1);
+	width: var(--dice-face-size);
+	height: var(--dice-face-size);
+	color: black;
+  }
+  
+  .dice-face {
+	background-repeat: no-repeat;
+	background-position: center;
+	-webkit-background-size: contain;
+	-moz-background-size: contain;
+	-o-background-size: contain;
+	background-size: contain;
+  }
+  
+  .dice-face:nth-child(1) {
+	transform: translate(-50%, -50%) translateZ(calc(var(--dice-face-size)/2));
+  }
+  
+  .dice-face:nth-child(2) {
+	transform: translate(-50%, -50%) translateZ(calc((-1) * var(--dice-face-size)/2));
+  }
+  
+  .dice-face:nth-child(3) {
+	transform: translate(-50%, -50%) translateY(calc(var(--dice-face-size)/2)) rotate3d(1, 0, 0, 90deg);
+  }
+  
+  .dice-face:nth-child(4) {
+	transform: translate(-50%, -50%) translateY(calc((-1) * var(--dice-face-size)/2)) rotate3d(1, 0, 0, 90deg);
+  }
+  
+  .dice-face:nth-child(5) {
+	transform: translate(-50%, -50%) translateX(calc(var(--dice-face-size)/2)) rotate3d(0, 1, 0, 90deg);
+  }
+  
+  .dice-face:nth-child(6) {
+	transform: translate(-50%, -50%) translateX(calc((-1) * var(--dice-face-size)/2)) rotate3d(0, 1, 0, 90deg);
+  }
