@@ -62,6 +62,7 @@ function selectSearchedElement(piece){
         case "monsters": document.getElementById("monstersLoadButton").click();  break;
         case "lieutenants": document.getElementById("lieutenantsLoadButton").click(); break;
         case "miscellaneous": document.getElementById("miscellaneousLoadButton").click(); break;
+        case "heroes": document.getElementById("heroesButton").click(); break;
         case "tokens": document.getElementById("tokensLoadButton").click(); break;
     }
     document.getElementById(activeSet).scrollTop = piece.offsetTop;

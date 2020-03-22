@@ -55,6 +55,19 @@ img{
     width: var(--sidenav-width);
 }
 
+.multiplayerSidenav{
+    margin-top : 0;
+    height: 100%;
+    width:inherit;
+    overflow-y : auto;
+    overflow-x : hidden;
+    position: fixed; 
+    z-index: 10;
+    top: 0; 
+    left: 0;
+    background-color: #111;
+}
+
 .sidenav {
     margin-top : var(--tiles-selector-bar-height);
     height: calc(100% - var(--tiles-selector-bar-height));
@@ -261,8 +274,8 @@ img{
 .modal-full {
     margin-top: 1vh !important; 
     margin-bottom: 0px !important; 
-    min-width: 80%;
-    margin-left: 80;
+    min-width: 92vw;
+    margin-left: 4vw;
 }
 
 .modal-full .modal-header {
@@ -274,7 +287,7 @@ img{
 
 .modal-full .modal-body {
     height: 84vh;
-    overflow: auto;
+    width: 100%;
 }
 
 .half_window_image{

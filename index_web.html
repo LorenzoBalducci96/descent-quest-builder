@@ -13,13 +13,15 @@
     <div id="myProgress" style="background-color:black; position: absolute; margin: auto; top: 45vh; left: 0; right: 0; width:60vw; height:5vh; border-radius: 8px; z-index: 99;">
         <div id="myBar" style="background-color: blue; border-radius: 8px; height: 100%; width:0%"></div>
     </div>
-    <label style="position: absolute; text-align: center; left:10vw; top:60vh; width:80vw; z-index: 99; font-size: 22px;" id="progressLoad">rev4.2, <br>please, wait the download of all the assets (~ 60 MB), this is going to take a very long time, the best way to use this app is to download the desktop application (you can find in the distribution section of the github page). If you won't, at least, once this page will load, install the pwa</label>
+    <label style="position: absolute; text-align: center; left:10vw; top:60vh; width:80vw; z-index: 99; font-size: 22px;" id="progressLoad">rev5.0, <br>please, wait the download of all the assets (~ 60 MB), this is going to take a very long time, the best way to use this app is to download the desktop application (you can find in the distribution section of the github page). If you won't, at least, once this page will load, install the pwa</label>
 </div>
 
 <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="css/general.css">
 <link rel="stylesheet" type="text/css" href="css/scrollbar.css">
 <link rel="stylesheet" type="text/css" href="css/dices.css">
+<link rel="stylesheet" type="text/css" href="css/multiplayer_things.css">
+<link rel="stylesheet" type="text/css" href="css/jquery/jquery-ui.css">
 
 <script type="text/javascript" src="js/otherBase64Assets.js"></script>
 <script type="text/javascript" src="js/draggable.js"></script>
@@ -31,6 +33,7 @@
 <script type="text/javascript" src="js/searchItems.js"></script>
 <script type="text/javascript" src="js/scaleUi.js"></script>
 <script type="text/javascript" src="js/dices.js"></script>
+<script src="js/multiplayer.js"></script>
 <script>document.getElementById("myBar").style.width = "3%"</script>
 <script type="text/javascript" src="base64Tiles/lieutenants.js"></script>
 <script>document.getElementById("myBar").style.width = "7%"</script>
@@ -63,7 +66,14 @@
 <script src="js/html2canvas/html2canvas.js"></script>
 <script src="js/html2canvas/jspdf.debug.js"></script>
 <script src="js/fileSaver/FileSaver.js"></script>
+
 <script>if (window.module) module = window.module;</script>
+
+
+//slick
+<script src="js/slick/slick.js"></script>
+<link rel="stylesheet" type="text/css" href="js/slick/slick.css">
+<link rel="stylesheet" type="text/css" href="js/slick/slick-theme.css">
 
 <script>
     async function registerSW() {
@@ -141,12 +151,13 @@
         </table>
     </div>
 
+    
 
 
     <div class="card dice-rolling-div funny_scrollbar_blue" 
         style="display: none;" id="dicesDiv">
         <div onmousedown="startDragDices(event)" class="card-header"><label style="font-weight: bold; font-size: 22px;">dices</label>></div>
-        <div class="card-body">
+         <div class="card-body">
                 <div class="container funny_scrollbar_blue">
                 <div style="margin-left: 32px; margin-top: 40px; display: flex; justify-content: center; text-align: center;" class="row">
                     <div class="dice_container">
@@ -259,7 +270,6 @@
                             <div class='dice-face' style="background-image: url('assets/dices/blackFaces/black6.png')"></div>
                         </div>
                     </div>
-                    
                 </div>
             </div>
         </div>
@@ -267,6 +277,712 @@
 
 
     <input type="file" id="restorePageInputFile" accept="text/html" style="display:none" />
+
+
+    <div class="modal fade" id="characterDetailsModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-full" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">character details</h4>
+                    <button style="margin-left: 4px; height: 100%;" onclick="reconfigure();" class="blueButton">reconfigure</button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <h3 aria-hidden="true">×</h3>
+                    </button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="container-fluid funny_scrollbar_blue" style="max-height: 100%;">
+                        <div class="row" id="characterDetails">
+                            <!--in an example...is injected by javascript-->
+                            <!--
+                            <div id="characterSheetDetails" class="col-lg-6 col-md-6 col-sm-8 col-12">
+                                
+                            </div>
+
+                            <div id="img_0" class="col-lg-3 col-md-3 col-sm-4 col-6">
+                            </div>
+                            <div id="img_1" class="col-lg-3 col-md-3 col-sm-4 col-6">
+                            </div>
+                            <div id="img_2" class="col-lg-3 col-md-3 col-sm-4 col-6">
+                            </div>
+                            <div id="img_3" class="col-lg-3 col-md-3 col-sm-4 col-6">
+                            </div>
+                            <div id="img_4" class="col-lg-3 col-md-3 col-sm-4 col-6">
+                            </div>
+                            <div id="img_5" class="col-lg-3 col-md-3 col-sm-4 col-6">
+                            </div>
+                            <div id="img_6" class="col-lg-3 col-md-3 col-sm-4 col-6">
+                            </div>
+                            <div id="img_7" class="col-lg-3 col-md-3 col-sm-4 col-6">
+                            </div>
+                            <div id="img_8" class="col-lg-3 col-md-3 col-sm-4 col-6">
+                            </div>
+                            -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="start_game_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">multiplayer configuration</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <h3 aria-hidden="true">×</h3>
+                    </button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="container funny_scrollbar_blue">
+                        <div class="row">
+                            <div class="col-12">
+                                <input id="playerName" class="searchBar socketBar" placeholder="nickname: the_beast_999">
+                            </div>
+
+                            <div class="col-12">
+                                <input id="socketId" class="searchBar socketBar" placeholder="socket connection" value="ws://localhost:8080/descent/websocketendpoint">
+                            </div>
+                        
+                        
+                            <div class="col-6">
+                                <button class="blueButton socketButton" onclick="initializeSocket(false)">play as a master</button>
+                            </div>
+                        
+                            <div class="col-6">
+                                <button class="blueButton socketButton" onclick="initializeSocket(true)">play as a hero</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="multiplayer_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-full" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">configure your character</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <h3 aria-hidden="true">×</h3>
+                    </button>
+                </div>
+                <div class="modal-body p-4">
+                    
+                    <div style="height: 90%;" class="container-fluid funny_scrollbar_blue">
+                        <div class="row">
+                            
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-6">
+                                    <img onclick="selectCharacter(this)" color="blue" hero="ashian" class="hero_sheet_small" src="assets/heroes_sheets/ashian_board.jpg">
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-6">
+                                    <img onclick="selectCharacter(this)" color="blue" hero="avric" class="hero_sheet_small" src="assets/heroes_sheets/avric_board.jpg">
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-6">
+                                    <img onclick="selectCharacter(this)" color="red" hero="grisban" class="hero_sheet_small" src="assets/heroes_sheets/grisban_board.jpg">
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-6">
+                                    <img onclick="selectCharacter(this)" color="green" hero="jain" class="hero_sheet_small" src="assets/heroes_sheets/jain_board.png">
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-6">
+                                    <img onclick="selectCharacter(this)" color="yellow" hero="leoric" class="hero_sheet_small" src="assets/heroes_sheets/leoric_board.jpg">
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-6">
+                                    <img onclick="selectCharacter(this)" color="red" hero="sindrael" class="hero_sheet_small" src="assets/heroes_sheets/sindrael_board.png">
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-6">
+                                    <img onclick="selectCharacter(this)" color="yellow" hero="tarha" class="hero_sheet_small" src="assets/heroes_sheets/tarha_board.jpg">
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-6">
+                                    <img onclick="selectCharacter(this)" color="green" hero="tinashi" class="hero_sheet_small" src="assets/heroes_sheets/tinashi_board.jpg">
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-6">
+                                    <img onclick="selectCharacter(this)" color="green" hero="tomble" class="hero_sheet_small" src="assets/heroes_sheets/tomble_board.png">
+                                </div>
+                        </div>
+                    </div>   
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="modal fade" id="choose_items_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-full" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">select the items that you have</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <h3 aria-hidden="true">×</h3>
+                    </button>
+                </div>
+                <div class="modal-body p-4">
+                    <div style="height: 90%;" class="container-fluid funny_scrollbar_blue">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img selected="no" class="item_small" onclick="selectCard(this)" act="1" src="assets/cards/objects/first_act/Act_I_Item_-_Chainmail.png">
+                            </div>
+                            <div  class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img selected="no" class="item_small" onclick="selectCard(this)" act="1" src="assets/cards/objects/first_act/Act_I_Item_-_Crossbow.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img selected="no" class="item_small" onclick="selectCard(this)" act="1" src="assets/cards/objects/first_act/Act_I_Item_-_Elm_Greatbow.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img selected="no" class="item_small" onclick="selectCard(this)" act="1" src="assets/cards/objects/first_act/Act_I_Item_-_Heavy_Cloak.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img selected="no" class="item_small" onclick="selectCard(this)" act="1" src="assets/cards/objects/first_act/Act_I_Item_-_Immolation.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img selected="no" class="item_small" onclick="selectCard(this)" act="1" src="assets/cards/objects/first_act/Act_I_Item_-_Iron_Battleaxe.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img selected="no" class="item_small" onclick="selectCard(this)" act="1" src="assets/cards/objects/first_act/Act_I_Item_-_Iron_Shield.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img selected="no" class="item_small" onclick="selectCard(this)" act="1" src="assets/cards/objects/first_act/Act_I_Item_-_Iron_Spear.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img selected="no" class="item_small" onclick="selectCard(this)" act="1" src="assets/cards/objects/first_act/Act_I_Item_-_Leather_Armor.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img selected="no" class="item_small" onclick="selectCard(this)" act="1" src="assets/cards/objects/first_act/Act_I_Item_-_Light_Hammer.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img selected="no" class="item_small" onclick="selectCard(this)" act="1" src="assets/cards/objects/first_act/Act_I_Item_-_Lucky_Charm.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img selected="no" class="item_small" onclick="selectCard(this)" act="1" src="assets/cards/objects/first_act/Act_I_Item_-_Magic_Staff.png">
+                            </div>
+                        </div>
+                    </div>
+                    <div style="height: 10%;">
+                        <button class="blueButton" onclick="startGame()">start game</button>
+                    </div>   
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="choose_class_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-full" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">select a class for your hero</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <h3 aria-hidden="true">×</h3>
+                    </button>
+                </div>
+                <div class="modal-body p-4">
+                    <div style="height: 100%;" class="container-fluid funny_scrollbar_blue">
+                        <div class="row">
+                            <div style="display: none;" class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectClass(this)" trait="berserker" color="red"  class="hero_class_small" src="assets/cards/heroes_ability/red/berserker/Berserker_-_Cardback.png">
+                            </div>
+                            <div style="display: none;" class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectClass(this)" trait="knight" color="red" class="hero_class_small" src="assets/cards/heroes_ability/red/knight/Knight_-_Cardback.png">
+                            </div>
+                            <div style="display: none;" class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectClass(this)" trait="skirmisher" color="red" class="hero_class_small" src="assets/cards/heroes_ability/red/skirmisher/Skirmisher_-_Cardback.png">
+                            </div>
+
+                            <div style="display: none;" class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectClass(this)" trait="bard" color="blue"  class="hero_class_small" src="assets/cards/heroes_ability/blue/bard/Bard_-_Cardback.png">
+                            </div>
+                            <div style="display: none;" class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectClass(this)" trait="disciple" color="blue"  class="hero_class_small" src="assets/cards/heroes_ability/blue/disciple/Disciple_-_Cardback.png">
+                            </div>
+                            <div style="display: none;" class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectClass(this)" trait="spiritspeaker" color="blue"  class="hero_class_small" src="assets/cards/heroes_ability/blue/spiritspeaker/Spiritspeaker_-_Cardback.png">
+                            </div>
+
+                            <div style="display: none;" class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectClass(this)" trait="thief" color="green"  class="hero_class_small" src="assets/cards/heroes_ability/green/thief/Thief_-_Cardback.png">
+                            </div>
+                            <div style="display: none;" class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectClass(this)" trait="wildlander" color="green"  class="hero_class_small" src="assets/cards/heroes_ability/green/wildlander/Wildlander_-_Cardback.png">
+                            </div>
+                            <div style="display: none;" class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectClass(this)" trait="shadow_walker" color="green"  class="hero_class_small" src="assets/cards/heroes_ability/green/shadow_walker/Shadow_Walker_-_Cardback.png">
+                            </div>
+
+                            <div style="display: none;" class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectClass(this)" trait="conjurer" color="yellow"  class="hero_class_small" src="assets/cards/heroes_ability/yellow/conjurer/Conjurer_-_Cardback.png">
+                            </div>
+                            <div style="display: none;" class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectClass(this)" trait="necromancer" color="yellow"  class="hero_class_small" src="assets/cards/heroes_ability/yellow/necromancer/Necromancer_-_Cardback.png">
+                            </div>
+                            <div style="display: none;" class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectClass(this)" trait="runemaster" color="yellow"  class="hero_class_small" src="assets/cards/heroes_ability/yellow/runemaster/Runemaster_-_Cardback.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="configuration_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-full" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">select your starting cards</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <h3 aria-hidden="true">×</h3>
+                    </button>
+                </div>
+                <div class="modal-body p-4">
+                    
+                    <div style="height: 90%;" class="container-fluid funny_scrollbar_blue">
+                        <div class="row" trait="berserker" color="red">
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/berserker/Berserker_-_Brute.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/berserker/Berserker_-_Charge.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no"  class="hero_class_small" src="assets/cards/heroes_ability/red/berserker/Berserker_-_Chipped_Greataxe.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/berserker/Berserker_-_Counter_Attack.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/berserker/Berserker_-_Cripple.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/berserker/Berserker_-_Death_Rage.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/berserker/Berserker_-_Execute.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/berserker/Berserker_-_Rage.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/berserker/Berserker_-_Weapon_Mastery.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/berserker/Berserker_-_Whirlwind.png">
+                            </div>
+                        </div>
+
+                        <div class="row" trait="knight" color="red">
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/knight/Knight_-_Advance.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/knight/Knight_-_Challenge.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/knight/Knight_-_Defend.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/knight/Knight_-_Defense_Training.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/knight/Knight_-_Guard.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/knight/Knight_-_Inspiration.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/knight/Knight_-_Iron_Longsword.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/knight/Knight_-_Oath_of_Honor.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/knight/Knight_-_Shield_Slam.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/knight/Knight_-_Stalwart.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/knight/Knight_-_Wooden_Shield.png">
+                            </div>
+                        </div>
+
+                        <div class="row" trait="skirmisher" color="red">
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/skirmisher/Skirmisher_-_Back_in_Action.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/skirmisher/Skirmisher_-_Born_in_Battle.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/skirmisher/Skirmisher_-_Carve_a_Path.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/skirmisher/Skirmisher_-_Deep_Wounds.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/skirmisher/Skirmisher_-_Dual_Strike.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/skirmisher/Skirmisher_-_Ever_in_Motion.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/skirmisher/Skirmisher_-_Jagged_Handaxe.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/skirmisher/Skirmisher_-_Keen_Edge.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/skirmisher/Skirmisher_-_Rusted_Handaxe.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/skirmisher/Skirmisher_-_Unrelenting.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/red/skirmisher/Skirmisher_-_Unstoppable.png">
+                            </div>
+                        </div>
+
+
+
+                        <div class="row" trait="conjurer" color="yellow">
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/conjurer/Conjurer_-_Blinding_Light.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/conjurer/Conjurer_-_Cardback.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/conjurer/Conjurer_-_Channeling.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/conjurer/Conjurer_-_Focus_Fire.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/conjurer/Conjurer_-_Illusory_Path.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/conjurer/Conjurer_-_Many_Friends.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/conjurer/Conjurer_-_Mirror_Image.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/conjurer/Conjurer_-_Prismatic_Assault.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/conjurer/Conjurer_-_Prismatic_Staff.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/conjurer/Conjurer_-_Refraction.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/conjurer/Conjurer_-_Sleight_of_Mind.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/conjurer/Conjurer_-_Vortex.png">
+                            </div>
+                        </div>
+
+                        <div class="row" trait="necromancer" color="yellow">
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/necromancer/Necromancer_-_Army_of_Death.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/necromancer/Necromancer_-_Corpse_Blast.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/necromancer/Necromancer_-_Dark_Pact.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/necromancer/Necromancer_-_Deathly_Haste.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/necromancer/Necromancer_-_Dying_Command.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/necromancer/Necromancer_-_Fury_of_Undeath.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/necromancer/Necromancer_-_Raise_Dead.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/necromancer/Necromancer_-_Reanimate.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/necromancer/Necromancer_-_Reaper's_Scythe.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/necromancer/Necromancer_-_Undead_Might.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/necromancer/Necromancer_-_Vampiric_Blood.png">
+                            </div>
+                        </div>
+
+                        <div class="row" trait="runemaster" color="yellow">
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/runemaster/Runemaster_-_Arcane_Bolt.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/runemaster/Runemaster_-_Break_the_Rune.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/runemaster/Runemaster_-_Exploding_Rune.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/runemaster/Runemaster_-_Ghost_Armor.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/runemaster/Runemaster_-_Inscribe_Rune.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/runemaster/Runemaster_-_Iron_Will.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/runemaster/Runemaster_-_Quick_Casting.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/runemaster/Runemaster_-_Rune_Mastery.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/runemaster/Runemaster_-_Runic_Knowledge.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/yellow/runemaster/Runemaster_-_Runic_Sorcery.png">
+                            </div>
+                        </div>
+
+                        <div class="row" trait="thief" color="green">
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/thief/Thief_-_Appraisal.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/thief/Thief_-_Bushwhack.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/thief/Thief_-_Caltrops.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/thief/Thief_-_Dirty_Tricks.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/thief/Thief_-_Greedy.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/thief/Thief_-_Lucky_Charm.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/thief/Thief_-_Lurk.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/thief/Thief_-_Sneaky.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/thief/Thief_-_Throwing_Knives.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/thief/Thief_-_Tumble.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/thief/Thief_-_Unseen.png">
+                            </div>
+                        </div>
+
+                        <div class="row" trait="shadow_walker" color="green">
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/shadow_walker/Shadow_Walker_-_Dark_Servant.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/shadow_walker/Shadow_Walker_-_Dark_Shift.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/shadow_walker/Shadow_Walker_-_Endless_Void.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/shadow_walker/Shadow_Walker_-_Faithful_Friend.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/shadow_walker/Shadow_Walker_-_Feathered_Hatchet.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/shadow_walker/Shadow_Walker_-_Otherworldly.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/shadow_walker/Shadow_Walker_-_Shadow_Puppet.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/shadow_walker/Shadow_Walker_-_Shadow_Soul.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/shadow_walker/Shadow_Walker_-_Shadow_Step.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/shadow_walker/Shadow_Walker_-_Soul_Bound.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/shadow_walker/Shadow_Walker_-_Through_the_Veil.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/shadow_walker/Shadow_Walker_-_Tribal_Cloak.png">
+                            </div>
+                        </div>
+
+                        <div class="row" trait="wildlander" color="green">
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/wildlander/Wildlander_-_Accurate.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/wildlander/Wildlander_-_Black_Arrow.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/wildlander/Wildlander_-_Bow_Mastery.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/wildlander/Wildlander_-_Danger_Sense.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/wildlander/Wildlander_-_Eagle_Eyes.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/wildlander/Wildlander_-_First_Strike.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/wildlander/Wildlander_-_Fleet_of_Foot.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/wildlander/Wildlander_-_Nimble.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/wildlander/Wildlander_-_Running_Shot.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/green/wildlander/Wildlander_-_Yew_Shortbow.png">
+                            </div>
+                        </div>
+
+                        <div class="row" trait="bard" color="blue">
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/bard/Bard_-_Aria_of_War.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/bard/Bard_-_Cacophony.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/bard/Bard_-_Concentration.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/bard/Bard_-_Dissonance.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/bard/Bard_-_Lute.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/bard/Bard_-_Peaceful_Rest.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/bard/Bard_-_Rehersal.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/bard/Bard_-_Song_of_Mending.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/bard/Bard_-_Traveler's_Blade.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/bard/Bard_-_Understudy.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/bard/Bard_-_Wayfarer.png">
+                            </div>
+                        </div>
+
+                        <div class="row" trait="disciple" color="blue">
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/disciple/Disciple_-_Armor_of_Faith.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/disciple/Disciple_-_Blessed_Strike.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/disciple/Disciple_-_Cleansing_Touch.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/disciple/Disciple_-_Divine_Fury.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/disciple/Disciple_-_Holy_Power.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/disciple/Disciple_-_Iron_Mace.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/disciple/Disciple_-_Prayer_of_Healing.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/disciple/Disciple_-_Prayer_of_Peace.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/disciple/Disciple_-_Radiant_Light.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/disciple/Disciple_-_Time_of_Need.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/disciple/Disciple_-_Wooden_Shield.png">
+                            </div>
+                        </div>
+
+                        <div class="row" trait="spiritspeaker" color="blue">
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/spiritspeaker/Spiritspeaker_-_Ancestor_Spirits.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/spiritspeaker/Spiritspeaker_-_Cloud_of_Mist.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/spiritspeaker/Spiritspeaker_-_Drain_Spirit.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/spiritspeaker/Spiritspeaker_-_Healing_Rain.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/spiritspeaker/Spiritspeaker_-_Nature's_Bounty.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/spiritspeaker/Spiritspeaker_-_Oak_Staff.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/spiritspeaker/Spiritspeaker_-_Shared_Pain.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/spiritspeaker/Spiritspeaker_-_Stoneskin.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/spiritspeaker/Spiritspeaker_-_Tempest.png">
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                <img onclick="selectCard(this)" selected="no" class="hero_class_small" src="assets/cards/heroes_ability/blue/spiritspeaker/Spiritspeaker_-_Vigor.png">
+                            </div>
+                        </div>
+
+                        
+
+                    </div>  
+                    <div style="height: 10%;">
+                        <button class="blueButton" onclick="selectItems()">confirm</button>
+                    </div>   
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
 
     <div class="modal fade" id="loadProjectModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-full" role="document">
@@ -302,7 +1018,8 @@
             </div>
         </div>
     </div>
-
+    
+    
     <div class="modal fade" id="saveProjectModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-near-full" role="document">
             <div class="modal-content">
@@ -410,6 +1127,10 @@
 
     <div id="application" style="visibility: hidden;">
     <div class="sidebar-container">
+        <!--TODO-->
+        <div class="multiplayerSidenav" id="multiplayerSidenav" style="visibility: hidden">
+        </div>
+
         <div id="tilesSelectorBar">
             <button style="width:49%;" class="blueButton" id="miscellaneousButton" onclick="loadBaseSetMiscellaneous()">misc</button>
             <button style="width:49%;" class="blueButton" id="insideButton" onclick="loadBaseSetInside()">flip</button>
@@ -1800,6 +2521,7 @@
 
 
     <div class="menuExportBar">
+        <div id="editor_controls" style="display: flex;">
         <input  id="searchBar" class="searchBar" type="text" placeholder="search" oninput="searchItems()">
         <button class="blueButton" onclick="goToExport()">export PDF</button>
         <button class="blueButton" onclick="savePage()">save project</button>
@@ -1808,9 +2530,16 @@
         <label id="zoom">0.5</label>
         <button class="blueButton" onclick="increaseUiZoom()">map zoom +</button>
         <button class="blueButton" onclick="decreaseUiZoom()">map zoom -</button>
-        <input id="socketId" class="searchBar" placeholder="socket connection" value="ws://localhost:8080/descent/websocketendpoint">
-        <button onclick="initializeSocket()" style="font-size: 12px;">initialize socket</button>
+        <button onclick="switchGraphicToGame()" style="font-size:12px">switch to game</button>
+        </div>
+        
+        <div id="multiplayer_controls" style="display: none;">
         <button onclick="openDiceRoller()" style="font-size: 12px;">open dice roller</button>
+        <button onclick="$('#start_game_modal').modal('show')" style="font-size: 12px;">open multiplayer</button>
+        <button onclick="switchGraphicToEditor()" style="font-size: 12px;">switch to editor</button>
+        </div>
+
+
     </div>
 
 
@@ -1826,7 +2555,6 @@
     </div>
 
     <div class="control_bar_container">
-
             <div class="control_bar" id="control_bar" style="z-index: 0;">
                 <!--<button class="craeteTextBoxButton" onclick="createTextBox()">insert text</button>-->
 
@@ -1843,7 +2571,7 @@
             <img id="tokensLoadButton" class="imageButton" src="./assets/expansionImages/search_tokens.png" onclick="loadTokens()"></img>
             <img id="monstersLoadButton" class="imageButton" src="./assets/expansionImages/monsters.png" onclick="loadMonsters()"></img>
             <img id="lieutenantsLoadButton" class="imageButton" src="./assets/expansionImages/liutenants.png" onclick="loadLieutenants()"></img>
-            <img id="miscellaneousLoadButton" class="imageButton" src="./assets/expansionImages/heroes.png"
+            <img id="heroesButton" class="imageButton" src="./assets/expansionImages/heroes.png"
                 onclick="loadHeroes()"></img>
             <img id="miscellaneousLoadButton" class="imageButton" src="./assets/expansionImages/miscellaneous.png"
                 onclick="loadMiscellaneous()"></img>
@@ -1872,6 +2600,7 @@
                 }, 100);
             });
         })();
+
     </script>
 
 </body>

@@ -2,7 +2,17 @@ const cacheName = 'descent-quest-builder-010';
 
 
 const staticAssets = [
-    "index_web.html"
+	"index_web.html",
+	"css/bootstrap/",
+	"css/jquery/",
+	"css/",
+	"js/",
+	"js/bootstrap/",
+	"js/fileSaver/",
+	"js/html2canvas/",
+	"js/jquery/",
+	"base64Tiles/",
+	"/"
 //add assets
 	];
 

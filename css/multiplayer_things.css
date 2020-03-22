@@ -1,0 +1,63 @@
+.hero_sheet_big{
+	width: 25vw;
+}
+
+.hero_sheet_small{
+	width: 100%;
+	height: auto;
+	margin-bottom: 8px;
+}
+
+.hero_sheet_small:hover {
+	cursor: pointer;
+	border-color: red;
+	opacity: 0.7;
+	/*filter: brightness(200%);*/
+}
+
+.hero_class_small{
+	width: 100%;
+	margin-bottom: 8px;
+}
+
+.hero_class_small:hover{
+	cursor: pointer;
+	opacity: 0.7;
+}
+
+
+.socketBar{
+	width: 100%;
+}
+
+.socketButton{
+	margin-top: 8px;
+	width: 100%;
+	height: 64px;
+}
+
+.characterOnSidenav{
+	width: 100%;
+}
+
+.characterOnSidenav:hover{
+	cursor: pointer;
+	opacity: 0.7;
+}
+
+.imgesOnCharaterDetails{
+	width: 100%;
+}
+
+.item_small{
+	width: 100%;
+}
+
+.item_small:hover{
+	cursor: pointer;
+	opacity: 0.7;
+}
+
+[selected="yes"]{
+	filter: brightness(200%);
+}

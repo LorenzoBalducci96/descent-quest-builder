@@ -157,6 +157,7 @@ function savePage() {
         pieces.forEach(element => {
             element.src = "";
         });
+        document.getElementById("output").style.backgroundImage = "";
         documentToSave = document.documentElement.innerHTML;
         bootstrap_page();
     }else{
