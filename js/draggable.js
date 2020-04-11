@@ -562,8 +562,6 @@ function dragElement(elmnt) {//setup the callbacks
             document.ontouchmove = elementDrag;//MOBILE
             document.onmouseup = closeDragElement;
             document.ontouchend = closeDragElement;//MOBILE
-            
-
         }
         if (e.clientX < document.getElementById(activeSet).offsetWidth) {
             if (elmnt.getAttribute("single") == "no") {

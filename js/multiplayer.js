@@ -7,6 +7,8 @@ var playerNickname = null;
 
 var game = false;
 
+var myHeroSheetToSend = null;
+
 function selectCharacter(character){
     selected_hero = character;
     document.querySelectorAll("#choose_items_modal .item_small").forEach(card => {
@@ -78,6 +80,7 @@ function startGame(){
 
     img.setAttribute("onclick","openCharacterData(this)");
     img.setAttribute("playerNickname", playerNickname);
+    myHeroSheetToSend = img;
     sendHeroConfig(img);
     
     deleteForUpdateCharacter(playerNickname);
@@ -207,11 +210,17 @@ function initializeSocket(playAsAHero){
             document.getElementById(message.pieceId).setAttribute("orientation", message.orientation);
             setImage(document.getElementById(message.pieceId));
         }else if(message.messageType == "HERO"){
-            
             deleteForUpdateCharacter(message.playerNickname);
             document.getElementById('multiplayerSidenav').appendChild(htmlToElement(message.imageHtml));
+        }else if(message.messageType == "NEW_PLAYER"){
+            sendHeroConfig(myHeroSheetToSend);
         }
     }
+    webSocket.addEventListener('open', function (event) {
+        webSocket.send(JSON.stringify({
+            messageType: 'NEW_PLAYER'
+        }));
+    });
     socketInitialized = true;
     $('#start_game_modal').modal("hide");
     if(playAsAHero){
