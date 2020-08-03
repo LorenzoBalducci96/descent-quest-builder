@@ -53,7 +53,6 @@ self.addEventListener('install', function(e) {
 			"/descent-quest-builder/assets/background_075.jpg",
 			"/descent-quest-builder/assets/background.jpg",
 			"/descent-quest-builder/assets/trasnparent.png"
-			
 		]);
 	  })
 	);
