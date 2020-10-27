@@ -460,6 +460,7 @@ function dragElement(elmnt) {//setup the callbacks
     }
     */
     
+    
     tiles[count] = elmnt.getAttribute("id");
     count++;
 

@@ -93,9 +93,9 @@ function rotateBase64Image180deg(base64Image, elmnt) {
         //offScreenCanvasCtx.translate(img.height, img.width);
         offScreenCanvasCtx.rotate(Math.PI);
         offScreenCanvasCtx.translate(-offScreenCanvas.width, -offScreenCanvas.height);
-            
+        
         offScreenCanvasCtx.drawImage(img, 0, 0);
-
+        
         elmnt.src = offScreenCanvas.toDataURL("image/png");
     };
     img.src = base64Image;
@@ -108,13 +108,10 @@ function rotateBase64Image90deg(base64Image, isClockwise, elmnt) {
 
     // cteate Image
     var img = new Image();
-
     img.onload = function create(){
         // set its dimension to rotated size
         offScreenCanvas.height = img.width;
         offScreenCanvas.width = img.height;
-        
-
         // rotate and draw source image into the off-screen canvas:
         if (isClockwise) { 
             offScreenCanvasCtx.rotate(90 * Math.PI / 180);
@@ -124,7 +121,6 @@ function rotateBase64Image90deg(base64Image, isClockwise, elmnt) {
             offScreenCanvasCtx.translate(-offScreenCanvas.height, 0);
         }
         offScreenCanvasCtx.drawImage(img, 0, 0);
-
         // encode image to data-uri with base64
         elmnt.src = offScreenCanvas.toDataURL("image/png");
     }
