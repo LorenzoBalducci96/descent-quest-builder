@@ -17,7 +17,7 @@ function bootstrap_page() {
     });
     setTimeout(() => {
         //loadAndArrange decide the position of each tile in his bar
-        this.loadAndArrangeTiles("baseA");
+        this.loadAndArrangeTiles("baseSetOutside");
 
         window.addEventListener("resize", rearrangeAllTiles);//we want to rearrange all tiles on zoom change
         window.addEventListener("resize", trickForCorrectGoogleChromeResizeBug);
